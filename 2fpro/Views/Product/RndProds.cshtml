@@ -1,0 +1,10 @@
+﻿@model IEnumerable<_2fpro.Models.Product>
+
+<section class="similar">
+    @foreach(var item in Model){
+    <div class="sim-item">
+        <div class="sim-photo"><img src="@Url.Action("GetProdImage", "ImageData", new {pid=item.ID,width=400,height=400 })" /></div>
+        <div class="sim-title">@item.ProductName</div>
+    </div>
+    }
+</section>

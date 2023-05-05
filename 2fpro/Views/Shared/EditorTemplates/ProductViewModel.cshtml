@@ -1,0 +1,126 @@
+﻿@model _2fpro.ViewModel.ProductViewModel
+@{
+    var pType = new List<SelectListItem> {
+new SelectListItem {Text="В ",Value="Верхняя одежда"}
+
+
+};
+    var coup = new List<SelectListItem> {
+new SelectListItem {Text="Есть",Value="Есть"},
+new SelectListItem {Text="Нет",Value="Нет"}
+};
+    //Model.Fill = "PPU";// Model.Fill == null ? "высоко эластичный ППУ" : Model.Fill;
+}
+
+<div>
+    <fieldset>
+        <div class="form-group">
+            <label>Наименование</label>
+            @(Html.TextBoxFor(p => p.ProductName, new { @class = "form-control" }))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="ProductName" class="k-invalid-msg"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Артикул</label>
+            @(Html.TextBoxFor(p => p.Material, new { @class = "form-control" }))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="Material" class="k-invalid-msg"></span>
+        </div>
+        <div class="form-group">
+            <label>Масса</label>
+            @(Html.TextBoxFor(p => p.Color, new { @class = "form-control" }))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="Color" class="k-invalid-msg"></span>
+        </div>
+        <div class="form-group">
+            <label>Производитель</label>
+            @(Html.TextBoxFor(p => p.Manufacturer, new { @class = "form-control" }))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="Manufacturer" class="k-invalid-msg"></span>
+        </div>
+     
+        <div class="form-group">
+            <label>Описание1</label>
+            @(Html.TextAreaFor(p => p.ProductType, new { @class = "form-control" }))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="ProductType" class="k-invalid-msg"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Описание2</label>
+            @(Html.Kendo().Editor()
+                                                                    .Name("Description")
+                                                                    .HtmlAttributes(new { style = "width: 100%;" })
+                                                                    .Resizable(resizable => resizable.Content(true))
+                                                                    .Tools(tools => tools
+                                                                        .Clear()
+                                                                        .Bold().Italic().Underline().Strikethrough()
+                                                                        .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                                                                        .InsertUnorderedList().InsertOrderedList()
+                                                                        .Outdent().Indent()
+                                                                        .CreateLink().Unlink()
+                                                                        .InsertImage()
+                                                                        .InsertFile()
+                                                                        .SubScript()
+                                                                        .SuperScript()
+                                                                        .TableEditing()
+                                                                        .ViewHtml()
+                                                                        .Formatting()
+                                                                        .CleanFormatting()
+                                                                        .FontName()
+                                                                        .FontSize()
+                                                                        .ForeColor().BackColor()
+                                                                        .Print()
+                                                                    ))
+
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="Description" class="k-invalid-msg"></span>
+        </div>
+        <div class="form-group">
+            @(Html.Kendo().CheckBox().Name("InStock").Label("Нет в наличии"))
+            @*<div class="checkbox">
+                <input asp-for="InStock" class="k-checkbox" />
+                <label asp-for="InStock" class="k-checkbox-label">
+
+                    В наличии
+                </label>
+            </div>*@
+        </div>
+        <div class="form-group">
+            @(Html.Kendo().CheckBox().Name("DoShow").Label("Отключить видимость"))
+        </div>
+
+        @*<div class="form-group">
+            @(Html.Kendo().CheckBox().Name("ToYaMarket").Label("Отображать в Яндекс Маркете"))
+        </div>*@
+        @*
+        <div class="form-group" style="border: 1px solid gray;padding: 10px;">
+            <label>Vendor / Model для ЯндексМаркет (Заполнять оба или оставить пустыми)</label>
+            <div class="form-group">
+            <b>vendor(brand-производитель)</b>
+            @(Html.TextBoxFor(p => p.Cloth, new { @class = "form-control" }))
+            <b>model (наз. модели)</b>
+            @(Html.TextBoxFor(p => p.Decor, new { @class = "form-control" }))</div>
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="Cloth" class="k-invalid-msg"></span>
+            <span data-for="Decor" class="k-invalid-msg"></span>
+        </div>
+        *@
+
+        <div class="form-group">
+            <label>Категория</label>
+            @(Html.DropDownListFor(p => p.CategoryID, (SelectList)ViewBag.Cats, new { @class = "form-control" }))
+            <!-- Unit<div class="editor-label"><label>Назначить подразделом</label></div>Price validation message placeholder -->
+            <span data-for="CategoryID" class="k-invalid-msg"></span>
+        </div>
+
+    </fieldset>
+</div>
+
+<script>
+
+    $('.k-grid-cancel').text("Отмена");
+    $('.k-grid-update').text("Сохранить");
+    $('.k-edit-buttons').css('backgroundColor', ' white');
+</script>

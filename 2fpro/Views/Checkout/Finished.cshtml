@@ -1,0 +1,88 @@
+﻿@model _2fpro.ViewModel.CheckoutViewModel
+@inject _2fpro.Service.Interface.IOrderRepository repo
+@{
+    ViewBag.Title = "Заказ принят";
+    int orderid = Model != null ? Model.OrderIdInt : 0;
+    var order = repo.Get(orderid);
+
+}
+<div class="laststep-wrap">
+    <h2>Ваш заказ принят !</h2>
+    <p style="color:red;"></p>
+    <p>Благодарим вас за покупку! Наш оператор вскоре с вами свяжется.</p>
+
+    <div class="checkout-finished checkout-block">
+
+        <div class="ch-f__wrap">
+            <dl style="text-align:left;">
+                <dt><span>Номер Заказа</span></dt>
+                <dd>
+                    <span>
+                        @orderid
+                    </span>
+                </dd>
+                <dt><span>Сумма заказа</span></dt>
+                <strong><dd><span class="total-checkout">@order.OrderSum.ToString("N0") руб</span></dd></strong>
+                <dt><span>Куда доставить</span></dt>
+                <dd>
+                    <span>
+                        @order.Address
+                    </span>
+                </dd>
+                <dt><span>Способ оплаты</span></dt>
+                <dd>
+                    <span>@order.Payment</span>
+                </dd>
+                <dt><span>Статус заказа</span></dt>
+                <dd><span><strong style="color:black">@order.OrderStatus</strong></span></dd>
+                <dt><span>Эл. почта</span></dt>
+                <dd><span>@order.EmailAddress</span></dd>
+
+                <dt><span>Телефон</span></dt>
+                <dd><span>@order.Phone</span></dd>
+
+
+            </dl>
+
+            <table class="order_contents">
+                <tbody>
+                    <tr>
+                        <td>В заказе</td>
+                        <td>К-во,<br>шт.</td>
+                        <td>Сумма,<br>руб.</td>
+                    </tr>
+                    @foreach (var item in order.OrderItems)
+                    {
+                        <tr>
+                            <td style="text-align: left;">
+                                <span class="products"><strong>@item.ProductName</strong></span>
+                            </td>
+                            <td>@item.Quantity</td>
+                            <td class="item-total-checkout">@((item.LastPrice * item.Quantity).ToString("N0")) руб</td>
+                        </tr>
+
+                    }
+                    <tr>
+                        <td colspan="2" style="text-align:right"><strong>Итого:</strong></td>
+                        <td class="total-checkout">@order.OrderSum.ToString("N0") руб</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+
+    </div>
+</div>
+@if (Context.Request.IsMobileBrowser())
+{
+    <div class="main-notify alert alert-warning">*Сохраните эту с траницу для отслеживания статуса заказа</div>
+}
+@if (!Context.Request.IsMobileBrowser())
+{
+    <div class="main-notify alert alert-warning">*Сохраните эту с траницу для отслеживания статуса заказа</div>
+}
+
+
+<partial name="_CartInfoPartial" />
+

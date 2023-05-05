@@ -1,0 +1,126 @@
+﻿
+@model _2fpro.ViewModel.CheckoutViewModel
+<p>
+    Заполните анкету для офорления заказа!
+
+</p>
+<div class="form-wrapper clear-fix">
+    @using (Html.BeginForm("ProceedPayment", "Checkout", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+
+    <div class="form-details-cont container">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        <p>@Html.ValidationSummary(true)</p>
+        <div class="form-group row"><h2 class="emulate-label col-md-4">Кому доставить</h2></div>
+        <div class="form-group row">
+
+            <div class="form-row col-md-12 row">
+                @Html.LabelFor(m => m.FirstName, "Имя*", new { @class = "col-md-4 col-form-label" })
+
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "col-md-8 form-control", type = "text" })
+                @Html.ValidationMessageFor(m => m.FirstName, null, new { @class = " offset-md-4" })
+            </div>
+            <div class="form-row col-md-12 row">
+                @Html.LabelFor(m => m.LastName, "Фамилия*", new { @class = "col-md-4 col-form-label" })
+
+                @Html.TextBoxFor(m => m.LastName, new { @class = "col-md-8 form-control", type = "text" })
+                @Html.ValidationMessageFor(m => m.LastName, null, new { @class = " offset-md-4" })
+            </div>
+
+        </div>
+        <div class="form-group row">  <h2 class="emulate-label col-md-4">Контактные данные</h2></div>
+        <div class="form-group row">
+
+
+            <div class="form-row col-md-12 row">
+                @Html.LabelFor(m => m.Address, "Адрес*", new { @class = "col-md-4 col-form-label" })
+
+                @Html.TextBoxFor(m => m.Address, new { @class = "col-md-8 form-control" })
+                @Html.ValidationMessageFor(m => m.Address, null, new { @class = " offset-md-4" })
+            </div>
+            <div class="form-row col-md-12 row">
+                @Html.LabelFor(m => m.Email, "Почта*", new { @class = "col-md-4 col-form-label" })
+
+                @Html.TextBoxFor(m => m.Email, new { @class = "col-md-8 form-control" })
+                @Html.ValidationMessageFor(m => m.Email, null, new { @class = " offset-md-4" })
+            </div>
+            <div class="form-row col-md-12 row">
+                @Html.LabelFor(m => m.Phone, "Номер телефона*", new { @class = "col-md-4 col-form-label" })
+
+                @Html.TextBoxFor(m => m.Phone, new { @class = "col-md-8 form-control" })
+                @Html.ValidationMessageFor(m => m.Phone, null, new { @class = " offset-md-4" })
+            </div>
+
+        </div>
+
+
+
+        <div class="form-group form-group-radio row">
+            <h2 class="emulate-label col-md-4">Способ оплаты</h2>
+            <div class="form-col col-md-8">
+                <div class="custom-control custom-radio">
+                    <input asp-for="Payment" type="radio" name="Payment" id="Delivery1" value="Оплата наличными" class="custom-control-input" />
+                    <label class="custom-control-label" for="Delivery1">Оплата наличными</label>
+                    <span asp-validation-for="Payment"></span>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input asp-for="Payment" type="radio" name="Payment" id="Delivery2" value="По договору" class="custom-control-input" />
+                    <label class="custom-control-label" for="Delivery2">По договору</label>
+                    <span asp-validation-for="Payment"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group form-group-radio row">
+            <h2 class="emulate-label col-md-4">Доставка</h2>
+            <div class="form-col col-md-8">
+                <div class="custom-control custom-radio ">
+                    <input asp-for="Delivery" type="radio" name="Delivery" id="Payment1" value="В радиусе МКАД" class="custom-control-input" />
+                    <label class="custom-control-label" for="Payment1">В радиусе МКАД</label>
+                    <span asp-validation-for="Delivery"></span>
+                </div>
+                <div class="custom-control custom-radio ">
+                    <input asp-for="Delivery" type="radio" name="Delivery" id="Payment2" value="За МКАД" class="custom-control-input" />
+                    <label class="custom-control-label" for="Payment2">За МКАД</label>
+                    <span asp-validation-for="Delivery"></span>
+                </div>
+                <div class="custom-control custom-radio ">
+                    <input asp-for="Delivery" type="radio" name="Delivery" id="Payment3" value="Иногородняя" class="custom-control-input" />
+                    <label class="custom-control-label" for="Payment3">Иногородняя</label>
+                    <span asp-validation-for="Delivery"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group form-group form-group-radio" style="text-align: right;">
+            <div class="">
+                @*<input type="submit" class="default-btn main-btn" style="width:100px" value="Сохранить" />*@
+                <a class="main-btn form-submit-btn" href="javascript:void(0);">
+                    <span class=" ">Подтведрить заказ</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+       
+    }
+
+</div>
+<script>
+    $(function () {
+        $('a.form-submit-btn').click(function () {
+            $('form').submit();
+        });
+    });
+</script>
+<style>
+    .input-validation-error {
+        border-color: #dc3545;
+    }
+        .input-validation-error:focus {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25);
+        }
+
+</style>

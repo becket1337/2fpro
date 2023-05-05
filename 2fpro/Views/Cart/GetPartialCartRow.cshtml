@@ -1,0 +1,25 @@
+﻿
+@model _2fpro.Models.Product
+
+
+<tr id="prod_@Model.ID">
+    <td>
+        <img src="@Url.Action("GetProdImage", "ImageData", new {id=Model.ID,width=50,height=50 })" />
+
+    </td>
+
+
+    <td>
+
+        @Model.Description
+    </td>
+
+
+    <td>
+        <i class="fa fa-times" data-id="@Model.ID"></i>
+
+    </td>
+
+</tr>
+
+}

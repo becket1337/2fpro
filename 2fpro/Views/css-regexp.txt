@@ -1,0 +1,123 @@
+﻿([<>])div\sclass="\w+\S+\w+      ---->  выбирает <div class="qqq-qqq
+<div\s+|</div>|>|style="\w+\S+|id=\S+|<img\s\S+|@\S+\s|<i\s\w+="|class="|</i|"\sdata-|"    --->   убрать все кроме css классов
+^\s+     ---------> убрать отступы перед словами
+$\s замена на {}\n    -------> добавляет {} в конец класса
+
+
+
+
+
+
+
+
+
+  connection.on("ReceiveMessage", function (message, usersCount, loc, locCount, isadm, geoloc, username) {
+
+       
+        updateAliveInterval(username);
+        receiveMess(message, isadm, false, geoloc);
+
+        $('.diag-online-value').html(usersCount);
+
+        updateLocation(loc, locCount);
+        if(!isadm)updateUsersList(username);
+    });
+    //отключение
+    connection.on("ReceiveMessageOut", function (message, usersCount, loc, locCount, isadm, geoloc, username) {
+        console.log('test - ' + username);
+        receiveMess(message, isadm, true, geoloc);
+
+        $('.diag-online-value').html(usersCount);
+
+        updateLocation(loc, locCount);
+        if (!isadm) updateUsersList(username);
+    });
+    connection.on("badrequest", (data) => {
+        console.error(data);
+    });
+   
+    connection.on("hbeat", (data) => {
+        var visitor = $('.diag-user[data-username="' + data + '"]');
+        visitor.effect("highlight", {}, 1000);
+        
+        ResetTimer(visitor);
+    });
+
+
+
+
+
+
+
+
+
+/Обновить регионы
+function updateLocation(loc, locCount) {
+    if (locCount > 1 || $('.geoloc_item[data-loc="' + loc + '"]').length) {
+
+
+        $('.geoloc_item[data-loc="' + loc + '"] .diag-receiver__val').html(locCount);
+    }
+    else {
+
+        $('.diag-location').append('<div class="geoloc_item" data-loc="' + loc + '" id="geoloc_' + loc + '">' +
+            '<span class="diag-receiver__text">' + loc + '</span> - ' +
+            '<span class="diag-receiver__val">' + locCount + '</span>' +
+            '</div>');
+    }
+}
+//добавление нового в список пользователей онлайн
+function updateUsersList(username, isout) {
+    if (isout) $('.diag-user[data-username="' + username + '"]').remove;
+    else {
+        var formUsername = username.length > 10 ? username.substr(0, 10) + ".." : username;
+        var user =
+            '<div class="diag-user" data-username="' + username + '" data-timerid data-secount>' +
+            '<span class="diag-user-name">' + formUsername + '</span>' +
+
+            '<span class="diag-user-time">' + new Date().toLocaleTimeString() + '</span>&nbsp;' +
+            '<span class="diag-user-timer"></span>' +
+            ' </div>';
+        $('.diag-users-list').prepend(user);
+    }
+}
+//Update KeepAlive
+function updateAliveInterval(username) {
+    clearInterval($('.diag-user[data-username="' + username + '"]').attr('data-timerid'));
+    $('.diag-user[data-username="' + username + '"]').effect("highlight", {}, 1000);
+}
+//продлить жизнь подключения еще на 30сек
+function ResetTimer(visitor) {
+   
+    visitor.find('.diag-user-timer').html('alive'); 
+   
+    function mainTimer() {
+        resetTimer = setInterval(visitorQuit(visitor), terminatedTimer * 1000);
+        visitor.attr('data-timerid', resetTimer);
+    }
+    console.log('timerid - '+visitor.attr('data-timerid'));
+    clearInterval(visitor.attr('data-timerid'));
+    mainTimer();
+   
+}
+//юзер ушел и обещал не возвращаться
+function visitorQuit(vis) {
+   
+    //conn.invoke("UserDeterminated",vis).catch(function (err) {
+    //    return console.error(err.toString());
+    //});
+    console.log('intrerval');
+    vis.find('.diag-user-timer').html('dead');
+    clearInterval(vis.attr('data-timerid'));
+}
+//таймеры время жизни пользователей
+function SetVisitorsKeepAliveTimer() {
+    console.log($('.diag-user').length);
+    for (var i = 0; i < $('.diag-user').length; i++) {
+        //var diagUser = $('.diag-user:eq('+i+')');
+        //var timerId = setInterval(function () { diagUser.addClass('dead'); }, terminatedTimer * 1000);
+        //diagUser.attr('data-timerid', timerId);
+        ResetTimer($('.diag-user:eq(' + i + ')'));
+
+    }
+}

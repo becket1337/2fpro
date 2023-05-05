@@ -1,0 +1,21 @@
+﻿@model _2fpro.Models.Post
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Удаление</h2>
+
+<h3>Вы хотите удалить @Model.Title ?</h3>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <p>
+        <button class="k-button k-primary" type="submit">Удалить</button> 
+       
+    </p>
+}
+
+<button class="k-button" onclick="window.location.replace('/Admin/Post/Index?page=@ViewBag.page')">Отмена</button>

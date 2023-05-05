@@ -1,0 +1,8 @@
+﻿@model IEnumerable<_2fpro.Models.Gallery>
+
+<ul class="folio1 portfolio">
+    @foreach (var item in Model) { 
+        <li> <img class="preview folio-img" src="@Url.Action("GetPhotoGalleryImage", "ImageData",new {id=item.ID,width=200,height=200,isGallery = true}) "  id="@item.ID"  title="@item.GalleryTitle" alt="@item.GalleryTitle" height="150" width="150" /><span><i class="icon-zoom-in"></i></span></li>
+    }
+
+</ul>

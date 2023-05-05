@@ -1,0 +1,114 @@
+﻿
+@{
+
+
+
+}
+
+@if (ViewBag.type == 1)
+{
+
+
+    <div class="xn-inscreaser">
+        <div class="xn-i-wrap1 xn-i-wrap1__cat clear-fix">
+            <div class="xn-i-mphoto">
+                <img src="" id="xn-i-main" />
+            </div>
+            <div class="xn-i-details">
+                <div class="xn-i-details__spoiler hidden-lg hidden-md hidden-sm visible-xs">Характеристики:<i class="fa fa-arrow-down "></i> </div>
+                <div class="xn-d-w">
+
+                    <table>
+
+                        <tr class="d-price">
+                            <th>Цена</th>
+                            <td></td>
+
+                        </tr>
+                        <tr class="d-title">
+                            <th>Тип</th>
+                            <td></td>
+                        </tr>
+                        <tr class="d-cat">
+                            <th>Область</th>
+                            <td></td>
+                        </tr>
+                        <tr class="d-desc">
+                            <th>Описание</th>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modalh clear-fix">
+        <div class="xn-h-w">
+            @*<div id="xn-i-copyright">Разработка от <a style="color: #DA2F2F;" target="_blank" href="http://x-nova.ru">X-NOVA</a></div>
+                <div class="mob-opts visible-xs">
+                    <a class="xn-dark-button prod-link-details" href="">Подробнее</a>
+                    <a class="xn-dark-button md-close" data-pid="" href="javascript:void(0);">Закрыть</a>
+                </div>*@
+            <div class="xn-i-opts clear-fix"><div class="i-info hidden-xs"></div><div class="i-counter"></div></div>
+
+            <div class="xn-i-wrap2">
+
+                <div class="xn-i-sphoto">
+                </div>
+
+            </div>
+            <div class="xn-i-button">
+                @*<button class="xn-dark-button btn xn-cart-option btn-default" data-event-type="cart__add" data-pid="" >Купить</button>*@
+                <a class="xn-dark-button btn btn-default prod-link-details" data-pid="">Подробнее</a>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+
+else
+{
+
+
+    <div class="xn-inscreaser">
+        <div class="xn-i-wrap1">
+
+            <div class="xn-i-mphoto">
+                <img src="" id="xn-i-main" />
+            </div>
+        </div>
+    </div>
+    <div class="modalh clear-fix">
+        <div class="xn-h-w">
+            @*<div id="xn-i-copyright">Разработка от <a style="color: #DA2F2F;" target="_blank" href="http://x-nova.ru">X-NOVA</a></div>
+                <div class="mob-opts visible-xs">
+                    <a class="xn-dark-button prod-link-details" href="">Подробнее</a>
+                    <a class="xn-dark-button md-close" data-pid="" href="javascript:void(0);">Закрыть</a>
+                        </div>*@
+            <div class="xn-i-opts clear-fix"><div class="i-info"></div><div class="i-counter"></div></div>
+
+            <div class="xn-i-wrap2">
+
+                <div class="xn-i-sphoto">
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+}
+
+<script>
+    $(function () {
+
+
+        if ($('#screenWidth').val() < 500) {
+            $('.xn-i-button').cleanWhitespace();
+            $('.xn-cart-option').after('<br /><br />');
+        }
+    });
+</script>

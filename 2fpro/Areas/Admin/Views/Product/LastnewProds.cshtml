@@ -1,0 +1,182 @@
+﻿@model IEnumerable<_2fpro.Models.Product>
+<script>
+    $(function () {
+        $('.prod-block ').jcarousel({ wrap: null });
+        var pimgList = $('.prod-block ').jcarousel();
+        $('.prod-block-cont .prev')
+        .on('jcarouselcontrol:active', function () {
+            $(this).removeClass('inactive');
+        })
+        .on('jcarouselcontrol:inactive', function () {
+            $(this).addClass('inactive');
+
+        })
+        .jcarouselControl({
+            target: '-=1',
+            carousel: pimgList
+        });
+
+        $('.prod-block-cont .next')
+      .on('jcarouselcontrol:active', function () {
+
+          $(this).removeClass('inactive');
+      })
+      .on('jcarouselcontrol:inactive', function () {
+          $(this).addClass('inactive');
+
+      }).jcarouselControl({
+          target: '+=1',
+          carousel: pimgList
+      });
+
+        $(".prod-block ").jcarousel();
+    });
+</script>
+<style>
+    /*.prod-block {
+        width: inherit;
+        position: relative;
+    }
+
+    .similar-prods {
+        clear: both;
+        width: auto;
+        position: relative;
+        margin: 0 auto;
+    }*/
+
+    .next {
+        display: inherit;
+    }
+
+    .similar-prods .cont {
+        margin: 0;
+    }
+</style>
+@{ 
+    List<_2fpro.Models.Product> values = null;
+
+}
+<div class="prod-block-cont">
+
+    @if ((int)ViewBag.ID == 0)
+    {<h1>Новые поступления</h1>}
+    else
+    {<h1>Похожая продукция</h1>}
+
+    <i class="flaticon-arrows-1 prev"></i> 
+    <div class="prod-block">
+
+        <div class="prod-block-wrap">
+            @if (Model.Count()>0)
+            {
+                foreach (var item in Model ?? new List<_2fpro.Models.Product>())
+                {
+
+
+
+                <div class="xn-listview-item" data-id="@item.ID">
+
+                    <div class="xn-listview-item__row">
+
+
+                        @*<div class="caption-more-details">
+
+                                <div class="xn-details xn__popup">быстрый просмотр</div>
+                            </div>*@
+                        <a class="prod-list-linked" href="@Url.Action("Details", "Product", new { id = item.GenerateSlug() })">
+                            <div class="item-img">
+
+                                @if (item.ProdImages.Any(x => x.IsPreview == 1))
+                                {
+                                    <img id="mpic_@item.ID" data-id="@item.ProdImages.SingleOrDefault(x => x.IsPreview == 1).ID" src="@Url.Content("~/Content/Files/Product/" + item.ID + "/200x150/" + item.ProdImages.Where(x => x.IsPreview == 1).SingleOrDefault().ImageMimeType)" />
+                                }
+
+                            </div>
+
+                            <div class="caption">
+                                <div class="caption-wrap">
+                                    <div class="caption-title">
+                                        <div class="caption-h4">
+
+                                            @{var name = item.ProductName.Length > 50 ? item.ProductName.Substring(0, 50) + "..." : item.ProductName;}
+                                            <span>@name</span>
+                                        </div>
+                                    </div>
+                                    <div class="caption-info">
+                                        @*<div class="caption-text">
+                                                @item.Description
+                                            </div>*@
+                                        <div class="caption-des">
+                                            <div class="caption-price">
+                                                @if (item.Discount != 0)
+                                                {
+                                                    <div class="caption-item-price">@item.Price.ToString("N", System.Globalization.CultureInfo.CreateSpecificCulture("ru")).Replace(",00", "") руб</div>
+
+
+                                                    <div class="caption-item-price_discount">
+                                                        @item.DiscountedPrice().ToString("N", System.Globalization.CultureInfo.CreateSpecificCulture("ru")).Replace(",00", "") руб
+
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="caption-item-price-default">
+                                                        @item.Price.ToString("N", System.Globalization.CultureInfo.CreateSpecificCulture("ru")).Replace(",00", "") руб
+
+                                                    </div>
+                                                }
+                                            </div>
+                                            @if (item.Discount != 0)
+                                            {
+                                                <div class="caption-btns">
+                                                    <div class="caption-discount">
+                                                        <div class="caption-discount_value">-@(item.Discount.ToString() + "%")</div>
+
+                                                    </div>
+                                                    @*<button class="cat-btn default-btn @(ProductController.ProdIsAdded(item.ID) ? "prod-added":"prod-toadd")" data-event-type="cart__add" data-pid="@item.ID">@(ProductController.ProdIsAdded(item.ID) ? "в корзине" : "купить")</button>*@
+                                                    @*<a href="@Url.Action( "Details", "Product", new { id = item.GenerateSlug() })" class="cat-btn default-btn @(ProductController.ProdIsAdded(item.ID) ? "prod-added":"prod-toadd")" data-pid="@item.ID"><span class="cat-btn__text">Подробнее</span> </a>*@
+
+
+
+                                                </div>
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </a>
+                        <div class="xn-lv__hoverblock">
+
+                            <div class="xn-lv__hoverblock-wrap xn__popup">
+                                <div class="xn-lv__hoverblock-opts">размеры <i data-toggle="tooltip" title="Высота x Ширина x Глубина сиденья" class="fas fa-question-circle "></i> : @item.Size</div>
+                                <div class="xn-lv__hoverblock-resize">
+                                    <i class="fas fa-expand"></i>
+                                    <span>Быстрый просмотр</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                }
+            }
+        </div>
+
+
+
+    </div>
+    <i class="flaticon-arrows next"></i>
+    
+</div>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

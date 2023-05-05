@@ -1,0 +1,117 @@
+﻿@model _2fpro.ViewModel.OrderViewModel
+@inject _2fpro.Service.Interface.IProductRepository pRep
+@{
+    Product prod = ViewBag.Prod;
+
+}
+
+
+<div class="modalh">
+    <h3 class="headline">Заказ</h3>
+    <div class="md-close iconicfill-x"><button class="xn-close-btn-bl"></button></div>
+</div>
+<div class="modalp" style="overflow:hidden" id="authTarget">
+    <form id="order-form">
+        @Html.AntiForgeryToken()
+        <div id="target" class="modal-wrap">
+
+            <div class="feededitor">
+                @Html.TextBoxFor(model => model.Name, new { placeholder = "Ваше имя*", @class = "form-control" })
+                <div class="feed-valid"> @Html.ValidationMessageFor(x => x.Name)</div>
+            </div>
+
+            <div class="feededitor">
+                @Html.TextBoxFor(model => model.Phone, new { placeholder = "Номер телефона*", @class = "form-control" })
+                <div class="feed-valid"> @Html.ValidationMessageFor(x => x.Phone)</div>
+            </div>
+            <div class="feededitor">
+                @Html.TextBoxFor(model => model.Email, new { placeholder = "Почта", @class = "form-control" })
+                <div class="feed-valid"> @Html.ValidationMessageFor(x => x.Email)</div>
+            </div>
+
+            <div class="feededitor">
+                @Html.TextAreaFor(model => model.Address, new { cols = 10, rows = 7, placeholder = "Адрес*", @class = "form-control" })
+                <div class="feed-valid">@Html.ValidationMessageFor(x => x.Address)</div>
+            </div>
+            @Html.HiddenFor(x => x.Quan)
+            @Html.Hidden("ProdName", prod.ProductName)
+            @Html.Hidden("TotalSum", prod.Price)
+            @Html.Hidden("prodId", prod.ID)
+            <div class="feededitor" id="order-prod-row">
+                <table>
+                    <tr>
+                        <td>
+                            <img width="50" src="@Url.Content("~/Content/Files/Product/" + prod.ID + "/height500/" + prod.ProdImages.Where(x => x.IsPreview == 1).SingleOrDefault().ImageMimeType)" />
+                        </td>
+                        <td id="prodRow1">
+                            @prod.ProductName &nbsp;x&nbsp;@ViewBag.Quan
+                        </td>
+                        <td id="prodRow2">
+                            @ViewBag.price.ToString("N0")&nbsp; ₽
+                        </td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+            @*<div class="feededitor">
+            @Html.TextBoxFor(model => model.Desc, new { placeholder = "Еще что то", @class = "form-control" })
+            <div class="feed-valid">@Html.ValidationMessageFor(x => x.Desc)</div>
+        </div>
+        <div class="feededitor">
+            @Html.TextBoxFor(model => model.Price, new { placeholder = "Еще что то", @class = "form-control" })
+            <div class="feed-valid">@Html.ValidationMessageFor(x => x.Price)</div>
+        </div>
+        <div class="feededitor">
+            @Html.TextBoxFor(model => model.Service, new { placeholder = "Еще что то", @class = "form-control" })
+            <div class="feed-valid">@Html.ValidationMessageFor(x => x.Service)</div>
+        </div>*@
+
+
+
+            @*@if (Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["AllowCaptcha"]))
+        {
+            <div id="wall-anti-spam">
+                <div class="reg-label" style="float:left;padding:0">Введите слово&nbsp;&nbsp;&nbsp;&nbsp;  </div>
+                <div id="captcha" class="reply-protect" style="height:30px;width:130px;float:left">
+                    @{Html.RenderAction("Captcha", "DataCaptcha", new { set = 2 });}
+                </div>
+                <script>
+
+                    $(document).on("click", "#loadCaptcha_2", function () {
+                        $("#wallCaptcha_2").attr("src", "/DataCaptcha/Show?" + (new Date()).getTime());
+
+                    });
+
+                </script>
+
+                <div class="captchainput" style="width: 100px;padding-left: 20px;float: left;">
+
+                    @Html.TextBox("Captcha", null, new { id = "Captcha-Input-r", style = "width:100px" })
+
+
+                </div>
+            </div>
+        }*@
+            <div class="feededitor">
+                <button type="submit" class="main-btn" style="float:right;">
+                    <span class="">Заказать</span>
+
+
+                </button>
+
+               
+            </div>
+        </div>
+        <p id="fail"></p>
+    </form>
+
+</div>
+<div class="feed-loader"><img src="@Url.Content("~/Content/ajax-loaders/feed-load.gif")" /></div>
+
+
+
+
+<script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

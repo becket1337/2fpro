@@ -1,0 +1,880 @@
+﻿@font-face {
+    font-family: "Proxima-reg";
+    src: url("/fonts/proxima/ProximaNova-Regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Proxima-bold";
+    src:url("/fonts/proxima/ProximaNova-Bold.woff2") format("woff2"); /*links*/
+}
+
+@font-face {
+    font-family: "Proxima-black";
+    src:url("/fonts/proxima/ProximaNova-Black.woff2") format("woff2"); /*titles*/
+}
+
+@font-face {
+    font-family: "Proxima-cont";
+    src:url("/fonts/proxima/ProximaNovaCond-Regular.woff2") format("woff2"); /*menu*/
+}
+
+@font-face {
+    font-family: "Proxima-ext-cont-b";
+    src: url("/fonts/proxima/ProximaNovaExCn-Bold.woff2") format("woff2"); /*cat titles*/
+}
+
+@font-face {
+    font-family: "Proxima-l";
+    src: url("/fonts/proxima/ProximaNova-Light.woff2") format("woff2"); /*cat titles*/
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, ul, ol, dd,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    font-family: inherit;
+    vertical-align: baseline;
+}
+    /*  Disable blue background on image */
+    /*IE9*/
+    img::selection {
+        background-color: transparent;
+    }
+
+    img::-moz-selection {
+        background-color: transparent;
+    }
+
+img {
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    /*IE10*/
+    -ms-user-select: none;
+    user-select: none;
+    border: 0;
+    max-width: 100%;
+    /*You just need this if you are only concerned with android and not desktop browsers.*/
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    max-width: 100%;
+    height: auto;
+}
+
+input[type="text"], textarea, [contenteditable] {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+/* remember to define focus styles! */
+:focus {
+    outline: 0;
+}
+#main-loader-spin {
+    margin-left: 50%;
+    width: 100px;
+}
+html {
+    position: relative;
+}
+
+body {
+    font-family: Proxima-reg, Open Sans, sans-serif;
+    width: 100%;
+    min-height: 100%;
+    background: white;
+    font-size: 16px;
+    color: black;
+}
+
+
+ol, ul {
+    list-style: none;
+}
+
+.content-wrap ul{
+    padding: 0 20px;
+    list-style: inherit;
+}
+.content-wrap ol{
+    list-style:decimal;
+}
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+    border-collapse: collapse;
+    border-spacing: 0.5rem;
+    width: 100% !important;
+    margin-bottom: 5px;
+}
+
+caption, th, td {
+    text-align: left;
+    font-weight: normal;
+    border: 1px solid gray;
+    padding: 5px;
+    vertical-align: middle;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: "";
+}
+
+blockquote, q {
+    quotes: "" "";
+}
+
+h1, h2, h3, h4,
+h5, h6 {
+    font-family: Proxima-black,Arial;
+}
+
+    h1.text-danger:after {
+        background: #dc3545 !important;
+    }
+
+h1 {
+    display:flex;
+    font-size: 46px;
+    padding-bottom: 40px;
+}
+
+
+    /*h1::before {
+        width: 2em;
+        height: 1px;
+        background: #005cfe;
+        display: inline-block;
+        content: "";
+        margin-right: 20px;
+        vertical-align: middle;
+        margin-top: 25px;
+    }*/
+
+h2 {
+    font-size: 46px;
+    font-weight: 800;
+    color: black;
+    font-family: 'Open Sans';
+}
+
+h3 {
+    font-size: 24px;
+    margin: .83em 0;
+}
+
+h4 {
+    font-size: 18px;
+    color: #0f0088;
+    
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+h5 {
+    font-size: 18px;
+    margin: 1.5em 0;
+}
+
+h6 {
+    font-size: .75em;
+    margin: 1.67em 0;
+}
+
+a.neutral {
+    outline: 0;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    text-decoration: none;
+}
+
+    a.neutral:hover {
+        color: inherit;
+    }
+
+p {
+    margin: 1em 0;
+}
+
+a {
+    outline: 0;
+    color: white;
+   
+    font-weight: 400;
+    font-size:16px;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: inherit;
+        text-decoration: none;
+    }
+    .
+    /*a:not([href]):not([tabindex]) {
+        outline: 0;
+        color: #6658da;
+        font-size: 15px;
+        font-weight: 700;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+        a:not([href]):not([tabindex]):hover {
+            color: #6658da;
+        }*/
+
+button:focus {
+    outline: none;
+}
+
+.main-overlay {
+    background: white;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    opacity: 0.5;
+    z-index: 850;
+    transition: 5s opacity;
+    display: none;
+}
+
+strong {
+    font-weight: bold;
+}
+
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+.content-wrapper {
+    color: #4e4e4e;
+}
+#SecondPage .content-wrap {
+    color: #4a4a4a;
+}
+
+#SecondPage h2 {
+    padding: 20px 0;
+    font-family: 'Open Sans';
+    color: black;
+    font-size: 42px;
+    font-weight: 800;
+  
+}
+#SecondPage h1 {
+    padding: 30px;
+    font-family: 'Open Sans';
+    color: black;
+    font-size: 56px;
+    font-weight: 800;
+   
+}
+.page-h-2{
+    padding-bottom:50px;
+}
+#SecondPage .head-btn-closed{
+    color:black;
+
+}
+em {
+    font-style: italic;
+}
+
+.wrapper {
+    font-family: Proxima-reg, Open Sans, sans-serif !important;
+}
+
+#viewpage .content-wrap {
+    padding: 0 50px 50px 50px;
+}
+.rs-banner {
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    position: relative;
+    overflow: hidden;
+}
+    .rs-banner:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 1;
+    }
+/* =========================== MAINAREA ======================== */
+#SecondPage .dep-list .lay-btn{
+    display:none;
+}
+.dep-list {
+    padding: 50px 0;
+}
+.pmenu-bot a{
+    color:inherit;
+}
+#header {
+    padding: 50px 75px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 3;
+}
+#topbox {
+  
+}
+.nav-wrap {
+    display: flex;
+    height: 80px;
+}
+.burger-nav{
+    position:fixed;
+}
+.brand-item {
+    display: flex;
+    margin-left: 75px;
+    height: 60px;
+    
+}
+.header-btn {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    padding: 20px;
+    margin: 0;
+    font-family: proxima-l;
+    color:white;
+}
+.head-btn-closed{
+    display:none;
+    padding-right:30px;
+}
+.header-btn svg {
+    height: 5.5rem;
+    width: 5.5rem;
+    cursor:pointer;
+}
+.navbar-main {
+    position: fixed;
+    right: 6rem;
+    top: 3rem;
+}
+.head-button{
+
+}
+.head-btn-cont{
+
+}
+.lb-light a{
+    color:#444!important;
+}
+.lb-light a::before{
+    background-color:#444!important;
+}
+/*catalog on main layout*/
+
+#tag-list{
+    padding-top:50px;
+}
+#tag-list h2{
+    padding-bottom:50px;
+}
+#tag-list .slogan{
+    padding-bottom:40px;
+}
+.tl-item{
+    padding-right:30px;
+    padding-bottom:30px;
+}
+.tl-imgcont{
+    padding-bottom:20px;
+}
+.tl-item a {
+    color: black;
+    font-family: 'Open Sans';
+    font-size: 24px;
+    font-weight: 600;
+}
+.tl-btn a {
+    color: black;
+    font-family: 'Open Sans';
+    font-size: 24px;
+    font-weight: 400;
+    padding: 20px 40px;
+}
+.tl-btn {
+    margin-top: 30px;
+}
+#tag-list h4:before {
+    width: 40px;
+    height: 2px;
+    background: #E7C733;
+    display: inline-block;
+    content: "";
+    margin-right: 20px;
+    vertical-align: middle;
+    margin: 0.54167em;
+    position: absolute;
+    margin-left: 50px;  
+}
+#tag-list h4 {
+    margin-left: -3rem;
+    padding-left: 100px;
+    position: relative;
+    font-size: 38px;
+    display: inline-grid;
+}
+.serv-block-wrap {
+    margin-top: 50px;
+}
+.serv-banner {
+    background-image: url(/Content/images/banner-services.jpg);
+}
+#services h2{
+    padding-bottom:50px;
+    color:white;
+}
+#services .container {
+    position: relative;
+    z-index: 3;
+}
+#contacts .container{
+    position:relative;z-index:3;
+}
+.serv-layout-list{
+    padding-bottom:50px;
+}
+#contacts {
+    color: white;
+    font-size: 28px;
+}
+#contacts h2{
+    color:white;
+    padding-bottom:50px;
+}
+.cw-item{
+    padding:30px 10px;
+}
+.contacts-wrap {
+    background-image: url(/Content/images/cont-bg.png);
+    background-position: bottom;
+}
+#news {
+    background-color: #0B1226;
+}
+#news h2{
+    color:white;
+
+}
+.reviews-section{
+    color:white;
+}
+.reviews-section h2{
+    color:white;
+    padding-bottom:50px;
+}
+.reviews-slider-wrapper{
+    padding:50px 0;
+}
+.reviews-target h3{
+
+}
+.reviews-target a {
+    padding: 30px;
+    font-size: 28px;
+    color: white;
+    margin-left: -3rem;
+    padding-left: 7rem;
+    position: relative;
+    font-size: 28px;
+    display: inline-grid;
+    font-weight: 600;
+    font-family: 'Open Sans';
+}
+.reviews-target a:hover {
+    font-size: 28px;
+    color: white;
+    text-decoration:underline;
+}
+    .reviews-target a:before {
+        width: 40px;
+        height: 2px;
+        background: #E7C733;
+        display: inline-block;
+        content: "";
+        vertical-align: middle;
+        position: absolute;
+        margin: 30px;
+        margin-top: 50px;
+    }
+.review-date {
+    padding-left: 65px;
+    font-size:21px;
+}
+.review-text {
+    padding-left: 60px;
+}
+.reviews-target{
+    padding-bottom:50px;
+}
+.cont-wrap-inner{
+    padding:50px 0;
+}
+#footer {
+    background-color: #0B1226;
+    color: #6c757d;
+}
+
+
+.page-layout #header {
+    position: relative !important;
+}
+
+.page-layout .serv-layout-list a {
+    color: black !important;
+    display: flex;
+}
+
+    .page-layout .serv-layout-list a:hover {
+        color: black !important;
+    }
+
+.page-layout .tmenu a:before {
+    margin-top: 20px;
+}
+/*footer*/
+#footer .fa-chevron-up {
+    color: white;
+    font-size: 21px;
+}
+
+#footer li {
+    display: inline-block;
+}
+
+#footer ul {
+    padding: 30px 0;
+}
+
+#footer li a {
+    display: inline-block;
+    padding-right: 60px;
+    font-size: 18px;
+    font-family: 'Proxima-reg';
+}
+#footer li a:hover{
+    color:white;
+    text-decoration:underline;
+}
+
+.morecont-btn {
+    display: flex;
+    padding-top: 50px;
+}
+.morecont-inner h2 {
+    color: white;
+}
+.morecont-inner{
+
+}
+.morecont-wrap {
+    background-image: url(/Content/images/feedback-bg.png);
+    padding: 100px 0;
+}
+.pmenu-bot {
+    padding-top: 50px;
+}
+.serv-inner-wrap, .tl-wrap-inner {
+    padding: 50px 0;
+}
+/* =========================== STATICAREA ======================== */
+@media (min-width: 480px), (min-width:300px) {
+    .header-btn {
+        margin-bottom: 40px;
+        padding-left: 0;
+        text-align: center;
+    }
+
+    #header, #sect_cars, #catalog-main, #footer, #preim, #add-section {
+        padding: 20px;
+    }
+
+    #viewpage .content-wrap {
+        padding: 0;
+        font-size: 16px;
+    }
+
+    #viewpage .content-wrap {
+        padding-bottom: 30px;
+    }
+
+    #preim, #catalog-main, #sect_cars, #add-section, #slider-main {
+        padding-top: 30px;
+    }
+
+    #header {
+    }
+
+    .f-menu > .foot-nav {
+        width: 100%;
+    }
+
+    .foot-l, .foot-r, .foot-m {
+        width: 100%;
+        margin: 0 10px;
+    }
+
+    #footer {
+        font-size: 18px;
+        padding: 40px 0 20px 0;
+        padding-top: 40px;
+    }
+        #footer li {
+            display: block;
+            padding: 10px;
+        }
+    #sect_cars {
+        padding: 20px 0;
+        background-size: cover;
+    }
+
+    .s_c-layer {
+        height: 200px;
+    }
+
+    #ContentPage, #SecondPage {
+        font-size: 16px;
+    }
+
+    .xn-lv__hoverblock-resize i {
+        padding-right: 10px;
+    }
+
+    h1, #SecondPage h1 {
+        font-size: 34px;
+        padding: 15px 0;
+    }
+
+    h2, #SecondPage h2 {
+        font-size: 28px;
+        padding: 15px 0;
+    }
+
+    /*h1::before {
+            width: 1em;
+            height: 1px;
+            background: #005cfe;
+            display: inline-block;
+            content: "";
+            margin-right: 20px;
+            vertical-align: middle;
+        }*/
+
+    .dep-wrap .tmenu a::before {
+        position: absolute;
+        left: 10px;
+        top: 0;
+        height: 2px;
+        width: 30px;
+    }
+    .dep-wrap  .serv-layout-list a {
+        color: black !important;
+        display: flex;
+        position: relative;
+        position: relative;
+        left: -1rem;
+        display: block;
+        padding-left: 50px;
+    }
+    .tl-item a{
+        font-size:16px;
+    }
+    #tag-list h4 {
+        padding-left: 50px;
+    }
+    #tag-list h4:before{
+        content:none;
+    }
+    .burger-nav {
+        position: absolute;
+    }
+    #nav-leftbar {
+        display: none;
+    }
+    .morecont-wrap {
+      
+        margin: 0;
+    }
+}
+@media (min-width: 768px) {
+    .morecont-wrap {
+        margin: 0 -50px;
+    }
+    .burger-nav {
+        position: fixed;
+    }
+    .header-btn{padding:0;}
+   
+}
+
+@media (min-width: 1024px) {
+
+    .tl-item a{
+        font-size:21px;
+    }
+    #tag-list h4 {
+        margin-left: -3rem;
+        padding-left: 100px;
+        position: relative;
+        font-size: 38px;
+        display: inline-grid;
+    }
+
+        #tag-list h4:before {
+            width: 40px;
+            height: 2px;
+            background: #E7C733;
+            display: inline-block;
+            content: "";
+            margin-right: 20px;
+            vertical-align: middle;
+            margin: 0.54167em;
+            position: absolute;
+            margin-left: 50px;
+        }
+    #footer li {
+        display: inline-block;
+        padding:0;
+    }
+    #viewpage .content-wrap {
+        padding: 0 50px 50px 50px;
+        font-size: 18px;
+    }
+
+    #sect_cars, #catalog-main, #footer, #preim, #slider-main, #add-section {
+        padding: 35px 50px;
+    }
+
+    .header-btn {
+        padding-left: 0;
+        margin-bottom: 0;
+        padding-bottom: 30px;
+    }
+
+    #ContentPage, #SecondPage {
+        font-size: 18px;
+    }
+
+    .s_c-layer {
+        height: 250px;
+    }
+    .s_c-content h1 {
+        padding-top: 20px;
+    }
+    h1, #SecondPage h1 {
+        font-size: 46px;
+    }
+
+
+        /*h1::before {
+            width: 2em;
+            height: 1px;
+            background: #005cfe;
+            display: inline-block;
+            content: "";
+            margin-right: 20px;
+            vertical-align: middle;
+        }*/
+    .serv-inner-wrap, .tl-wrap-inner, .cont-wrap-inner, .reviews-slider-wrapper, .foot-wrap-inner {
+        margin-left: 0;
+    }
+    .page-lay-wrap {
+        padding: 0;
+    }
+    #contacts .cont-wrap-inner{
+        margin-left:200px;
+    }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+}
+
+
+@media (min-width: 1200px) {
+    #contacts .cont-wrap-inner {
+        margin-left: 100px;
+    }
+    .s_c-layer {
+        height: 250px;
+    }
+
+    .header-btn {
+        margin-bottom: 0;
+        padding-left: 0;
+    }
+
+    #header {
+        padding: 50px 75px;
+    }
+    h2{
+        font-size:46px;
+    }
+}
+
+@media (min-width: 1400px) {
+  
+    .page-lay-wrap{
+
+        padding-left:100px;
+    }
+    #sect_cars {
+        background-size: cover;
+    }
+
+    .header-btn {
+        margin-bottom: 0;
+        padding-left: 100px;
+    }
+    .serv-inner-wrap, .cont-wrap-inner, .reviews-slider-wrapper, .foot-wrap-inner {
+        margin-left: 100px;
+    }
+}
+
+@media (min-width: 1600px) {
+   
+}
+@media (min-width: 1700px) {
+    #nav-leftbar {
+        display: block;
+    }
+}

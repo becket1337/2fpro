@@ -1,0 +1,290 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+  
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RuntimeFrameworkVersion>2.2.0</RuntimeFrameworkVersion>
+    <UserSecretsId>aspnet-eligomebel-A9C146F0-2B04-43A2-A9CD-94E446991805</UserSecretsId>
+    <Version>2.2.3</Version>
+    <Authors>Timur</Authors>
+    <Company>X-NOVA</Company>
+    <PackageId>MyApp</PackageId>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <PackageReleaseNotes>Release</PackageReleaseNotes>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+  
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.NETCore.App" Version="2.2.0" />
+  
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.Extensions.Caching.SqlConfig.Tools" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20181213203132_intialcreate1.cs" />
+    <Compile Remove="Data\Migrations\20181213203132_intialcreate1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181214180810_InitialCreate.cs" />
+    <Compile Remove="Data\Migrations\20181214180810_InitialCreate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181225180530_InitialCreate.cs" />
+    <Compile Remove="Data\Migrations\20181225180530_InitialCreate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190216142218_Init_strLength.cs" />
+    <Compile Remove="Data\Migrations\20190216142218_Init_strLength.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190821151528_sp-siteVisitors.cs" />
+    <Compile Remove="Data\Migrations\20190821151528_sp-siteVisitors.Designer.cs" />
+    <Compile Remove="Views\info.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="51Degrees.mobi-core" Version="3.2.21.1" />
+    <PackageReference Include="bootstrap" Version="4.1.3" />
+    <PackageReference Include="ClosedXML" Version="0.93.1" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.8.10" />
+    <PackageReference Include="jQuery" Version="3.3.1" />
+    <PackageReference Include="jQuery.UI.Combined" Version="1.12.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" PrivateAssets="All" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1-beta1" />
+    <PackageReference Include="NReco.Logging.File" Version="1.1.2" />
+    <PackageReference Include="RobotsTxtCore" Version="1.1.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0005" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0005" />
+    <PackageReference Include="Telerik.UI.for.AspNet.Core" Version="2018.2.516" />
+    <PackageReference Include="Unidecode.NET" Version="1.3.0" />
+    <PackageReference Include="Wangkanai.Detection" Version="2.0.0-beta9" />
+    <PackageReference Include="Wangkanai.Detection.Browser" Version="2.0.0-beta9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\ExcelData\" />
+    <Folder Include="Areas\Identity\Pages\Account\AdminManage\" />
+    <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="Views\Order\" />
+    <Folder Include="wwwroot\Content\Files\Category\" />
+    <Folder Include="wwwroot\Content\Files\Product\" />
+    <Folder Include="wwwroot\css\Files\Pages\" />
+    <Folder Include="wwwroot\css\images\" />
+    <Folder Include="wwwroot\fonts\Новая папка\" />
+    <Folder Include="wwwroot\lib\jquery\dist\" />
+    <Folder Include="wwwroot\lib\ui\" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Home\About.cshtml" />
+    <None Include="Views\Home\Contact.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\info.cs" />
+    <None Include="wwwroot\Content\ajax-loaders\horizont\puff.svg" />
+    <None Include="wwwroot\Content\ajax-loaders\horizont\tail-spin-gal.svg" />
+    <None Include="wwwroot\Content\ajax-loaders\horizont\tail-spin.svg" />
+    <None Include="wwwroot\Content\ajax-loaders\svg-loaders\audio.svg" />
+    <None Include="wwwroot\Content\ajax-loaders\svg-loaders\ball-triangle.svg" />
+    <None Include="wwwroot\Content\ajax-loaders\svg-loaders\bars.svg" />
+    <None Include="wwwroot\Content\ajax-loaders\svg-loaders\circles.svg" />
+    <None Include="wwwroot\Content\ajax-loaders\svg-loaders\grid.svg" />
+    <None Include="wwwroot\Content\ajax-loaders\svg-loaders\hearts.svg" />
+    <None Include="wwwroot\Content\ajax-loaders\svg-loaders\oval.svg" />
+    <None Include="wwwroot\Content\ajax-loaders\svg-loaders\puff.svg" />
+    <None Include="wwwroot\Content\ajax-loaders\svg-loaders\rings.svg" />
+    <None Include="wwwroot\Content\ajax-loaders\svg-loaders\spinning-circles.svg" />
+    <None Include="wwwroot\Content\ajax-loaders\svg-loaders\tail-spin.svg" />
+    <None Include="wwwroot\Content\ajax-loaders\svg-loaders\three-dots.svg" />
+    <None Include="wwwroot\Content\fonts\flaticon\Flaticon.svg" />
+    <None Include="wwwroot\Content\fonts\flaticon\_flaticon.scss" />
+    <None Include="wwwroot\Content\fonts\roboto\roboto-bold-webfont.woff2" />
+    <None Include="wwwroot\Content\fonts\roboto\roboto-regular-webfont.woff2" />
+    <None Include="wwwroot\Content\main\icons-svg\action-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\action-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\alert-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\alert-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-d-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-d-l-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-d-l-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-d-r-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-d-r-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-d-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-l-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-l-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-r-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-r-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-u-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-u-l-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-u-l-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-u-r-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-u-r-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\arrow-u-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\audio-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\audio-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\back-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\back-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\bars-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\bars-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\bullets-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\bullets-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\calendar-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\calendar-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\camera-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\camera-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\carat-d-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\carat-d-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\carat-l-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\carat-l-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\carat-r-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\carat-r-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\carat-u-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\carat-u-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\check-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\check-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\clock-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\clock-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\cloud-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\cloud-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\comment-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\comment-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\delete-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\delete-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\edit-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\edit-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\eye-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\eye-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\forbidden-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\forbidden-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\forward-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\forward-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\gear-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\gear-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\grid-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\grid-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\heart-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\heart-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\home-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\home-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\info-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\info-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\location-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\location-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\lock-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\lock-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\mail-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\mail-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\micon.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\minus-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\minus-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\navigation-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\navigation-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\phone-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\phone-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\plus-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\plus-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\power-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\power-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\recycle-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\recycle-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\refresh-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\refresh-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\search-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\search-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\shop-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\shop-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\star-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\star-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\tag-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\tag-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\user-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\user-white.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\video-black.svg" />
+    <None Include="wwwroot\Content\main\icons-svg\video-white.svg" />
+    <None Include="wwwroot\Content\Shop\basket\dd.svg" />
+    <None Include="wwwroot\Content\Shop\basket\shopping-cart-black.svg" />
+    <None Include="wwwroot\Content\Shop\basket\shopping-cart.svg" />
+    <None Include="wwwroot\Content\Shop\breadcrumbs\img\cd-custom-icons-01.svg" />
+    <None Include="wwwroot\Content\Shop\breadcrumbs\img\cd-custom-icons-02.svg" />
+    <None Include="wwwroot\Content\Shop\breadcrumbs\img\cd-custom-separator.svg" />
+    <None Include="wwwroot\Content\Shop\breadcrumbs\js\modernizr.js" />
+    <None Include="wwwroot\Content\Shop\breadcrumbs\partials\_layout.scss" />
+    <None Include="wwwroot\Content\Shop\breadcrumbs\partials\_mixins.scss" />
+    <None Include="wwwroot\Content\Shop\breadcrumbs\partials\_variables.scss" />
+    <None Include="wwwroot\Content\Shop\breadcrumbs\README.md" />
+    <None Include="wwwroot\Content\Shop\breadcrumbs\scss\style.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Shared\EditorTemplates\Boolean.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\CategoryViewModel.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\Currency.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\Date.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\DateTime.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\Email.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\EmailAddress.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\GridForeignKey.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\Integer.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\Number.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\Password.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\String.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\Time.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\Url.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties libman_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\EditorTemplates\Boolean.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Shared\EditorTemplates\Boolean.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\EditorTemplates\CategoryViewModel.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\EditorTemplates\CategoryViewModel.cshtml" />
+  </ItemGroup>
+
+</Project>

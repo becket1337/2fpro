@@ -1,0 +1,97 @@
+﻿@page
+@model _2fpro.Pages.TestDataModel
+@inject IDistributedCache _cache
+@inject _2fpro.Service.Repository.IDiagnosticService _diag
+@inject Microsoft.AspNetCore.Identity.UserManager<_2fpro.Data.ApplicationUser> _userManager;
+@using _2fpro.Models
+@using _2fpro.Extension
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    Layout = "~/Views/Shared/_PageMenuLayout.cshtml";
+
+    var date = new TimeSpan(0, 0, 0) + DateTime.Now.TimeOfDay;
+
+    var diag = await _diag.GetAsync("admin@mail.com");
+    var diag1 = await _diag.GetAsync("472687b5-e673-4183-8159-fe84d5a1517e@email.ru");
+    // var date1 = Math.Max(0,DateTime.Now.Hour - diag1.CurrDateTime.Hour);
+    //var date2 = (DateTime.Now.Date - diag1.CurrDateTime.Date).Days;
+    var date3 = DateTime.Now.Hour;
+
+    string args = "Yandex LLC";
+    bool yaString = args.Contains("Yandex");
+}
+<pre style="padding-top:100px;">
+ @yaString
+</pre>
+
+ @*public async Task AnonymousAuthorization(HttpContext ctx, UserManager<ApplicationUser>
+    userManager, SignInManager<ApplicationUser>
+        signIn, RoleManager<IdentityRole>
+            roleManager,
+            IDistributedCache _cache, IDiagnosticService diagService)
+            {
+
+            //await ctx.Response.WriteAsync(ctx.Request.Path.ToString()+", user - "+ctx.User.Identity.Name);
+            //приемлемые пути
+            string[] segments = new string[] { "/prod", "/pages"};
+            if (segments.Any(x => ctx.Request.Path.ToString().StartsWith(x)) || ctx.Request.Path.ToString() == "/")//!segments.Any(x => ctx.Request.Path.StartsWithSegments(x)))
+            {
+
+            if (!ctx.User.IsInRole("Admin") && !ctx.User.Identity.IsAuthenticated) // если пользователь не авторизован
+            {
+            IdentityResult roleResult;
+            var roleExist = await roleManager.RoleExistsAsync("Anonym");
+            if (!roleExist)
+            {
+            roleResult = await roleManager.CreateAsync(new IdentityRole("Anonym"));
+            }
+            //var list = diagService.Diagnostics.Where(x => (DateTime.Now - x.CurrDateTime).TotalDays > 180);
+            //if (await list.AnyAsync()) await diagService.DiagRangeRemove(list);
+
+            // Проверка по ip в базе, если находим авторизуем
+            var ip = ctx.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            var findByIp = await diagService.Diagnostics.FirstOrDefaultAsync(x => x.IpAddress == ip);
+            ApplicationUser hasIdentity = null;
+            if (findByIp != null)
+            {
+            hasIdentity = await userManager.FindByEmailAsync(findByIp.CustomStringField);
+            await signIn.SignInAsync(hasIdentity, true);
+            }
+            else //Создаем нового анонима
+            {
+            var cid = _cid;
+
+            //await ctx.SignOutAsync(IdentityConstants.ExternalScheme);
+            var user = await userManager.FindByEmailAsync(cid + "@email.com");
+            var pass = "anonym@123321";
+            var str = ctx.Request.Path;
+
+            //создаем уже с правами анонимного пользователя
+            user = new ApplicationUser { UserName = cid + "@email.ru", Email = cid + "@email.ru" };
+            var result = await userManager.CreateAsync(user, pass);
+            if (result.Succeeded)
+            {
+            var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            await userManager.ConfirmEmailAsync(user, code);
+            }
+            await userManager.AddToRoleAsync(user, "Anonym");
+            await signIn.SignInAsync(user, true);
+            // привязываем геолокализацию для пользователя и создаем сессию на пол года под него
+            await GeoLocalization(ctx, _cache, diagService, cid + "@email.ru", false);
+
+            if (ctx.User.Identity.IsAuthenticated && !ctx.User.IsInRole("Admin")) //если авторизованный пользователь, проверяем привязку геолокации
+            {
+            var getUserDiag = await diagService.GetAsync(ctx.User.Identity.Name);
+
+            if (getUserDiag == null)
+            await GeoLocalization(ctx, _cache, diagService, ctx.User.Identity.Name, false);
+            }
+            }
+            }
+
+            }
+
+            }*@

@@ -1,0 +1,24 @@
+﻿@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "Ошибка приложения";
+    Layout = "~/Views/Shared/_PageMenuLayout.cshtml";
+}
+
+<h1 class="text-danger">Ошибка Приложения.</h1>
+<h2 class="text-danger">@Model.Message</h2>
+
+@if (Model.ShowRequestId)
+{
+<p>
+    <strong>Код ошибка:</strong> <code>@Model.StatusCode</code>
+</p>
+}
+
+<h3>Обработчик ошибок</h3>
+<p>
+   Попробуйте исправить запрос, учитывая сообщение об ошибки или повторите позднее.
+</p>
+<p>
+    В случае повторения ошибок, просьба воспользоваться обратной связью.
+</p>

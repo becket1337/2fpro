@@ -1,0 +1,42 @@
+﻿@model _2fpro.Models.Menu
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<h2>Детали</h2>
+<fieldset>
+    <legend>Раздел - @Model.Text (id - @Model.Id)</legend>
+    <div>
+
+        <div class="ch-menu">
+            <p>Второстепенное меню:</p>
+            <p><div style="display:inline-block;"><a href="/Admin/Menu/Create?id=@Model.Id" class="k-button k-button-icontext"><span class="k-icon k-i-plus">&nbsp;</span>Создать подраздел</a></div></p>
+            @Html.Partial("/Areas/Admin/Menu/ChildMenus", new { id= Model.Id })
+            
+        </div>
+    </div>
+
+</fieldset>
+<div>
+    <a class="k-button" href="@Url.Action("MenuList", "Menu", new {type=ViewBag.type,page=ViewBag.page})"><i class="fa fa-arrow-left"></i></a>
+</div>
+@(Html.Kendo().Notification()
+    .Name("notification")
+    .Position(x => x.Left(0))
+    .AutoHideAfter(10000)
+)
+@if (TempData["message"] != null)
+{
+    <script>
+
+        $(function () {
+
+            var notification = $("#notification").data("kendoNotification");
+            var type ="";
+            switch(@TempData["type"]){case 1:type="success";break;case 2:type="info";break;case 3:type="warning";break;default:type="error";};
+            notification.show(
+               '@TempData["message"]'
+            ,type);
+        });
+    </script>
+}

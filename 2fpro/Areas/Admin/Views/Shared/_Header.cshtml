@@ -1,0 +1,127 @@
+﻿
+
+@if (Context.Request.IsMobileBrowser())
+{
+    <div class="navbar-header">
+        <div class="">
+            <div class="row">
+                <div class="col-3" data-target="#cbp-spmenu-s1" id="showLeft">
+                    <i class="fa fa-bars"></i>
+                </div>
+
+                <div class="navbar-brand col-4">
+                    <a href="/"><img src="~/Content/main/mlogo.png" height="50" width="50"></a>
+                </div>
+                <div class="top-cart-wrap col-5">
+                    <div class="dropdown middle" style="display:inline-block;">
+                        @(Html.Kendo().DropDownList()
+                            .Name("profile")
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .HtmlAttributes(new { style = "width: 110px;text-align: left;border:1px solid gray" })
+                            .OptionLabel("Профиль")
+
+                            .BindTo(new List<SelectListItem>() {
+                                            new SelectListItem(){ Text="Сменить пароль", Value="2"},
+                                                new SelectListItem(){ Text="Выйти", Value="3"}
+
+
+                                    })
+                                    .Events(e => { e.Select("onSelect"); e.Open("onOpen"); })
+
+                        )   
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-nav__main">
+        <nav class="n-bmenu hidden-sm-up cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+            <ul id="panelBar" style=""></ul>
+        </nav>
+    </div>
+}
+else
+{
+    <div class="title">
+
+        <div class="container">
+            <div class="row">
+                <div id="header">
+                    <div class="h-logo" onclick="location.replace('/admin');"><img src="    /Content/main/mlogo.png" height="50" width="50">@*<span class="h-logotitle"> — NOVA</span>*@</div>
+                </div>
+                <div class="m-window">
+                    @(Html.Kendo().Window()
+
+                        .Name("window1")
+                        .Title("Помощь")
+                        .Content(@<text>
+                            <p>
+                                При возникновении каких-либо неполадок или пожеланий по работе веб-сайта
+                                обратитесь в службу технической поддержки по телефону или электронной почте:
+                            </p>
+                            <p>
+                                <b>8-903-226-09-56</b><br />
+                                <b>becket1337@gmail.com</b>
+                            </p>
+                            <hr />
+
+                            <h4>Файловый менеджер</h4>
+                            <p>
+                                -Загружать файлы можно как через кнопку, так и просто петеращив нужные файлы в блок для загрузки.
+
+                            </p>
+                            <h4>Редактор меню</h4>
+                            <p>
+                                - Измененять содержание страниц, название и сортировку пунктов меню вы можете выбрав картинку карандаш напротив пункта меню,
+                                а также вставлять изображение и ссылки в страницы, закачав их предварительно через файловый менеджер.<br /><br />
+                                - Так же можете изменить порядок следование разделов перетащив раздел в нужное место<br /><br />
+                                - Для добавления подраздела выбрать в пункте - "сделать второстепенным разделом" тот раздел к которому вы хотите доваить подраздел <br />
+                                <br />
+
+                            </p>
+                            <h4>Кэширование</h4>
+                            <p>При изменении разделов меню или статический блоков, обновление произойдет не сразу, а через 30сек </p>
+                            <h4>Учетные данные и пользователи</h4>
+                            <p>
+                                -Если хотите изменить пароль или выйти из учетки админ , в правой верхней части экрана
+                                вы можете выбрать в выпадающем списке нужный вам пункт сменить пароль или выйти.
+                            </p>
+
+                        </text>)
+                            .Visible(false)
+                        .Width(600)
+
+                        .Events(ev => ev.Close("onClose"))
+                    )
+                </div>
+
+                <div id="titlename">Администратор</div>
+                <div class="dropdown middle" style="display:inline-block;">
+                    @(Html.Kendo().DropDownList()
+                                    .Name("profile")
+                                    .DataTextField("Text")
+                                    .DataValueField("Value")
+                                    .HtmlAttributes(new { style = "width: 100px;text-align: left;border: 1px solid gray; " })
+                        .OptionLabel("Профиль")
+
+                        .BindTo(new List<SelectListItem>() {
+                                                    new SelectListItem(){ Text="Сменить пароль", Value="2"},
+                                                        new SelectListItem(){ Text="Выйти", Value="3"}
+
+
+                                            })
+                                            .Events(e => { e.Select("onSelect"); e.Open("onOpen"); })
+
+                    )
+
+
+                </div>
+                <div id="helper"> <a href="javascript:void()" id="undoo" class="k-button"><i class="fa fa-info-circle"></i></a></div>
+            </div>
+        </div>
+    </div>
+}

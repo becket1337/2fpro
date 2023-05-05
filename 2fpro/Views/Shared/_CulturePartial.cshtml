@@ -1,0 +1,47 @@
+﻿@*@using Microsoft.AspNetCore.Html
+@{var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();}
+   @functions{ 
+       IHtmlContent selected(string c, string culture) {
+           if (c == culture)
+           {
+               return Html.Raw(@"class="+"icon - circle");
+           }
+           else {
+
+               return  Html.Raw(@"class="+"icon-circle-blank");
+           }
+       }
+
+       }
+<div class="dropdown-wrap2 clear-fix">
+    <div class="lg-i"> @Resource.Language:@System.Threading.Thread.CurrentThread.CurrentCulture <i style="font-size:12px;" class="icon-chevron-down" ></i></div>
+    <div class="in-i" >
+
+        @using (Html.BeginForm("SetCulture", "Home"))
+        { 
+           
+				   <input type="hidden" name="culture" class="c-val" />
+                <div class="dropdown-list">
+                    <div class="dropdown-item">
+                        <span class="dl-i-text">en</span>   <span class="dl-circle"><i  @selected("en", culture)></i></span>
+
+                    </div>
+                    <div class="dropdown-item">
+                        <span class="dl-i-text">ru</span> <span class="dl-circle"><i  @selected("ru", culture)></i></span>
+                    </div>
+                    </div>
+               
+        }
+    </div>
+</div>
+
+  <script>
+      $('.culture-info .dl-circle i').click(function () {
+          $('.c-val').attr('value', $(this).closest("span").prev('.dl-i-text').text());
+
+          $(this).closest("form").submit();
+      });
+      $('.culture-info .lg-i').click(function () {
+          //$(this).next().toggle();
+      });
+  </script>*@

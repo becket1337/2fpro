@@ -1,0 +1,116 @@
+﻿@model _2fpro.ViewModel.FeedbackViewModel
+
+@{
+
+
+}
+
+<script>
+    function onSuccessfeed() {
+
+        //$('#sendingProgress').empty().append('Спасибо! Сообщение отправлено.');
+
+        $("#sendfeed").unbind('click');
+        //$("#sendfeed").empty().append('Отправить');
+
+    }
+    function onBeginfeed() {
+        $('#target .xn-dark-button').html('<img class="submit-loader" src="/Content/ajax-loaders/horizont/89.GIF" >');
+        $("#sendfeed").prop('disabled', true);
+        //$('.feed-loader').show();
+        $('#target input,#target  textarea').css('opacity', '0.5');
+    }
+    function onComplete() {
+        $("#sendfeed").unbind('click');
+        $("#sendfeed").prop('disabled', false);
+        $('#target .xn-dark-button').html('Отправить');
+        //$('.feed-loader').hide();
+        $('#target input,#target  textarea').css('opacity', '1');
+        //$("#sendfeed").empty().append('Отправить');
+    }
+
+
+    function onFailure() {
+        // $("#sendfeed").empty().append('Отправить');
+        alert("Ошибка ! Повторите снова.");
+        $("#sendfeed").prop('disabled', false);
+
+    }
+
+</script>
+
+<div class="modalh">
+    <h3 class="headline">Задать вопрос</h3>
+    <div class="md-close iconicfill-x"><button class="xn-close-btn-bl"></button></div>
+</div>
+<div class="modalp" style="overflow:hidden" id="authTarget">
+    <form id="feed-form">
+        @Html.AntiForgeryToken()
+        <div id="target" class="modal-wrap">
+
+            <div class="feededitor">
+                @Html.TextBoxFor(model => model.Name, new { placeholder = "Ваше имя", @class = "form-control" })
+                <div class="feed-valid"> @Html.ValidationMessageFor(x => x.Name)</div>
+            </div>
+
+            <div class="feededitor">
+                @Html.TextBoxFor(model => model.PhoneNumber, new { placeholder = "Номер телефона", @class = "form-control" })
+                <div class="feed-valid"> @Html.ValidationMessageFor(x => x.Email)</div>
+            </div>
+            <div class="feededitor">
+                @Html.TextAreaFor(model => model.Text, new { placeholder = "Сообщение", @class = "form-control" })
+                <div class="feed-valid"> @Html.ValidationMessageFor(x => x.Text)</div>
+            </div>
+            @Html.Hidden("Email", "info@2fpro.ru")
+            @*<div class="feededitor">
+            @Html.TextAreaFor(model => model.Text, new { cols = 10, rows = 7, placeholder = "Текс сообщения", @class = "form-control" })
+            <div class="feed-valid">@Html.ValidationMessageFor(x => x.Text)</div>
+        </div>*@
+            @*@if (Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["AllowCaptcha"]))
+        {
+            <div id="wall-anti-spam">
+                <div class="reg-label" style="float:left;padding:0">Введите слово&nbsp;&nbsp;&nbsp;&nbsp;  </div>
+                <div id="captcha" class="reply-protect" style="height:30px;width:130px;float:left">
+                    @{Html.RenderAction("Captcha", "DataCaptcha", new { set = 2 });}
+                </div>
+                <script>
+
+                    $(document).on("click", "#loadCaptcha_2", function () {
+                        $("#wallCaptcha_2").attr("src", "/DataCaptcha/Show?" + (new Date()).getTime());
+
+                    });
+
+                </script>
+
+                <div class="captchainput" style="width: 100px;padding-left: 20px;float: left;">
+
+                    @Html.TextBox("Captcha", null, new { id = "Captcha-Input-r", style = "width:100px" })
+
+
+                </div>
+            </div>
+        }*@
+            <div class="feededitor">
+                <button type="submit" class="main-btn" style="float:right;">
+                    <span class="">Отправить</span>
+
+
+                </button>
+
+                <input type="button" class="default-btn md-close d-block d-sm-none" value="Закрыть">
+            </div>
+        </div>
+        <p id="fail"></p>
+    </form>
+
+</div>
+<div class="feed-loader"><img src="@Url.Content("~/Content/ajax-loaders/feed-load.gif")" /></div>
+
+
+
+
+
+@*qq*@
+<script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+

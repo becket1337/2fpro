@@ -1,0 +1,78 @@
+﻿@model _2fpro.Models.Feedback
+
+@{
+
+
+}
+
+
+<div class="modalh">
+    <h3 class="headline">Запрос запчасти</h3>
+    <div class="md-close iconicfill-x"><button class="xn-close-btn-bl"></button></div>
+</div>
+<div class="modalp" style="overflow:hidden">
+    <form id="feed-form">
+        @Html.AntiForgeryToken()
+        <div id="target" class="modal-wrap">
+
+            <div class="feededitor">
+                 @Html.TextBoxFor(model => model.Name, new { placeholder = "Ваше имя", @class = "form-control" })
+                <div class="feed-valid"> @Html.ValidationMessageFor(x => x.Name)</div>
+            </div>
+
+            <div class="feededitor">
+                @Html.TextBoxFor(model => model.PhoneNumber, new { placeholder = "Контактный E-mail", @class = "form-control" })
+                <div class="feed-valid"> @Html.ValidationMessageFor(x => x.Email)</div>
+            </div>
+
+
+            <div class="feededitor">
+                @Html.TextAreaFor(model => model.Text, new { cols = 10, rows = 7, placeholder = "Текс сообщения", @class = "form-control" })
+                <div class="feed-valid">@Html.ValidationMessageFor(x => x.Text)</div>
+            </div>
+            @Html.Hidden("Email", "info@startbmw.ru")
+            @*@if (Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["AllowCaptcha"]))
+                {
+                    <div id="wall-anti-spam">
+                        <div class="reg-label" style="float:left;padding:0">Введите слово&nbsp;&nbsp;&nbsp;&nbsp;  </div>
+                        <div id="captcha" class="reply-protect" style="height:30px;width:130px;float:left">
+                            @{Html.RenderAction("Captcha", "DataCaptcha", new { set = 2 });}
+                        </div>
+                        <script>
+
+                            $(document).on("click", "#loadCaptcha_2", function () {
+                                $("#wallCaptcha_2").attr("src", "/DataCaptcha/Show?" + (new Date()).getTime());
+
+                            });
+
+                        </script>
+
+                        <div class="captchainput" style="width: 100px;padding-left: 20px;float: left;">
+
+                            @Html.TextBox("Captcha", null, new { id = "Captcha-Input-r", style = "width:100px" })
+
+
+                        </div>
+                    </div>
+                }*@
+            <div class="feededitor">
+                <button type="submit" class="main-btn-dark" style="float:right;">
+                    <span class="">Отправить</span>
+
+
+                </button>
+
+                <input type="button" class="default-btn md-close d-block d-sm-none" value="Закрыть">
+            </div>
+        </div>
+        <p id="fail"></p>
+    </form>
+
+</div>
+<div class="feed-loader"><img src="@Url.Content("~/Content/ajax-loaders/feed-load.gif")" /></div>
+
+
+
+
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

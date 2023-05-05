@@ -1,0 +1,37 @@
+﻿@model  _2fpro.ViewModel.CategoryViewModel   
+
+
+<div class="product-view k-widget">
+    <dl>
+
+
+        <dd>Название категории каталога</dd>
+        <dd>
+
+            @(Html.TextAreaFor(p => p.CategoryName, new { style = "width:350px;height:50px;" }))
+            <!-- ProductName validation message placeholder -->
+            <span data-for="CategoryName" class="k-invalid-msg"></span>
+        </dd>
+        <dd>Описание</dd>
+        <dd>
+            @(Html.TextAreaFor(p => p.CatDescription, new { style = "width:350px;height:150px;" }))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="CatDescription" class="k-invalid-msg"></span>
+        </dd>
+        @*<dd>Сортировка</dd>
+        <dd>
+            @(Html.EditorFor(p => p.Sequance, new { min = "0" }))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="CatDescription" class="k-invalid-msg"></span>
+        </dd>
+        <dd>Тип</dd>
+        <dd>
+            @(Html.DropDownListFor(p => p.CatType, (List<SelectListItem>)ViewBag.Types))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="CatDescription" class="k-invalid-msg"></span>
+        </dd>*@
+
+
+    </dl>
+
+</div>

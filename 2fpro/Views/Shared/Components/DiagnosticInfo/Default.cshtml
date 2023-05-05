@@ -1,0 +1,112 @@
+﻿@model IEnumerable<_2fpro.Models.Diagnostic>
+@inject _2fpro.Service.Repository.IDiagnosticService _diag
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{ 
+ 
+
+}
+@if (User.IsInRole("Admin")&& !Context.Request.IsMobileBrowser())
+{
+    int counter = 0;
+    List<Diagnostic> locs = new List<Diagnostic>(); // location + location count
+    foreach (var item1 in Model)
+    {
+        if (!locs.Any(x => x.Location == item1.Location))
+        {
+            locs.Add(new Diagnostic { Location = item1.Location, UsersOnlineStatus = Model.Where(x => x.Location == item1.Location).Count() });
+        }
+    }
+
+    <div class="diag-wrapper">
+        <div class="diag-toggled"><i class="fa fa-angle-double-right"></i></div>
+        <div class="diag-wrapper1">
+            <div class="diag-header">
+               
+                <div class="diag-header_row"> 
+                <span style="float:left;"><img src="/Images/mlogo1.png" /></span>
+                <span class="diag-title"> Режим реального времени</span>
+               
+                <a class="diag-close">
+                      <i class="fa fa-angle-double-right"></i>
+                  
+                </a>
+            </div>
+              
+               
+            <div class="diag-header_btns" id="getusers_list"><span>История за день</span><span></span></div>
+            </div>
+            <div class="container">
+
+                <div class="diag-content">
+                    <div class="diag-leftside">
+                        <div id="diag-online-count">
+
+                            <span class="diag-online-title">Онлайн: </span>
+                            <span class="diag-online-value diag-integ-val">@Model.Count()</span>
+                            <span>Всего за день: </span>
+                            <span class="diag-integ-val">@ViewData["dcount"]</span>
+                            <span>нед. </span>
+                            <span class="diag-integ-val">@ViewData["wcount"]</span>
+                            <span>мес. </span>
+                            <span class="diag-integ-val">@ViewData["mcount"]</span>
+                        </div>
+
+                        <div>
+                            <h4>События</h4>
+                            <div class="diag-receiver">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="diag-rightside">
+                        <div class="diag-location">
+                            <h4>Геолокация</h4>
+                            @foreach (var item in locs)
+                            {
+
+                                <div class="geoloc_item" data-loc="@item.Location">
+                                    <span class="diag-receiver__text">@item.Location</span>&nbsp;-
+                                    <span class="diag-receiver__val"> @item.UsersOnlineStatus</span>
+
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="diag-users-wrap">
+                        <h4>Посетители</h4>
+                        <div class="diag-users">
+
+                            <div class="diag-users-list widget-users">
+                                @foreach (var item in Model)
+                                {
+                                    var username = item.CustomStringField.Length > 15 ? item.CustomStringField.Substring(0, 15) + ".." : item.CustomStringField;
+
+                                    var resultName = item.CustomStringField.Length > 30 ? "Anonym" : username;
+                                    <div class="diag-user diag_identity" data-username="@item.CustomStringField" data-timerid data-secount>
+                                        <span class="diag-user-name" title="@item.CustomStringField">@resultName</span>
+
+                                        <span class="diag-user-time">@item.CurrDateTime.ToLongTimeString()</span>
+                                        <span class="diag-user-timer"></span>
+                                        <span class="diag-details"><a class="diag-trigger-moreinfo"><span class=""> </span><i class="fa fa-globe"></i></a></span>
+                                    </div>
+
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                @*<div class="diag-foot">
+                    <button class="default-btn " id="stream_btn">удалить историю</button><button class="default-btn " id="conn_stop">отключиться</button>
+                </div>*@
+            </div>
+        </div>
+    </div>
+}
+<script src="~/lib/signalr/jquery.signalR.min.js"></script>
+<script src="~/js/xn-realtime.js"></script>
+

@@ -1,0 +1,456 @@
+﻿@model IEnumerable<_2fpro.ViewModel.ProductViewModel>
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .grid-placeholder {
+        width: 300px;
+        padding: 5px;
+        margin: 0;
+    }
+
+    tr[role="row"] {
+        cursor: move;
+    }
+
+    .placeholder {
+        border: 1px dashed #ccc;
+        color: #333;
+    }
+
+    .hint {
+        opacity: 0.4;
+    }
+</style>
+<script>
+    //$(window).load(function () {
+    //    $('#excelImport').next().text("Выбрать файл Excel/Xml")
+    //});
+    // $('#grid').delegate('.preview', 'click', function () { alert('s'); });
+    function hint(element) {
+        var row = element.clone().addClass("placeholder");
+        var table = $('<table class="admTable stripedMe" ></table>');
+        table.append(row);
+        //$('#tar').html(table);
+        return table;
+    }
+
+    //var noHint = $.noop;
+    var arr1 = [],
+        itemData = {};
+
+    function placeholder(element) {
+        //return $('<div class="grid-placeholder" />').addClass("placeholder").append('<p>Поместить сюда</p>');
+        //return $('<tr />').addClass("placeholder").append('<td colspan="6">Поместить сюда</td></tr>');
+        return element.clone().addClass("placeholder");
+    }
+
+    function onStart(e) {
+        var id = e.sender.element.attr("id");
+        console.log(id + " start: " + e.item.text());
+    }
+
+    function onMove(e) {
+        var id = e.sender.element.attr("id"),
+            text = e.item.attr('data-sort'),
+            placeholder = e.list.placeholder;
+
+        console.log(text + " " + id + " move to index: " + this.indexOf(placeholder));
+    }
+
+    function onEnd(e) {
+        var reloadGrid = e.sender.element;
+
+        var isDetails = e.sender.element.attr('class') == 'k-grid k-widget k-display-block k-editable';
+        var sortlist = isDetails ? $('.xn-sort').children('.xn-sortitem') : $('.xn-sort1').children('.xn-sortitem');
+
+        var id = e.sender.element.attr("data-id"),
+            text = e.item.find('>div').text(),
+            // = e.sender.element.find('.xn-sort').children('.xn-sortitem'),// xn-sort = tbody-контейнер для сортирвки ||||||||   xn-sortitem - <tr>
+            oldIndex = e.oldIndex,
+            newIndex = e.newIndex;
+        if (oldIndex > newIndex) {
+            for (var i = newIndex; i <= oldIndex; i++) {
+                var sortitem, sortitem1;
+                if (oldIndex == i) {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(newIndex);
+                }
+                else {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(i + 1);
+                }
+                console.log('id - ' + sortitem.data('id') + ', sort - ' + sortitem1.data('sort') + 'old - ' + oldIndex + ', new - ' + newIndex);
+                console.log(arr1.length);
+                arr1.push({ id: sortitem.data('id'), sort: sortitem1.data('sort') });
+
+            }
+            $.post('/Product/EditProdSort', { jsonData: JSON.stringify(arr1) }, function () {
+                reloadGrid.data('kendoGrid').dataSource.read();
+
+            });
+        }
+        else if (oldIndex < newIndex) {
+
+            for (var i = newIndex; i >= oldIndex; i--) {
+                sortitem, sortitem1;
+                if (oldIndex == i) {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(newIndex);
+                }
+                else {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(i - 1);
+                }
+                console.log('id - ' + sortitem.data('id') + ', sort - ' + sortitem1.data('sort') + 'old - ' + oldIndex + ', new - ' + newIndex);
+                console.log(arr1.length);
+                arr1.push({ id: sortitem.data('id'), sort: sortitem1.data('sort') });
+
+            }
+            console.log('fire');
+            $.post('/Product/EditProdSort', { jsonData: JSON.stringify(arr1) }, function () {
+                reloadGrid.data('kendoGrid').dataSource.read();
+
+            });
+        }
+        else { }
+        //console.log(id + " end: " + text + " oldIndex: " + oldIndex + " newIndex: " + newIndex + " action: " + e.action);
+    }
+
+
+    function dataBound() {
+        console.log('data bound');
+
+        var dataSource = this.dataSource;
+        this.element.find('tr[data-uid]').each(function () {
+            var row = $(this);
+
+            var data = dataSource.getByUid(row.data('uid'));
+            row.closest('tbody').addClass('xn-sort');
+            row.addClass('xn-sortitem');
+            row.attr('data-sort', data.get('Sortindex'));
+            row.attr('data-id', data.get('ID'));
+
+            var prodVisibleCell = row.find("td:nth(2)");
+            var prodVisibleCell1 = row.find("td:nth(4)");
+            console.log(prodVisibleCell);
+            if (prodVisibleCell.text() == "true") prodVisibleCell.html('<i class="fas fa-minus-circle" style="color: #9c3333;"></i>');
+            else prodVisibleCell.html(' <i class="fas fa-check-circle" style="color:green;"></i>');
+            //if (prodVisibleCell1.text() == "false") prodVisibleCell1.html('<i class="fas fa-minus-circle" style="color: #9c3333;"></i>');
+            //else prodVisibleCell1.html(' <i class="fas fa-check-circle" style="color:green;"></i>');
+
+        });
+    }
+
+</script>
+
+
+<p>
+
+    @using (Html.BeginForm("Index", "ExcelData", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
+        <div class="file_field">
+            @Html.Kendo().Upload().Name("file").HtmlAttributes(new { id = "excelImport" })
+
+        </div>
+        <br />
+        <div class="file_field" style=" margin-left: 10px;">
+            <button class="k-button k-primary" type="submit">Загрузить данные</button>&nbsp;
+        </div>
+    }
+
+</p>
+@{
+    var isMob = Context.Request.IsMobileBrowser();
+    var windowW = isMob ? "0" : "1200";
+    var windowH = isMob ? "0" : "700";
+}
+
+@(Html.Kendo().Grid<_2fpro.ViewModel.ProductViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        //columns.Bound(e => e.ID).Width(100).Title("ID");
+       
+        columns.Bound(e => e).ClientTemplate("<div  style='position:relative'><img class='preview grid-img' src='${imgLink}' id='${ID}' width='20' /> </div>").Width(50).Title("Картинка");
+        columns.Bound(e => e.ProductName).Encoded(false).Width(100).HtmlAttributes(new { style = "" }).Title("Наименование");
+        columns.Bound(e => e.DoShow).Width(55).Title("Видимость");
+        //columns.Bound(e => e.ToYaMarket).Width(55).Title("В ЯМ");
+        // columns.Bound(e => e.Price).Width(100)/*.ClientTemplate("#:kendo.toString(Price, 'c0')#")*/.Title("Цена");
+
+        
+        if (!isMob)
+        {
+            columns.ForeignKey(p => p.CategoryID, (System.Collections.IEnumerable)ViewData["Catss"], "ID", "CategoryName")
+            .Title("Категория").HtmlAttributes(new {title="${CategoryName}" }).Width(130);
+        }
+        columns.Command(command =>
+        {
+            /*command.Custom("asd").HtmlAttributes(new { @class = "k-button k-button-icontext prod-image" }).Text("<i style='margin-left: -2px;position:relative' class='icon-picture'><input type='file' data-id='${ID}' name='file' class='prodimg' /></i>");*/
+            command.Custom("asd").HtmlAttributes(new { @class = "k-button k-button-icontext prod-image" }).Click("UploadWindow").Text("<i style='margin-left: -2px;position:relative' class='fa fa-image'></i>");
+            command.Edit().Text(" ");
+            command.Destroy().Text(" ");
+        }).Width(150);
+    })
+    .Filterable()
+    .ToolBar(toolbar =>
+    {
+        toolbar.Create().Text("Создать");
+        //toolbar.Custom().Text("Удалить все").HtmlAttributes(new { id = "delall", style = "float:right;" });
+        toolbar.Excel().HtmlAttributes(new { style = "float:right;" });
+    })
+    .Excel(excel => excel
+        .FileName("Kendo UI Grid Export.xlsx")
+        .Filterable(true)
+        .ProxyURL(Url.Action("Excel_Export_Save", "Grid"))
+        .AllPages(true)
+        )
+    .Editable(editable => { editable.Mode(GridEditMode.PopUp).Window(w => w.Width(int.Parse(windowW)).Height(int.Parse(windowH))); editable.DisplayDeleteConfirmation(false); })
+    .Pageable(pageable => pageable
+    .Refresh(true)
+    .PageSizes(true)
+    .ButtonCount(5))
+    .HtmlAttributes(new { style = "height:1000px;" })
+    .Sortable()
+
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+
+    .Ajax()
+
+    .PageSize(40)
+    .Model(model => { model.Id(p => p.ID); model.Field(p => p.ID).DefaultValue(16000000).Editable(false); model.Field(p => p.Fill); model.Field(p => p.Material); })
+
+    .Sort(x => x.Add("Sortindex").Ascending())
+    .Create(update => update.Action("Editing_Create", "Product"))
+    .Read(read => read.Action("Editing_Read", "Product"))
+    .Update(update => update.Action("Editing_Update", "Product"))
+    .Destroy(destroy => destroy.Action("Editing_Destroy", "Product"))
+
+
+    )
+    .Events(x => x.DataBound("dataBound").Save("save"))
+)
+
+
+@(Html.Kendo().Sortable()
+        .For("#grid")
+        .Filter("table > tbody > tr")
+        .HintHandler("hint")
+        .PlaceholderHandler("placeholder")
+        .ContainerSelector("#grid tbody")
+        .Events(events => events.End("onEnd").Start("onStart").Move("onMove"))
+)
+@(Html.Kendo().Window()
+        .Title("Загрузка фото")
+        .Name("prod-popup")
+        .Modal(false)
+        .Visible(false)
+        .Width(700)
+        .Height(700)
+        .Events(e => e.Close("pClose").Open("pOpen"))
+)
+
+@(Html.Kendo().Window().Name("CustomToolbarWnd")
+        .Title("Подтверждение")
+        .Visible(false)
+        .Modal(true)
+        .Draggable(true)
+        .Width(300)
+
+)
+
+<div id="u-popup"></div>
+<script>
+    var wnd, uploadTemplate;
+    $(function () {
+        wnd = $('#prod-popup').data("kendoWindow");
+        uploadTemplate = kendo.template($('#windowTemp').html());
+    });
+    function UploadWindow(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wnd.content(uploadTemplate(dataItem));
+        wnd.center().open();
+        var prodId = $('#photos').data('prodid');
+        $('.prod-images').load('/Admin/Product/GetProdImages?pid=' + prodId);
+    }
+    function pClose() { }
+    function save() {
+
+        setTimeout(function () { $('#grid').data('kendoGrid').dataSource.read();}, 500
+        );
+    }
+    function uploadComplete(e) {
+        // var check = $("<input type='radio' class='isMain' name='isMain' /><span>в превью</span>");
+        // check.insertAfter($('.k-filename'));
+        var prodId = $('#photos').data('prodid');
+        $('.prod-images').load('/Admin/Product/GetProdImages?pid=' + prodId).effect("highlight", {}, 2000);
+    }
+    function uploadSuccess(data) {
+
+    }
+    function delAllProds() {
+        $.post('/Admin/Product/DelAll', function () { $('#grid').data('kendoGrid').dataSource.read(); var wnd = $("#CustomToolbarWnd").data("kendoWindow"); wnd.close(); });
+    }
+    $(function () {
+        $(document).on('mouseover', '.preview', function (e) {
+
+            $("body").append("<p id='preview' style='top:200px'><span style='display:block;width:200px;'>" + $(this).attr('alt') + "</span><img class='prew-img'  style='display:none;max-width:400px;' src='" + $(this).attr('src') + "' alt='Image preview' /></p>");
+            $("#preview")
+                .css("top", (e.pageY + 50) + "px")
+                .css("left", (e.pageX + 50) + "px")
+                .fadeIn("fast");
+            $('.prew-loader').remove(); $('#preview img').fadeIn('slow');
+        });
+        $(document).on('mouseout', '.preview', function (e) {
+            $('#preview').remove();
+        });
+        $(document).on('click', '.preview-del', function () {
+            $row = $(this).closest("tr");
+            $id = $(this).data('pimgid');
+            $.post('/Admin/Product/DelPhoto?pimgid=' + $id, function () {
+                $row.remove();
+            });
+        });
+        $(document).on('click', '.preview-del-all', function () {
+            $row = $(this).closest("tr");
+            $id = $(this).data('pimgid');
+            $.post('/Admin/Product/DelPhoto?pimgid=' + $id, function () {
+                $row.remove();
+            });
+        });
+        $(document).on('change', 'input[name="previewImg"]', function () {
+            $row = $(this).closest("tr");
+            $id = $(this).data('pimgid');
+            $table = $(this).closest('table');
+            $.post('/Admin/Product/SetPreview?pimgid=' + $id, function (data) {
+                $table.find("span").removeClass('preview-text').empty();
+                $row.find("span").addClass('preview-text').text("превью");
+
+                $('#' + data.pid).attr('src', data.src);
+                $('#' + data.pid).effect("bounce", {}, 2000);
+            });
+        });
+        $(document).on('click', '#delall', function () {
+            var wnd = $("#CustomToolbarWnd").data("kendoWindow");
+
+            wnd.content("<p>Удалить все ?</p><button class='k-button' onclick='delAllProds();'>Подтвердить</button>");
+            wnd.center().open();
+        });
+        @if (!Context.Request.IsLocalPath()) {
+            @:$('.k-grid-Удалитьвсе').hide();
+                }
+
+        });
+</script>
+<style>
+    .ui-effects-wrapper {
+        width: 100% !important;
+    }
+</style>
+<script type="text/x-kendo-tmpl" id="windowTemp">
+    <div style="width:100%">
+        <input name="photos" id="photos" type="file" data-prodid="${ID}" />
+
+        <div class="prod-images">
+
+        </div>
+    </div>
+    <br />
+</script>
+
+<script>
+
+    function pOpen() {
+        var prodId = $('#photos').data('prodid');
+        $("#photos").kendoUpload({
+            complete: uploadComplete,
+            success: uploadSuccess,
+            localization: { "cancel": "Отмена", "dropFilesHere": "перетащите сюда файлы для загрузки", "remove": "Удалить", "retry": "Повторить", "select": "Выбрать...", "statusFailed": "неудачно", "statusUploaded": "загружено", "statusUploading": "загружается", "uploadSelectedFiles": "Загрузить файлы" },
+            async: {
+                saveUrl: "/Admin/Product/UploadProdImages?pid=" + prodId,
+                autoUpload: true,
+                removeUrl: "/Admin/Product/RemovePhoto"
+            }
+        });
+    }
+
+</script>
+
+
+
+
+
+<style scoped>
+    .k-edit-form-container {
+        width: auto;
+    }
+
+    #grid {
+        margin-top: 50px;
+    }
+
+    .k-button {
+        min-width: 30px !important;
+    }
+
+    .product-view {
+        float: left;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .product-view input[type="text"], textarea {
+            width: 500px;
+        }
+
+        .product-view textarea {
+            height: 130px !important;
+        }
+
+        .product-view dl {
+            margin: 10px 0;
+            padding: 0;
+            min-width: 0;
+        }
+
+        .product-view dt, dd {
+            float: left;
+            margin: 0;
+            padding: 3px;
+            line-height: 26px;
+        }
+
+        .product-view dt {
+            clear: left;
+            padding: 3px 5px 3px 0;
+            text-align: right;
+            opacity: 0.6;
+            width: 100px;
+        }
+
+    .k-grid tbody tr {
+        height: 50px;
+    }
+
+    .k-grid td {
+        white-space: nowrap;
+    }
+</style>
+
+<style>
+    .k-file {
+    }
+
+    .k-upload-files {
+        overflow: hidden;
+    }
+</style>

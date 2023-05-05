@@ -1,0 +1,64 @@
+﻿@model _2fpro.Models.Gallery
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+
+    $(document).on('click','#gal-cre', function () {
+        $this = $(this);
+        if ($('input[type="file"]').next().is(":empty")) {
+            $('input[type="file"]').closest("div").css({ border: "1px solid red" });
+            $('form').attr("onsubmit", "return false;");
+        }
+        else { $('form').attr("onsubmit", " ");
+        }
+    });
+
+
+
+</script>
+
+@using (Html.BeginForm("Create", "PhotoGallery", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Создание галлереи</legend>
+
+        <div class="editor-label">
+            Название
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.GalleryTitle)
+            @Html.ValidationMessageFor(model => model.GalleryTitle)
+        </div>
+        <br />
+
+
+        <div class="editor-field">
+            Загрузить файл
+            <p></p>
+            <div class="file_field">
+                @Html.Kendo().Upload().Name("file")
+
+            </div>
+
+
+        </div>
+
+        <br />
+        <p>
+            <button class="k-button k-primary" type="submit">Создать</button>&nbsp;
+        </p>
+    </fieldset>
+}
+
+
+<div>
+
+    <a class="k-button" type="button" href="@Url.Action("Index", "PhotoGallery")">Отмена</a>
+
+</div>
+

@@ -1,0 +1,139 @@
+﻿@model _2fpro.Models.Config
+@removeTagHelper "*, Microsoft.AspNet.Mvc.Razor"
+@removeTagHelper "*, Microsoft.AspNetCore.Mvc.Razor"
+@{
+    ViewBag.Title = "Change";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    Model.Robots = System.Net.WebUtility.HtmlDecode(Model.Robots);
+    Model.OfflineMessage = System.Net.WebUtility.HtmlDecode(Model.OfflineMessage);
+    //Model.Robots=System.Web.HttpUtility.HtmlDecode(Model.Robots);
+    //Model.OfflineMessage = System.Web.HttpUtility.HtmlDecode(Model.OfflineMessage);
+}
+
+@if (!Context.Request.IsMobileBrowser()) {
+<style>
+    input[type="text"], textarea {
+        width: 442px;
+    }
+</style>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+<fieldset>
+    <legend>Настройки</legend>
+
+    @Html.HiddenFor(model => model.ConfigID)
+
+    <div class="form-group">
+        <label> @Html.LabelFor(model => model.SiteName)</label>
+        @Html.TextBoxFor(model => model.SiteName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.SiteName)
+    </div>
+
+    <div class="form-group">
+        <label> @Html.LabelFor(model => model.SiteAddress)</label>
+        @Html.TextBoxFor(model => model.SiteAddress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.SiteAddress)
+    </div>
+
+    <div class="form-group">
+        <label> @Html.LabelFor(model => model.Description)</label>
+        @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Description)
+    </div>
+
+    <div class="form-group">
+        <label> @Html.LabelFor(model => model.Keywords)</label>
+        @Html.TextAreaFor(model => model.Keywords, new {@class="form-control" })
+        @Html.ValidationMessageFor(model => model.Keywords)
+    </div>
+
+    <div class="form-group">
+        <label> @Html.LabelFor(model => model.Email)</label>
+        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Email)
+    </div>
+
+    <div class="form-group">
+        <label> @Html.LabelFor(model => model.Robots)</label>
+        @(Html.Kendo().Editor()
+            .Name("Robots")
+
+            .HtmlAttributes(new { style = "width: 100%;" })
+            .Resizable(resizable => resizable.Content(true))
+            .Tools(tools => tools
+                .Clear()
+                .Bold().Italic().Underline().Strikethrough()
+                .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                .InsertUnorderedList().InsertOrderedList()
+                .Outdent().Indent()
+                .CreateLink().Unlink()
+                .InsertImage()
+                .InsertFile()
+                .SubScript()
+                .SuperScript()
+                .TableEditing()
+                .ViewHtml()
+                .Formatting()
+                .CleanFormatting()
+                .FontName()
+                .FontSize()
+                .ForeColor().BackColor()
+                .Print()
+            ))
+        @Html.ValidationMessageFor(model => model.Robots)
+    </div>
+
+    <div class="form-group">
+       
+        @Html.EditorFor(model => model.SelectedIsOnlineID)
+
+    </div>
+
+    <div class="form-group">
+        <label> @Html.LabelFor(model => model.OfflineMessage)</label>
+        @(Html.Kendo().Editor()
+            .Name("OfflineMessage")
+            .HtmlAttributes(new { style = "width: 100%;height:440px" })
+            .Resizable(resizable => resizable.Content(true))
+            .Tools(tools => tools
+                .Clear()
+                .Bold().Italic().Underline().Strikethrough()
+                .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                .InsertUnorderedList().InsertOrderedList()
+                .Outdent().Indent()
+                .CreateLink().Unlink()
+                .InsertImage()
+                .InsertFile()
+                .SubScript()
+                .SuperScript()
+                .TableEditing()
+                .ViewHtml()
+                .Formatting()
+                .CleanFormatting()
+                .FontName()
+                .FontSize()
+                .ForeColor().BackColor()
+                .Print()
+            ))
+
+    </div>
+
+    <p>
+        <button class="k-button k-primary" type="submit">Сохранить</button>
+    </p>
+</fieldset>
+}
+<script>
+    var data = $('#OfflineMessage').data('kendoEditor'); data.trigger('select');
+    var data1 = $('#Robots').data('kendoEditor'); data1.trigger('select');
+</script>
+<div>
+    <a href="/Admin" class="k-button">Отмена</a>
+</div>
+
+ 
+

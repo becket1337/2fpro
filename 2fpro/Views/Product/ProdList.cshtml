@@ -1,0 +1,58 @@
+﻿@model _2fpro.Models.Category
+
+
+@inject _2fpro.Service.Interface.IProductRepository pRep
+@inject _2fpro.Service.Interface.ICategoryRepository cRep
+@{
+    var cats = await cRep.GetAsync();
+    ViewBag.Title = ViewBag.Titlee;
+    Layout = "~/Views/Shared/_PageMenuLayout.cshtml";
+
+}
+<div class="container">
+
+    <div class="page-lay-wrap">
+
+        <h1>@Model.CategoryName</h1>
+
+        <section id="tag-list">
+            <div class="tl-wrap">
+                <div class="container">
+                    <div class="tl-wrap-inner">
+                        <div class="row">
+
+                            <h2>Технические решения</h2>
+                            <div class="slogan">Мы разрабатываем современные средства комплексных решений огнезащиты</div>
+                            @foreach (var item in Model.Products.Where(x => !x.DoShow))
+                            {
+                                //var IsCurrentPage = Context.Request.Query["catid"] == item.ID ? "selected-cat" : "";
+                                //var linkParams = (new Dictionary<string, string> { { "catid", item.ID.ToString() }, { "catname", item.CategoryName.Unidecode() }, { "page", "1" } });
+
+                                <div class="tl-item col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-6 box">
+                                    <a class="tl-main-link" href="@Url.Action("Details", "Product", new { id = item.ID,title=item.GenerateSlug() })">
+                                        <div class="tl-img-wrap">
+                                            <div class="tl-imgcont">
+                                                <img id="mpic_@item.ID" data-id="@item.ProdImages.SingleOrDefault(x => x.IsPreview == 1).ID" src="@Url.Content("~/Content/Files/Product/" + item.ID + "/height500/" + item.ProdImages.Where(x => x.IsPreview == 1).SingleOrDefault().ImageMimeType)" />
+                                            </div>
+                                        </div>
+
+                                    </a>
+                                    <div class="tl-title-wrap">
+                                        <h4><a href="@Url.Action("Details", "Product", new { id = item.ID,title=item.GenerateSlug() })">@item.ProductName</a></h4>
+                                    </div>
+
+                                </div>
+
+                            }
+                            <div class="tl-btn">
+                                <a class="main-btn" href="/Catalog">Каталог</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>

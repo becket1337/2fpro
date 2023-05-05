@@ -1,0 +1,94 @@
+﻿@model IEnumerable<_2fpro.Models.Portfolio>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<link rel="stylesheet" href="~/css/swiper-slider.css" asp-append-version="true" />
+
+<script>
+    $(function () {
+        var galleryThumbs = new Swiper('.gallery-thumbs', {
+            spaceBetween: 0,
+            slidesPerView: 4,
+            freeMode: true,
+            watchSlidesVisibility: true,
+            watchSlidesProgress: true,
+        });
+        var swiper = new Swiper('.swiper-video-container', {
+            effect: 'fade',
+            autoplay: {
+                delay: 7000,
+                disableOnInteraction: false,
+            },
+            thumbs: {
+                swiper: galleryThumbs
+            }
+        });
+    });
+
+
+</script>
+
+<div class="swiper-container swiper-video-container">
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+        <!-- Slides -->
+        @foreach (var item in Model)
+        {
+        <div class="swiper-slide">
+            <div>
+                @if (string.IsNullOrWhiteSpace(item.VideoLink))
+                {
+                    <div class="ms-banner">
+                        <div></div>
+                        <img src="@Url.Content("~/Content/Files/Slider/" + item.ID + "/" + item.ImageMimeType)" />
+                    </div>
+                }
+                else
+                {
+                    <video autoplay muted loop>
+                        <source src="@item.VideoLink" type="video/mp4">
+                    </video>
+                }
+                <div class="slider-text">
+                    <div class="container">
+                        <div class="row">
+                            <div>
+                                <h2 class="st-title">
+                                    @item.Title
+                                </h2>
+                                <div class="st-des">@item.Description</div>
+                                <div class="st-btn">
+                                    <a class="main-btn-l" href="@item.ProdLink">Подробнее</a>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        }
+     
+    </div>
+</div>
+
+<div class="swiper-container gallery-thumbs d-none d-lg-block" >
+    <div class="swiper-wrapper">
+        @{ var str = 0;}
+        @foreach (var item in Model)
+                {
+                    str++;
+            <div class="swiper-slide">
+                <div class="gt-counter">@("0"+str)</div>
+                <div  class="gt-img-wrap">
+                    <img src="@Url.Content("~/Content/Files/Slider/" + item.ID + "/small/" + item.ImageMimeType)" width="200">
+                </div>
+                
+                <div class="thumbs-transition"></div>
+            </div>
+        }
+
+        
+    </div>
+</div>

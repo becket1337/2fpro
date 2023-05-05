@@ -1,0 +1,32 @@
+﻿@if (Context.Request.IsMobileBrowser())
+{<a class="neutral" asp-controller="Checkout" asp-action="Index" asp-route-step="1">
+    <div class="pbasket header-feedback">
+        <div class="forg-btn">
+            <div id="basket-img">
+
+                <span><i class="fas fa-shopping-basket"></i></span>
+                <div id="cart__summary"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+</a>
+}
+else
+{ <a class="cartbtn-topblock neutral" asp-controller="Checkout" asp-action="Index" asp-route-step="1">
+        <div class="pbasket header-feedback">
+            <div class="forg-btn">
+                <div id="basket-img">
+
+                    <span>Корзина</span> <span><i class="fas fa-shopping-basket"></i></span>
+                    <div id="cart__summary"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </a>
+}

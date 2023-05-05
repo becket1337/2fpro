@@ -1,0 +1,152 @@
+﻿@model _2fpro.ViewModel.MenuViewModel
+
+
+
+@{
+    SelectList seletlist = ViewBag.ParentIdList;
+    var select1 = Model!=null?new SelectList(seletlist.Where(x=>x.Value!=Model.Id.ToString()).ToList(),
+                              "Value",
+                              "Text") : seletlist;
+   
+}
+
+<script type="text/javascript">
+    //$(function () { $('input[name="SortOrder"]').attr('type', 'number'); });
+</script>
+<style>
+    input[type="text"] {
+        width: 100%;
+    }
+
+    h3 {
+        font-weight: bold;
+        font-family: arial;
+    }
+</style>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.Hidden("LastModifiedDate", DateTime.Now.ToLongDateString())
+    
+<fieldset>
+
+    <div class="menu-options">
+        <h3>Настройка раздела</h3>
+        <div class="form-group">
+            <label>Название</label>
+
+            <input asp-for="Text" class="form-control" />
+            <span data-for="Text" class="k-invalid-msg"></span>
+            @*@Html.TextBoxFor(model => model.Text)
+            @Html.ValidationMessageFor(model => model.Text)*@
+        </div>
+        <div class="form-group">
+            <label>Название в Url</label>
+            <input asp-for="Url" class="form-control" placeholder="пример - contacti или glavnaya" />
+            <span data-for="Url" class="k-invalid-msg"></span>
+            @*@Html.TextBoxFor(model => model.Url)
+            @Html.ValidationMessageFor(model => model.Url)*@
+        </div>
+        <div class="form-group">
+            <label>Описание</label>
+            <textarea asp-for="CustomField" class="form-control"  />
+            <span data-for="CustomField" class="k-invalid-msg"></span>
+            @*@Html.TextBoxFor(model => model.Url)
+            @Html.ValidationMessageFor(model => model.Url)*@
+        </div>
+        @*<div class="editor-label">
+            Сортировка
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.SortOrder, new { min = 1 })
+            @Html.ValidationMessageFor(model => model.SortOrder)
+        </div>*@
+
+    
+        <div class="form-group">
+            <label>Назначить подразделом</label>
+
+            <select asp-for="ParentId" asp-items="@select1" class="form-control"></select>
+
+            <span data-for="ParentId" class="k-invalid-msg"></span>
+        </div>
+
+    </div>
+        @*<div class="menu-seo">
+            <h3>Для SEO</h3>
+            <div class="form-group">
+                <label>Ключевые слова</label>
+                @Html.TextAreaFor(model => model.SeoKeywords, htmlAttributes: new { @class = "form-control" })
+                <span data-for="SeoKeywords" class="k-invalid-msg"></span>
+            </div>
+            <div class="form-group">
+                <label>Описание</label>
+                @Html.TextAreaFor(model => model.SeoDescription, htmlAttributes: new { @class = "form-control" })
+                <span data-for="SeoDescription" class="k-invalid-msg"></span>
+            </div>
+        </div>*@
+    <div class="form-group">
+        <label>Контент</label>
+        @(Html.Kendo().Editor()
+                  .Name("Body")
+                  .HtmlAttributes(new { style = "width: 100%;" })
+                  .Resizable(resizable => resizable.Content(true))
+                  .Tools(tools => tools
+                      .Clear()
+                      .Bold().Italic().Underline().Strikethrough()
+                      .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                      .InsertUnorderedList().InsertOrderedList()
+                      .Outdent().Indent()
+                      .CreateLink().Unlink()
+                      .InsertImage()
+                      .InsertFile()
+                      .SubScript()
+                      .SuperScript()
+                      .TableEditing()
+                      .ViewHtml()
+                      .Formatting()
+                      .CleanFormatting()
+                      .FontName()
+                      .FontSize()
+                      .ForeColor().BackColor()
+                      .Print()
+                  ))
+
+    </div>
+
+
+</fieldset>
+}
+
+@(Html.Kendo().Notification()
+    .Name("notification")
+    .Position(x => x.Left(0))
+    .AutoHideAfter(10000)
+)
+@if (TempData["message"] != null)
+{
+    <script>
+
+        $(function () {
+
+            var notification = $("#notification").data("kendoNotification");
+            var type ="";
+            switch(@TempData["type"]){case 1:type="success";break;case 2:type="info";break;case 3:type="warning";break;default:type="error";};
+            notification.show(
+               '@TempData["message"]'
+                , type);
+           
+        });
+        $(window).on('ready', function () {
+            var data = $('#Body').data('kendoEditor'); data.trigger('select');
+        });
+        //$('.k-tool-group').each(function () {
+        //    if (!$(this).hasClass('k-state-default')) $(this).hide();
+        //})
+      
+    </script>
+}
+

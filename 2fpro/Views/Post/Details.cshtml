@@ -1,0 +1,35 @@
+﻿@model _2fpro.Models.Post
+
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_PageMenuLayout.cshtml";
+}
+<link rel="stylesheet" href="~/css/news-list.css" />
+<div class="page-wrapper">
+    <div class="container">
+        <div class=" page-lay-wrap ">
+            <div class="breadcrumb side-block">@Html.ActionLink("Главная", "Index", "Home") &nbsp;<i class="fas fa-chevron-right"></i>&nbsp; <a asp-controller="Post" asp-action="Reviews">Пресс-центр</a>&nbsp; </div>
+            <div id="post-list">
+
+                <h2 class="page-h-2">@Model.Title</h2>
+
+                <div class="post-date">
+                    @Model.CreatedAt.ToString("dd MMMM yyyy")
+                </div>
+
+                <div class="post-image w-100 mw-100 h-auto">
+                    <img src="@Url.Content("~/Content/Files/Post/"+Model.ID+"/"+Model.ImageMimeType)" alt="@Model.Title" />
+                </div>
+
+                @*<div class="post-prev">@Model.Preview</div>*@
+                <div id="post-content" class="clear-fix" style="clear:both;    margin-top: 50px;">
+
+                    @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Body))
+                </div>
+
+            <div class="post-bot-hr"><hr /></div>
+                <a class="main-btn lay-btn" asp-controller="Post" asp-action="Reviews">Назад</a>
+            </div>
+
+        </div>
+        </div></div>

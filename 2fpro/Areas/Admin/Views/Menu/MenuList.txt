@@ -1,0 +1,260 @@
+﻿@model _2fpro.ViewModel.MenuViewModel
+@{
+    ViewBag.Title = "MenuList";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@(Html.Kendo().Sortable()
+        .For("#img-cont")
+
+        .HintHandler("hint")
+        .PlaceholderHandler("placeholder")
+
+        .Events(events => events.End("onEnd").Start("onStart").Move("onMove"))
+)
+<script>
+
+    function hint(element) {
+        var row = element.clone();
+        var table = $('<table class="admTable stripedMe" ></table>');
+        table.append(row);
+        //$('#tar').html(table);
+        return table;
+    }
+    var arr = [],
+        itemData = {};
+
+    function placeholder(element) {
+        //return $('<tr />').addClass("placeholder").append('<td colspan="6">Поместить сюда</td></tr>');
+        return element.clone().addClass("placeholder");
+    }
+
+    function onStart(e) {
+        var id = e.sender.element.attr("id");
+        console.log(id + " start: " + e.item.text());
+    }
+
+    function onMove(e) {
+        var id = e.sender.element.attr("id"),
+            text = e.item.attr('data-sort'),
+            placeholder = e.list.placeholder;
+
+        console.log(text + " " + id + " move to index: " + this.indexOf(placeholder));
+    }
+
+    function onEnd(e) {
+        var id = e.sender.element.attr("data-id"),
+            text = e.item.find('>div').text(),
+            oldIndex = e.oldIndex,
+            newIndex = e.newIndex;
+        if (oldIndex > newIndex) {
+            for (var i = newIndex; i <= oldIndex; i++) {
+                var sortlist, sortitem, sortitem1;
+                if (oldIndex == i) {
+                    sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(newIndex);
+                }
+                else {
+                    sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(i + 1);
+                }
+                //console.log('id - '+sortitem.attr('id')+', sort - '+sortitem1.data('sort')+'old - '+oldIndex+', new - '+newIndex);
+                arr.push({ id: sortitem.attr('data-id'), sort: sortitem1.data('sort') });
+
+            }
+            $.post('/Menu/EditSort', { jsonData: JSON.stringify(arr) }, function () {
+
+            });
+        }
+        else if (oldIndex < newIndex) {
+
+            for (var i = newIndex; i >= oldIndex; i--) {
+                var sortlist, sortitem, sortitem1;
+                if (oldIndex == i) {
+                    sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(newIndex);
+                }
+                else {
+                    sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(i - 1);
+                }
+                //console.log('id - '+sortitem.attr('id')+', sort - '+sortitem1.data('sort')+'old - '+oldIndex+', new - '+newIndex);
+                arr.push({ id: sortitem.attr('data-id'), sort: sortitem1.data('sort') });
+
+            }
+            $.post('/Menu/EditSort', { jsonData: JSON.stringify(arr) }, function () {
+
+            });
+        }
+        else { }
+        //console.log(id + " end: " + text + " oldIndex: " + oldIndex + " newIndex: " + newIndex + " action: " + e.action);
+    }
+
+</script>
+<h2>Главное меню @(Model.ctype == 0 ? "1го уровня" : "2го уровня")</h2>
+<p style="display: inline-block;">
+    <a href="@Url.Action("Create", "Menu", new {type=Model.ctype })" class="k-button k-button-icontext"><span class="k-icon k-i-plus">&nbsp;</span>Создать</a>
+</p>
+
+@(Html.Kendo().Grid<_2fpro.ViewModel.CategoryViewModel>()
+                .Name("grid")
+
+                .Columns(columns =>
+                {
+                    columns.Bound(e => e.ID).Width(50).Title("ID");
+                    columns.Bound(e => e.CategoryName).Width(150).Title("Название");
+
+                    columns.Bound(e => e.CatDescription).Width(200).HtmlAttributes(new { style = "" }).Title("Описание");
+                    columns.Bound(e => e.CatType).Width(150).Title("тип");
+                    columns.Bound(e => e.Sortindex).Width(100).Title("Сортировка");
+                    columns.Command(command => { command.Edit().Text(" "); command.Destroy().Text(" "); }).Width(150);
+                })
+                .Filterable()
+                    .ToolBar(toolbar => toolbar.Create().Text("Создать"))
+                .Editable(editable => { editable.Mode(GridEditMode.PopUp); editable.DisplayDeleteConfirmation(false); })
+                .Pageable()
+                .Sortable()
+                .Scrollable()
+                .HtmlAttributes(new { style = "height:700px;" })
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .PageSize(20)
+                        .Model(model => { model.Id(p => p.ID); model.Field(p => p.ID).DefaultValue(16000000).Editable(false); })
+                    .Sort(x => x.Add("Sortindex").Ascending())
+                    .Create(update => update.Action("Editing_Create", "Category"))
+                    .Read(read => read.Action("Editing_Read", "Category"))
+                    .Update(update => update.Action("Editing_Update", "Category"))
+                    .Destroy(destroy => destroy.Action("Editing_Destroy", "Category"))
+                )
+
+)
+
+@(Html.Kendo().Sortable()
+                .For("#grid")
+                .Filter("table > tbody > tr")
+                .HintHandler("hint")
+                .PlaceholderHandler("placeholder")
+                .ContainerSelector("#grid tbody")
+                .Events(events => events.End("onEnd").Start("onStart").Move("onMove")))
+<style scoped>
+    .k-edit-form-container {
+        width: 550px;
+    }
+
+    #grid {
+        margin-top: 50px;
+    }
+
+    .k-button {
+        min-width: 30px !important;
+    }
+
+    .product-view {
+        float: left;
+        position: relative;
+        width: 550px;
+        margin: -1px -1px 0 0;
+    }
+
+        .product-view input[type="text"] {
+            width: 200px;
+        }
+
+        .product-view dl {
+            margin: 10px 0;
+            padding: 0;
+            min-width: 0;
+        }
+
+        .product-view dt, dd {
+            float: left;
+            margin: 0;
+            padding: 3px;
+            width: 360px;
+            line-height: 26px;
+            overflow: hidden;
+        }
+
+        .product-view dt {
+            clear: left;
+            padding: 3px 5px 3px 0;
+            text-align: right;
+            opacity: 0.6;
+            width: 100px;
+        }
+</style>
+@*<table class="admTable stripedMe" id="menulist">
+        <tr class="tdTitle" >
+
+            <th style="width:50px;">Id</th>
+            <th style="width: 350px;">
+                Название
+            </th>
+            <th style="width: 300px;">
+                Название в URL
+            </th>
+
+            <th>
+                Сортировка
+            </th>
+            <th style="width:100px;">
+                Категория
+            </th>
+            <th></th>
+        </tr>
+        <tbody id="img-cont" class="xn-sort">
+        @foreach (var item in Model.Menues)
+        {
+
+            <tr class="sort-item xn-sortitem" data-sort="@item.SortOrder" data-id="@item.Id">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Text)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Url)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.SortOrder)
+                </td>
+                <td>
+                    @(item.MenuSection != 0 ? "2-ый уровень" : "1-ой уровень")
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", "Menu", new {id=item.Id,page=Model.PagingInfo.CurrentPage })" title="Редактировать" class="k-button"><span class="k-icon k-i-pencil"></span></a>
+                    <a href="@Url.Action("Details", "Menu", new {id=item.Id,page=Model.PagingInfo.CurrentPage })" title="Детали" class="k-button"><i class="fa fa-file"></i></a>
+
+                    <a href="@Url.Action("Delete", "Menu", new {id=item.Id,page=Model.PagingInfo.CurrentPage })" title="Удалить" class="k-button"><span class="k-icon k-i-close"></span></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    </table>
+    <div class="pager">@Html.PageLinks(Model.PagingInfo, x => Url.Action("MenuList", new { page = x, type = Model.ctype }))</div>*@
+
+@(Html.Kendo().Notification()
+        .Name("notification")
+        .Position(x => x.Left(0))
+        .AutoHideAfter(10000)
+)
+@if (TempData["message"] != null)
+{
+    <script>
+
+        $(function () {
+
+            var notification = $("#notification").data("kendoNotification");
+            var type ="";
+            switch(@TempData["type"]){case 1:type="success";break;case 2:type="info";break;case 3:type="warning";break;default:type="error";};
+            notification.show(
+               '@TempData["message"]'
+            ,type);
+        });
+    </script>
+}

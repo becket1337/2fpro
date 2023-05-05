@@ -1,0 +1,43 @@
+﻿
+
+
+html {
+    height: 100%;
+    background-color: #F7F7F7;
+}
+
+.adm-wrapper {
+     position: initial;  
+     top: initial;  
+    background-color: #F7F7F7;
+    left: initial;
+    margin-top: initial;
+    margin-left: initial;
+    width: initial;
+    box-shadow: initial;
+    border-radius: 3px;
+    height: initial;
+}
+.adm-log-wrap {
+    margin: initial;
+    position: initial;
+    background: url(/Content/images/mlogo.png) center no-repeat;
+    height: 100px;
+    width: 100px;
+    margin: 0 auto;
+     padding-top: initial;  
+}
+.adm-logo {
+    text-align: center;
+    height: 50px;
+    padding: 0 30px;
+    border-bottom: 1px solid #D6D6D6;
+    font-size: 17px;
+}
+.adm-logo span {
+    text-transform: uppercase;
+    padding: 10px 0 0 0px;
+     display: initial; 
+    font: 18px robot-bold;
+    color: #3f51b5;
+}

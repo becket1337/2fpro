@@ -1,0 +1,122 @@
+﻿@model _2fpro.ViewModel.OrderViewModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = string.Format("{0}", Model.Order.Name);
+}
+
+<p class="breadcrumbs">@Html.ActionLink("заказы", "Index")  &rArr; @Model.Order.Name </p>
+
+<h3>@string.Format("{0}, {1}", Model.Order.CreatedAt, Model.Order.Name)</h3>
+<div class="order-details">
+    <dl>
+
+        <dt>Телефон: </dt>
+        <dd>@Model.Order.Phone</dd>
+        <dt>Адрес: </dt>
+        <dd>@Model.Order.Address</dd>
+        @*<dt>Страна: </dt>
+        <dd>@Model.Order.Country</dd>*@
+       
+        <dt>Почта: </dt>
+        <dd>@Model.Order.EmailAddress</dd>
+        <dt>Статус: </dt>
+        <dd id="orderS">@Model.Order.OrderStatus</dd>
+    </dl>
+<p>
+    @using (Html.BeginForm("ChangeStatus", "Order", FormMethod.Post))
+    {
+        @Html.Hidden("orderID", Model.Order.ID)
+
+
+
+        @Html.DropDownListFor(model => model.OrderStatus, Model.StatusList, new { style = "width:auto" })
+
+        <button class="k-button k-primary" type="submit"><span class="label">Сменить статус</span></button><span id="errS" style="color:red"></span>
+    }
+</p>
+        
+</div>
+<h2>Товары</h2>
+
+<table class="admTable order-table stripedMe">
+    <tr class="tdTitle">
+
+
+        <th>Наименование</th>
+        @if (!Context.IsMobileBrowser())
+        {
+        <th>Тип</th>
+
+        }
+        <th>Цена</th>
+        <th>Количество</th>
+        <th>Общая стоимость</th>
+    </tr>
+    @foreach (var item in Model.Order.OrderItems)
+    {
+    <tr>
+
+        <td>@item.ProductName</td>
+        @if (!Context.IsMobileBrowser()) { 
+
+        <td>@item.Category</td>
+       
+        }
+        <td>@item.Price.ToString("N0") руб (-@item.Discount%)</td>
+        <td>@item.Quantity</td>
+        <td>
+            @((item.LastPrice * item.Quantity).ToString("N0")) руб <br />
+        </td>
+
+    </tr>
+    }
+    <tr>
+        @if (!Context.IsMobileBrowser())
+        {
+        <td>&nbsp;</td>
+        
+        }
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+
+        <td style="padding:15px;">Итого:</td>
+        <td style="padding:15px;">@Model.Order.OrderSum.ToString("N0") руб</td>
+    </tr>
+
+</table>
+<script>
+    $(document).ready(function () {
+        $('form').submit(function (e) {
+            e.preventDefault();
+            var jsonData = {
+                orderid: @Model.Order.ID,
+                orderstatus:$('#OrderStatus').val()
+            };
+            $.ajax({
+                url: '@Url.Action("ChangeStatus")',
+                type: 'POST',
+                data: JSON.stringify(jsonData),
+               
+                contentType: 'application/json;charset=utf-8',
+                success: function (data) {
+                    $('#orderS').empty().text(data.Name+", "+data.Seq );
+                },
+                error:function() {alert('fail');}
+
+            });
+        });
+    });
+</script>
+
+
+<style>
+    table{
+        table-layout:fixed;
+
+    }
+    .tdTitle th {
+       
+        word-break: break-word;
+    }
+</style>

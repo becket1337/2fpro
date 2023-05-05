@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@model _2fpro.ViewModel.AdminManageViewModel
+@inject IDistributedCache _cache
+@{ 
+    var yaBot = await _cache.GetStringAsync("yandex");
+    var gooBot = await _cache.GetStringAsync("google");
+    var yaDate = yaBot != null ? await _cache.GetStringAsync("yandex") : "";
+    var gooDate = gooBot != null ? await _cache.GetStringAsync("google") : "";
+
+    var rnd = new Random().Next(100, 1000);
+}
+
+<h2>Главная панель </h2>
+@(Html.Kendo().Notification()
+                    .Name("siteinfo_1")
+                        .AppendTo(".adm-notify-box3")
+                    .HideOnClick(false)
+                    .AutoHideAfter(rnd * 1000)
+                    .Templates(x =>
+                    {
+                        x.Add().Type("info").ClientTemplateID("siteinfo1");
+                    })
+)
+@(Html.Kendo().Notification()
+                    .Name("siteinfo_3")
+                        .AppendTo(".adm-notify-box4")
+                   .HideOnClick(false)
+                    .AutoHideAfter(rnd * 1000)
+                    .Templates(x =>
+                    {
+                        x.Add().Type("info").ClientTemplateID("siteinfo1");
+                    })
+)
+@(Html.Kendo().Notification()
+                    .Name("siteinfo_2")
+                    .AppendTo(".adm-notify-box5")
+                    .HideOnClick(false)
+                     .AutoHideAfter(rnd * 1000)
+                    .Templates(x =>
+                    {
+                        x.Add().Type("warning").ClientTemplateID("siteinfo2");
+
+                        //x.Add().Type("info").ClientTemplateID("siteinfo2");
+                        //x.Add().Type("info").ClientTemplateID("siteinfo3");
+                    })
+)
+<script type="text/x-kendo-template" id="siteinfo1">
+    <div class="main-info">
+        <h3> #= title #</h3>
+        <p>#= message #</p>
+    </div>
+</script>
+@*<script type="text/x-kendo-template" id="siteinfo2">
+        <i class="icon-user"></i>&nbsp;
+        <h3>#= title #</h3>
+        <p>#= message #</p>
+
+    </script>*@
+<script type="text/x-kendo-template" id="siteinfo2">
+    <div class="main-info">
+        <h3><span><i class="icon-bar-chart"></i></span> #= title #</h3>
+        <ul>
+
+            <li>
+                <h4> Новости - @Model.posts.Count()</h4>
+                <div>
+
+                </div>
+            </li>
+            <li>
+                <h4>Продукция - @Model.prods.Count()</h4>
+                <div>
+
+                </div>
+            </li>
+            <li>
+                <h4> Категории - @Model.cats.Count()</h4>
+                <div>
+
+                </div>
+            </li>
+            <li>
+                <h4>Разделы меню - @Model.menus.Count()</h4>
+                <div>
+
+                </div>
+            </li>
+            <li>
+                <h4>Заказы - @Model.orders.Count()</h4>
+                <div>
+
+                </div>
+            </li>
+        </ul>
+
+        <div class="box1-content">
+            <a class="k-button" id="diagEvent" href="javascript:void(0);">Статистика посещений сайта</a>
+            @*<p>@if (Context.Request.IsLocalPath()) {<a class="k-button" href="/Admin/UploadFiles/ContentRemove" >удалить контент</a>}</p>*@
+        </div>  
+    </div>
+</script>
+<script>
+
+    $(function () {
+
+        var notification = $("#siteinfo_1").data("kendoNotification");
+
+        notification.show({
+
+            title:"<span><i class='icon-user'></i></span> Вы вошли как:",
+            message:"@ViewBag.regex"
+        }, "info");
+        var notification3 = $("#siteinfo_3").data("kendoNotification");
+        notification3.show({
+            title: "<span><i class='icon-unlock'></i></span> Дата начала работы сайта:",
+            message:"01.02.2019"
+        }, "info");
+        var notification2 = $("#siteinfo_2").data("kendoNotification");
+        notification2.show({title:'Статистика:'},'warning');
+        $('#diagEvent').bind('click', function (e) {
+            e.stopPropagation();
+            $('.diag-wrapper').find('.diag-wrapper1').fadeToggle();
+            $('.diag-toggled').hide();
+        });
+    });
+    
+</script>
+<div class="adm-notify-box3 adm-notify"></div>
+<div class="adm-notify-box4 adm-notify"></div>
+<div class="adm-notify-box5 adm-notify1"></div>
+<div class="adm-notify">
+    Дата появления поискового робота yandex - @yaDate  <br />
+    Дата появления поискового робота google - @gooDate
+
+</div>
+@(Html.Kendo().Notification()
+        .Name("notification")
+        .Position(x => x.Left(0))
+        .AutoHideAfter(10000)
+)
+@if (TempData["message"] != null)
+{
+    <script>
+
+        $(function () {
+
+            var notification = $("#notification").data("kendoNotification");
+            var type ="";
+            switch(@TempData["type"]){case 1:type="success";break;case 2:type="info";break;case 3:type="warning";break;default:type="error";};
+            notification.show(
+               '@TempData["message"]'
+            ,type);
+        });
+    </script>
+}

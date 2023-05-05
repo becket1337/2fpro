@@ -1,0 +1,79 @@
+﻿
+@model IEnumerable<_2fpro.Models.ApplicationUser>
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.EntityFramework;
+@{
+    ViewBag.Title = "GetUsers";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<h2>Пользователи</h2>
+@{
+    var ctx = new _2fpro.Models.ApplicationDbContext();
+    var userManager = new ApplicationUserManager(new UserStore<_2fpro.Models.ApplicationUser>(ctx));
+
+    var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(ctx));
+}
+<table class="admTable stripedMe">
+    <tr class="tdTitle">
+        <th>Идентификатор</th>
+        <th>
+            UserName
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Роли
+        </th>
+        <th style="width:50px;">
+            Социальные профили
+        </th>
+        <th>
+            Подтвержден
+        </th>
+        <th></th>
+        <th style="width:30px;"></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td title="@item.Id">
+                @item.Id.Substring(0, 7)...
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @string.Join(" , ", item.Roles.Select(x => roleManager.FindById(x.RoleId).Name))
+                @*@foreach (var role in item.Roles.Select(x => roleManager.FindById(x.RoleId)))
+                    {
+                        @: @role.Name &nbsp;
+                    }*@
+            </td>
+            <td>
+                @item.Logins.Count()
+            </td>
+            <td>
+                @if (userManager.IsEmailConfirmed(item.Id))
+                {
+                    <i class="fa fa-check-circle-o" style="color:green;"></i>
+                }
+                else
+                {
+                    <i class="fa fa-minus-circle" style="color: #9c3333;"></i>
+                }
+            </td>
+            <td>
+                <a href="#" title="Редактировать" class="k-button"><span class="k-icon k-i-pencil"></span></a>
+                <a href="#" title="Детали" class="k-button"><i class="fa fa-file"></i></a>
+                @if (item.Email != "admin@admin.ru")
+                {  <a href="@Url.Action("RemoveUser", new {email=item.Email })" title="Удалить" class="k-button"><span class="k-icon k-i-close"></span></a>}
+            </td>
+            <td>@if (item.Email == "admin@admin.ru")
+            {<i class="fa fa-lock"></i>}</td>
+        </tr>
+    }
+</table>

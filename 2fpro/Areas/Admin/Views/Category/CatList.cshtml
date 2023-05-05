@@ -1,0 +1,380 @@
+﻿@model IEnumerable<_2fpro.ViewModel.CategoryViewModel>
+
+@inject _2fpro.Service.Interface.ICategoryRepository pRep
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .grid-placeholder {
+        width: 300px;
+        padding: 5px;
+        margin: 0;
+    }
+
+    tr[role="row"] {
+        cursor: move;
+    }
+
+    .placeholder {
+        border: 1px dashed #ccc;
+        color: #333;
+    }
+
+    .hint {
+        opacity: 0.4;
+    }
+</style>
+<script>
+    function hint(element) {
+        var row = element.clone().addClass("placeholder");
+        var table = $('<table class="admTable stripedMe" ></table>');
+        table.append(row);
+        //$('#tar').html(table);
+        return table;
+    }
+
+    //var noHint = $.noop;
+    var arr = [],
+        itemData = {};
+
+    function placeholder(element) {
+        //return $('<div class="grid-placeholder" />').addClass("placeholder").append('<p>Поместить сюда</p>');
+        //return $('<tr />').addClass("placeholder").append('<td colspan="6">Поместить сюда</td></tr>');
+        return element.clone().addClass("placeholder");
+    }
+
+    function onStart(e) {
+        var id = e.sender.element.attr("id");
+        console.log(id + " start: " + e.item.text());
+    }
+
+    function onMove(e) {
+        var id = e.sender.element.attr("id"),
+            text = e.item.attr('data-sort'),
+            placeholder = e.list.placeholder;
+
+        console.log(text + " " + id + " move to index: " + this.indexOf(placeholder));
+    }
+
+    function onEnd(e) {
+        var reloadGrid = e.sender.element;
+
+        var isDetails = e.sender.element.attr('class') == 'k-grid k-widget k-display-block k-editable';
+        var sortlist = isDetails ? $('.xn-sort').children('.xn-sortitem') : $('.xn-sort1').children('.xn-sortitem');
+
+        var id = e.sender.element.attr("data-id"),
+            text = e.item.find('>div').text(),
+            // = e.sender.element.find('.xn-sort').children('.xn-sortitem'),// xn-sort = tbody-контейнер для сортирвки ||||||||   xn-sortitem - <tr>
+            oldIndex = e.oldIndex,
+            newIndex = e.newIndex;
+        if (oldIndex > newIndex) {
+            for (var i = newIndex; i <= oldIndex; i++) {
+                var sortitem, sortitem1;
+                if (oldIndex == i) {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(newIndex);
+                }
+                else {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(i + 1);
+                }
+                console.log('id - ' + sortitem.data('id') + ', sort - ' + sortitem1.data('sort') + 'old - ' + oldIndex + ', new - ' + newIndex);
+                arr.push({ id: sortitem.data('id'), sort: sortitem1.data('sort') });
+
+            }
+            console.log('fire');
+            $.post('/Category/EditSort', { jsonData: JSON.stringify(arr) }, function () {
+                reloadGrid.data('kendoGrid').dataSource.read();
+
+            });
+        }
+        else if (oldIndex < newIndex) {
+
+            for (var i = newIndex; i >= oldIndex; i--) {
+                sortitem, sortitem1;
+                if (oldIndex == i) {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(newIndex);
+                }
+                else {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(i - 1);
+                }
+                console.log('id - ' + sortitem.data('id') + ', sort - ' + sortitem1.data('sort') + 'old - ' + oldIndex + ', new - ' + newIndex);
+                arr.push({ id: sortitem.data('id'), sort: sortitem1.data('sort') });
+
+            }
+            $.post('/Category/EditSort', { jsonData: JSON.stringify(arr) }, function () {
+                reloadGrid.data('kendoGrid').dataSource.read();
+
+            });
+        }
+        else { }
+        //console.log(id + " end: " + text + " oldIndex: " + oldIndex + " newIndex: " + newIndex + " action: " + e.action);
+    }
+
+
+    function dataBound() {
+        console.log('data bound');
+
+        var dataSource = this.dataSource;
+        this.element.find('tr[data-uid]').each(function () {
+            var row = $(this);
+
+            var data = dataSource.getByUid(row.data('uid'));
+            row.closest('tbody').addClass('xn-sort');
+            row.addClass('xn-sortitem');
+            row.attr('data-sort', data.get('Sortindex'));
+            row.attr('data-id', data.get('ID'));
+
+            var prodVisibleCell = row.find("td:nth(3)");
+            console.log(prodVisibleCell);
+            if (prodVisibleCell.text() == "true") prodVisibleCell.html('<i class="fas fa-minus-circle" style="color: #9c3333;"></i>');
+            else prodVisibleCell.html(' <i class="fas fa-check-circle" style="color:green;"></i>');
+        });
+    }
+    function save() {
+        setTimeout(function () { $('#grid').data('kendoGrid').dataSource.read() }, 500
+        );
+    }
+
+
+
+</script>
+
+@{
+    var isMob = Context.Request.IsMobileBrowser();
+    var windowW = isMob ? "0" : "900";
+    var windowH = isMob ? "0" : "700";
+}
+
+@(Html.Kendo().Grid<_2fpro.ViewModel.CategoryViewModel>()
+                                    .Name("grid")
+
+                                    .Columns(columns =>
+                                    {
+                                        //if (!isMob)
+                                        //{
+                                        //    columns.ForeignKey(p => p.ParentCaregoryId, (System.Collections.IEnumerable)ViewBag.Cats, "ID", "CategoryName")
+                                        //   .Title("Категория").Width(100);
+                                        //}
+
+                                        //columns.Bound(e => e.ParentCategoryId).ClientTemplate("# if(ParentCategoryId==0)" +
+                                        //                "{# Модель#}else{# Категория#} #").Width(100);
+                                        columns.Bound(e => e).ClientTemplate("<div style='position:relative'><img class='preview grid-img' src='${imgLink}' id='${ID}'  width='20' /> </div>").Width(50).Title("Картинка");
+                                        columns.Bound(e => e.CategoryName).Width(150).Title("Название");
+                                        if (!isMob) columns.Bound(e => e.Prods).Width(100).Title("Кол-во изделий");
+                                        if (!isMob) columns.Bound(e => e.DoShow).Width(80).HtmlAttributes(new { style = "" }).Title("Видимость");
+
+                                        if (!isMob) columns.Bound(e => e.Sortindex).Width(80).Title("Сортировка");
+                                        columns.Command(command =>
+                                        {
+                                            command.Custom("asd").HtmlAttributes(new { @class = "k-button k-button-icontext prod-image" }).Click("UploadWindow").Text("<i style='margin-left: -2px;position:relative' class='fa fa-image'></i>");
+                                            command.Edit().Text(" ");
+                                            command.Destroy().Text(" ");
+
+                                        }).Width(150);
+                                    })
+                                    .Filterable()
+                                        .ToolBar(toolbar => { toolbar.Create().Text("Новая категория"); })
+                                    .Editable(editable => { editable.Mode(GridEditMode.PopUp); })
+                                    .Pageable(pageable => pageable
+                                    .Refresh(true)
+                                    .PageSizes(true)
+                                    .ButtonCount(5))
+                                    .Sortable()
+                                    .Scrollable()
+
+                                    .HtmlAttributes(new { style = "height:1000px;" })
+                                    .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .PageSize(40)
+                                            .Model(model => { model.Id(p => p.ID); model.Field(p => p.ID).DefaultValue(16000000).Editable(false); })
+                                        .Sort(x => x.Add("Sortindex").Ascending())
+                                        .Create(update => update.Action("Editing_Create", "Category"))
+                                        .Read(read => read.Action("Editing_ReadModel", "Category"))
+                                        .Update(update => update.Action("Editing_Update", "Category"))
+                                        .Destroy(destroy => destroy.Action("Editing_Destroy", "Category"))
+                                    )
+                                    .Events(x => x.DataBound("dataBound").Save("save"))
+)
+
+@(Html.Kendo().Sortable()
+                                    .For("#grid")
+                                    .Filter("table > tbody > tr")
+                                    .HintHandler("hint")
+                                    .PlaceholderHandler("placeholder")
+                                    .ContainerSelector("#grid tbody")
+                                    .Events(events => events.End("onEnd").Start("onStart").Move("onMove"))
+)
+
+@(Html.Kendo().Window()
+                        .Title("Загрузка фото")
+                        .Name("prod-popup")
+                        .Modal(false)
+                        .Visible(false)
+                        .Width(700)
+                        .Height(700)
+                        .Events(e => e.Close("pClose").Open("pOpen"))
+)
+@(Html.Kendo().Window()
+                        .Title("Новая категория")
+                        .Name("catOpenw")
+                        .Modal(false)
+                        .Visible(false)
+                        .Width(400)
+
+
+)
+<script>
+
+    var wnd, uploadTemplate, catwnd, catTemp;
+
+    $(function () {
+        wnd = $('#prod-popup').data("kendoWindow");
+        uploadTemplate = kendo.template($('#windowTemp').html());
+
+        catwnd = $('#catOpenw').data("kendoWindow");
+        catTemp = kendo.template($('#catOpen').html());
+    });
+    function UploadWindow(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wnd.content(uploadTemplate(dataItem));
+        wnd.center().open();
+        var prodId = $('#photos').data('prodid');
+        $('.prod-images').load('/Admin/Category/GetProdImages?pid=' + prodId);
+    }
+    function newCat() {
+        //e.preventDefault();
+
+        catwnd.content(catTemp);
+        catwnd.center().open();
+
+    }
+    function catCreate() {
+        var inp = $('#CategoryName').val();
+        if (inp)
+            $.post('/Admin/Category/NewCat?catname=' + inp, function () { console.log('success'); catwnd.close(); $('#grid').data('kendoGrid').dataSource.read(); });
+
+    }
+    function pClose() { }
+    function uploadComplete(e) {
+        // var check = $("<input type='radio' class='isMain' name='isMain' /><span>в превью</span>");
+        // check.insertAfter($('.k-filename'));
+        var prodId = $('#photos').data('prodid');
+
+        //$('.prod-images').load('/Admin/Category/GetProdImages?pid=' + prodId).effect("highlight", {}, 2000);
+        $.post('/Admin/Category/GetProdImages?pid=' + prodId, function (data) {
+            $('.prod-images').html(data);
+            var mime = $('.cat-curr-item').data('mime');
+            $('#' + prodId).attr('src', "/Content/Files/Category/" + prodId + "/height500/" + mime).effect("bounce", {}, 2000);
+            //$('#' + prodId).effect("bounce", {}, 2000);
+        }).effect("highlight", {}, 2000);
+
+    }
+    function uploadSuccess(data) {
+
+    }
+    $(function () {
+        $(document).on('click', '.preview-del', function () {
+            $row = $(this).closest("tr");
+            $id = $(this).data('pimgid');
+            $.post('/Admin/Category/DelPhoto?pimgid=' + $id, function () {
+                $row.remove();
+            });
+        });
+    });
+</script>
+<script type="text/x-kendo-tmpl" id="windowTemp">
+    <div style="width:100%">
+        <input name="photos" id="photos" type="file" data-mime="${ImageMimeType}" data-prodid="${ID}" />
+
+        <div class="prod-images">
+
+        </div>
+    </div>
+    <br />
+</script>
+<script type="text/x-kendo-tmpl" id="catOpen">
+    <div class="form-group">
+        <input name="CategoryName" class="form-control" id="CategoryName" type="text" />
+        <br />
+
+        <button onclick="catCreate();" class="k-button k-primary">Создать</button>
+    </div>
+    <br />
+</script>
+
+<script>
+
+    function pOpen() {
+        var prodId = $('#photos').data('prodid');
+        $("#photos").kendoUpload({
+            complete: uploadComplete,
+            success: uploadSuccess,
+            localization: { "cancel": "Отмена", "dropFilesHere": "перетащите сюда файлы для загрузки", "remove": "Удалить", "retry": "Повторить", "select": "Выбрать...", "statusFailed": "неудачно", "statusUploaded": "загружено", "statusUploading": "загружается", "uploadSelectedFiles": "Загрузить файлы" },
+            async: {
+                saveUrl: "/Admin/Category/UploadProdImages?pid=" + prodId,
+                autoUpload: true,
+                removeUrl: "/Admin/Category/RemovePhoto"
+            }
+        });
+    }
+
+</script>
+<style scoped>
+    .k-edit-form-container {
+        width: 550px;
+    }
+
+    #grid {
+        margin-top: 50px;
+    }
+
+    .k-button {
+        min-width: 30px !important;
+    }
+
+    .product-view {
+        float: left;
+        position: relative;
+        width: 550px;
+        margin: -1px -1px 0 0;
+    }
+
+        .product-view input[type="text"] {
+            width: 200px;
+        }
+
+        .product-view dl {
+            margin: 10px 0;
+            padding: 0;
+            min-width: 0;
+        }
+
+        .product-view dt, dd {
+            float: left;
+            margin: 0;
+            padding: 3px;
+            width: 360px;
+            line-height: 26px;
+            overflow: hidden;
+        }
+
+        .product-view dt {
+            clear: left;
+            padding: 3px 5px 3px 0;
+            text-align: right;
+            opacity: 0.6;
+            width: 100px;
+        }
+</style>
+
+

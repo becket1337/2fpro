@@ -1,0 +1,805 @@
+
+/*--------------------------*/
+/*   MODAL  DEFAULT  */
+/*--------------------------*/
+
+.md-perspective,
+.md-perspective body {
+    height: 100%;
+    overflow: hidden;
+}
+
+    .md-perspective body {
+        background: #222;
+        -webkit-perspective: 600px;
+        -moz-perspective: 600px;
+        perspective: 600px;
+    }
+
+.md-modal div {
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    border: 0 solid #000;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    font: 400 12px Open Sans,Roboto,Arial;
+    color: #262626;
+}
+.md-m_desc-title {
+    font-weight: bold !important;
+    padding-bottom: 10px !important;
+}
+.md-m_desc-wrap{
+
+}
+
+.md-modal {
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    border: 0 solid #000;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    background-color: rgba(0,0,0,.45);
+    bottom: 0;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 9999;
+    visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+.cbp-spmenu .tmenu li a:hover {
+    border: inherit;
+    color: #6251da;
+}
+.md-show {
+    visibility: visible !important;
+    overflow: auto;
+}
+
+.md-modal .md-wrapper {
+    height: 100%;
+    overflow: auto;
+    width: auto;
+    padding: 0 40px;
+    pointer-events: none;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+}
+
+.md-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    opacity: 0;
+    background: rgba(255, 255, 255, 0.498039);
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.md-modal .md-main {
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    border: 0 solid #000;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 999;
+    position: relative;
+}
+
+.md-show ~ .md-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+.md-finished {
+    visibility: visible !important;
+}
+/* Content styles */
+.md-modal .md-content {
+    margin: auto;
+    max-width: 935px;
+    pointer-events: auto;
+    width: 100%;
+    background-color: #fff;
+    visibility: hidden;
+}
+.md-loader img {
+    width: 80px;
+}
+.md-modal .modalh {
+    background: #ececec;
+    
+}
+
+.md-modal .mob-opts {
+}
+
+.md-modal .xn-h-w {
+    padding: 10px;
+}
+
+.md-modal #xn-i-main {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding:20px;
+}
+
+.md-modal .xn-i-wrap2 {
+    overflow: hidden;
+    padding: 30px 30px 0 0;
+}
+
+.md-cat .xn-i-wrap2 {
+    overflow: hidden;
+    width: 60%;
+    padding: 30px 10px 0 0;
+}
+
+.md-modal .md-mainarrs {
+    display: block;
+    margin-top: -20px;
+    pointer-events: auto;
+    position: absolute;
+    top: 50%;
+    font-size: 50px;
+    color: white;
+    height: 80px;
+    width: 40px;
+    cursor: pointer;
+}
+
+    .md-modal .md-mainarrs i {
+        color: #d3d3d3;
+    }
+
+        .md-modal .md-mainarrs i:hover {
+            color: white;
+        }
+
+        .md-modal .md-mainarrs i:before {
+            font-size: 40px;
+            margin: 0;
+        }
+
+.md-modal .md-loader {
+    position: absolute;
+    top: 200px;
+    left: 45%;
+}
+
+.md-modal .xn-i-mphoto img#xn-i-beforesend {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.md-modal .md-arrs-wrapper {
+    height: 100%;
+    margin: 0 auto;
+    max-width: 935px;
+    pointer-events: none;
+    width: 100%;
+}
+
+.md-modal .md-container {
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 0;
+}
+
+.md-modal .md-root {
+    bottom: 0;
+    left: 0;
+    margin: 0 auto;
+    padding: 40px;
+    pointer-events: none;
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+.md-modal .xn-i-button {
+    position: absolute;
+    right: 30px;
+    top: 50px;
+    width: 30%;
+    display: inline-block;
+    text-align: right;
+}
+
+div.md-close {
+    font-size: 27px;
+    position: absolute;
+    right: -50px;
+    top: -50px;
+    cursor: pointer;
+}
+
+.md-close:hover {
+    color: black;
+}
+
+.md-content h3 {
+    margin: 0;
+    font-size: 18px;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 18px;
+  
+    font-weight: 400;
+    color:black;
+}
+
+.modal-wrap {
+    zoom: 1;
+    font-size: 13px;
+}
+
+.md-content .submit-loader {
+    position: absolute;
+    bottom: 2px;
+    left: 45%;
+}
+
+.md-content label {
+    color: rgb(81, 81, 81);
+    opacity: 1;
+    line-height: 18px;
+}
+
+.md-content a {
+    cursor: pointer;
+}
+
+#md-fail {
+    font-size: 14px;
+    color: rgb(173, 20, 43);
+    padding-top: 0;
+    word-break: break-word;
+}
+
+    #md-fail i {
+        padding-right: 5px;
+    }
+
+.md-modal .xn-close-btn {
+    background: 0 0;
+    border: none;
+    cursor: pointer;
+    height: 36px;
+    outline: none;
+    overflow: hidden;
+    position: absolute;
+    right: 20px;
+    top: 0;
+    z-index: 2;
+}
+
+.md-modal .xn-i-sphoto {
+    display: block;
+}
+
+.md-modal .xn-i-wrap1 {
+    /*background-color: #ececec;*/
+}
+
+.md-modal .xn-i-mphoto {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 100%;
+    
+}
+
+.md-modal .xn-i-main {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.md-content .xn-inscreaser {
+    min-height: 250px;
+}
+
+.md-content > div {
+    margin: 0;
+    font-weight: 300;
+    font-size: 1em;
+}
+
+.modal-foot {
+    padding: 10px 0;
+}
+
+.md-content > div p {
+    margin: 0;
+    padding: 10px 0;
+}
+
+.md-content > div ul {
+    margin: 0;
+    padding: 0 0 30px 20px;
+}
+
+    .md-content > div ul li {
+        padding: 5px 0;
+    }
+
+.md-modal .i-info {
+    padding-right: 100px;
+}
+
+.md-modal .i-counter {
+    position: absolute;
+    top: 0;
+    right: 20px;
+}
+
+.md-modal .xn-i-opts {
+    display: block;
+}
+
+.md-content button {
+    /*display: block;*/
+    margin: 0 auto;
+}
+
+.desktop-h-button {
+    text-align: center;
+}
+
+.modalh *:not(textarea) {
+    -webkit-box-sizing: content-box !important;
+    -moz-box-sizing: content-box !important;
+    box-sizing: content-box !important;
+}
+
+.md-content input, button, textarea, label {
+    -webkit-box-sizing: border-box !important;
+    -moz-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+}
+/* Individual modal styles with animations/transitions */
+
+.mob-opts {
+}
+/*--------------------------*/
+/*   MODAL  CATALOG  */
+/*--------------------------*/
+
+.md-cat .xn-inscreaser {
+    box-shadow: 0 4px 2px -1px #dadada;
+}
+
+.md-cat .md-close {
+    font-size: 18px !important;
+    position: absolute;
+    right: 20px !important;
+    color: #000;
+    top: 15px;
+    z-index: 5;
+}
+
+    .md-cat .md-close:hover {
+        color: black !important;
+    }
+
+    .md-cat .md-close i:hover {
+        color: black !important;
+    }
+
+
+.ov-spin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.md-cat .xn-i-wrap1 {
+    padding-right: 350px;
+    display: block;
+}
+
+
+.md-cat .xn-i-details {
+    overflow-y: auto;
+    background: white;
+    min-height: 30px;
+    bottom: 0;
+    box-sizing: border-box;
+    position: absolute;
+    right: 0;
+    top: 78px;
+    width: 335px;
+}
+
+    .md-cat .xn-i-details table {
+        border-spacing: 0 14px;
+        table-layout: fixed;
+    }
+
+        .md-cat .xn-i-details table th {
+            font-family: Roboto;
+            padding-right: 10px;
+            width: 110px;
+            font-size: 12px;
+            font-weight: 300;
+        }
+
+.xn-i-details table th {
+    color: #262626;
+}
+
+.md-cat .xn-i-details table td {
+    font-weight: 400;
+    font-size: 13px;
+    word-wrap: break-word;
+}
+
+.prod-view__details .listview-wrap {
+    padding: 10px;
+    background: whitesmoke;
+}
+
+.md-cat .xn-i-current ~ div {
+    position: absolute;
+    height: 48px;
+    top: 0;
+    width: 48px;
+    border: 2px solid #001b3d;
+}
+
+.md-cat .xn-i-swrap {
+    padding: 0 9px;
+    float: left;
+}
+
+
+
+
+.md-cat .xn-i-sphoto {
+    width: 10000px;
+    position: relative;
+}
+
+    .md-cat .xn-i-sphoto img {
+        width: 50px;
+        height: 50px;
+        padding: 0 9px;
+        opacity: 0.5;
+        cursor: pointer;
+        position: relative;
+    }
+
+.md-cat .xn-i-current ~ div {
+    position: absolute;
+    height: 47px;
+    top: 0;
+    width: 48px;
+    border: 2px solid #001b3d;
+}
+
+.md-cat .xn-i-swrap {
+    padding: 0 9px;
+    float: left;
+}
+
+.md-cat .xn-i-sphoto img {
+    display: inline;
+}
+
+.md-cat .xn-d-w {
+    padding: 0 20px 20px 20px;
+}
+
+.md-cat .xn-i-price {
+    padding: 20px;
+    background: #efefef;
+    color: black;
+}
+
+.md-cat .xn-i-price__value {
+    font-size: 24px;
+    font-weight: 300;
+    display: inline-block;
+}
+
+.md-cat .xn-i-price__currency {
+    display: inline-block;
+    font-size: 16px;
+}
+
+.md-cat .xn-i-price__wrap {
+    display: block;
+}
+
+.md-cat .modalh {
+    background: #f5f5f5;
+}
+.xn-i-button .main-btn{
+    font-size:16px;
+
+}
+.md-cat .xn-i-title__cat {
+    font-size: 13px;
+    padding-bottom: 15px;
+    font-weight: 300;
+}
+
+.md-cat .xn-i-title {
+    padding: 10px 20px;
+    display: block;
+}
+
+.md-cat .xn-i-title__value {
+    font-size: 18px;
+    padding-bottom: 15px;
+    font-weight: bold;
+}
+/*--------------------------*/
+/*   MODAL  GALLERY  */
+/*--------------------------*/
+
+
+.xn-close-btn {
+    background: inherit;
+    border: 0;
+}
+
+    .xn-close-btn::before {
+        color: #fff;
+        content: '\00D7';
+        display: block;
+        font-size: 35px;
+        font-weight: 100;
+        line-height: 36px;
+        padding: 0;
+        margin: 0;
+        font-family: Tahoma;
+    }
+
+.xn-close-btn-bl {
+    background: inherit;
+    border: 0;
+}
+
+    .xn-close-btn-bl::before {
+        color: #000;
+        content: '\00D7';
+        display: block;
+        font-size: 42px;
+        font-weight: 100;
+        line-height: 36px;
+        padding: 0;
+        margin: 0;
+        font-family: Tahoma;
+    }
+
+.xn-modal > div > div.modalh .xn-i-arrs {
+    position: absolute;
+    font-size: 25px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.xn-i-arrs i:hover {
+    color: black;
+}
+
+.xn-modal .md-content {
+    max-width: 750px;
+}
+
+.xn-i-mleft {
+    left: -50px;
+}
+
+.xn-i-mright {
+    right: -40px;
+    text-align: right;
+}
+
+.xn-i-arrcont {
+    position: relative;
+}
+
+.xn-i-details__spoiler {
+    text-decoration: dotted;
+    font-weight: bold;
+}
+
+.sp-show + div {
+    display: block !important;
+}
+
+.xn-i-details__spoiler > .xn-d-w {
+    display: none;
+}
+
+.xn-i-sleft {
+    left: 10px;
+}
+
+.xn-i-sright {
+    right: 10px;
+}
+
+
+.xn-modal .xn-i-sphoto {
+    width: 10000px;
+    position: relative;
+}
+
+    .xn-modal .xn-i-sphoto img {
+        width: 50px;
+        height: 50px;
+        padding: 0 9px;
+        opacity: 0.5;
+        cursor: pointer;
+        position: relative;
+    }
+
+.xn-modal .xn-i-current ~ div {
+    position: absolute;
+    height: 47px;
+    top: 0;
+    width: 48px;
+    border: 2px solid #001b3d;
+}
+
+/* default */
+
+
+
+
+
+
+@media (min-width: 300px),(max-width:480px) {
+    .md-cat .xn-i-button {
+        top: 30px;
+    }
+
+    .md-cat .xn-i-details {
+        top: 0;
+        position: relative;
+        width: auto;
+    }
+
+    .md-cat .xn-i-wrap1 {
+        padding-right: 0;
+    }
+
+    .md-modal .md-wrapper {
+        padding: 0;
+    }
+    .md-auth .md-loader {
+        left: 37%;
+    }
+    .md-loader img {
+        width: 75px;
+    }
+    div.md-close {
+        right: 0;
+    }
+    .md-auth .md-content {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .md-auth .md-content {
+        width: 400px;
+    }
+    .md-cat .xn-i-button {
+        top: 50px;
+    }
+
+    .md-cat .xn-i-details {
+        /*top:50px;*/
+        position: absolute;
+        width: 350px;
+        padding: 20px;
+    }
+
+    .md-cat .xn-i-wrap1 {
+        padding-right: 350px;
+    }
+
+    .md-modal .md-wrapper {
+        padding: 0 40px;
+    }
+    .md-auth .md-loader {
+        left: 45%;
+    }
+    div.md-close{
+        right:-50px;
+    }
+    .md-loader img {
+        width: 80px;
+    }
+}
+
+@media (min-width: 992px) {
+}
+
+@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {
+    .md-root {
+        max-width: 1175px;
+    }
+}
+
+
+/*   FOR IE    */
+/*              */
+
+html.ie .xn-close-btn-bl, html.ie .xn-close-btn {
+    background: transparent;
+}

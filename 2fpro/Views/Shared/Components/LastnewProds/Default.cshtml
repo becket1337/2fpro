@@ -1,0 +1,187 @@
+﻿@model _2fpro.ViewModel.ProductListViewModel
+
+@inject _2fpro.Service.Interface.IProductRepository pRep
+@{
+    
+   
+    //var lastLogged = await _cache.GetAsync("lastLogged");
+    //var encLogged = System.Text.Encoding.UTF8.GetString(lastLogged);
+    //var cart = await _cache.GetAsync<SessionStorage>(encLogged);
+    //if (cart == null)
+    //{
+    //     await  _cache.SetAsync<SessionStorage>(encLogged, new SessionStorage() { Cart = new Cart() });
+    //}
+    SessionStorage cart1 = ViewBag.GetCart;
+    Cart cart = cart1.Cart;
+    
+}
+
+@{
+    List<_2fpro.Models.Product> values = null;
+
+}
+<div class="prod-block-cont prodlist-slider">
+  
+
+    @if (Model.CategoryID == 0)
+    {<h2>Новинки продукции</h2>}
+    else
+    {<h2>Похожая продукция</h2>}
+
+    @*<i class="flaticon-arrows-1 prev"></i>*@
+    <div class="xn-listview-cont clearfix">
+        <div class="xn-listview-wrapper">
+
+            <div class="xn-listview-feed ">
+                <!-- start of list-->
+                <span class="lv-sl_arrwrap prev">
+                    <img src="~/icons/left-arrow.svg" />
+                </span>
+                <div class="sl-lv-wrap">
+
+                    <div class="slider-listview">
+                        @if (Model.Products.Any())
+                        {
+                            @foreach (var item in Model.Products ?? new List<_2fpro.Models.Product>())
+                            {
+
+
+
+                                <div class="xn-listview-item" data-id="@item.ID">
+
+                                    <div class="xn-listview-item__row">
+
+
+                                        @*<div class="caption-more-details">
+
+                                                <div class="xn-details xn__popup">быстрый просмотр</div>
+                                            </div>*@
+                                        <a>
+                                            <div class="ii-wrap">
+                                                <div class="item-img">
+
+                                                    @if (item.ProdImages.Any(x => x.IsPreview == 1))
+                                                    {
+                                                        <img id="mpic_@item.ID" data-id="@item.ProdImages.SingleOrDefault(x => x.IsPreview == 1).ID" src="@Url.Content("~/Content/Files/Product/" + item.ID + "/height500/" + item.ProdImages.Where(x => x.IsPreview == 1).SingleOrDefault().ImageMimeType)" />
+                                                    }
+
+                                                </div>
+                                            </div>
+                                            <div class="caption">
+                                                <div class="caption-wrap">
+
+                                                    <div class="caption-title">
+                                                        <div class="caption-h4">
+
+                                                            @{var name = item.ProductName.Length > 50 ? item.ProductName.Substring(0, 50) + "..." : item.ProductName; name = item.ProductName;}
+                                                            <span>@name</span>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+                                        </a>
+                                        @if (!Context.IsMobileBrowser())
+                                        {
+                                            <div class="xn-lv__hoverblock ">
+
+                                                <div class="xn-lv__hoverblock-wrap @(Context.Request.IsMobileBrowser() ? "" : "")">
+
+                                                    <div>
+                                                        <div class="xn-lv__hoverblock-resize">
+                                                            <i class="fas fa-external-link-alt"></i> <a href="@Url.Action("Details", "Product", new { id = item.GenerateSlug() })">Детали изделия</a>
+                                                        </div>
+                                                        <div class="xn-lv__hoverblock-resize xn__popup" data-pid="@EncryptHelper.Encrypt(item.ID.ToString())">
+
+
+                                                            <i class="fas fa-expand-alt"></i><span>Быстрый просмотр</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div>
+
+                                                <div class="xn-lv__hoverblock-resize">
+
+
+                                                    <i class="fas fa-external-link-alt"></i><a href="@Url.Action("Details", "Product", new { id = item.GenerateSlug() })">Детали изделия</a>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+
+                                </div>
+
+                            }
+                        }
+                        <!-- End listview -->
+                    </div>
+
+                </div>
+                <span class="lv-sl_arrwrap next">
+                    <img src="~/icons/next.svg" />
+                </span>
+            </div>
+         
+        </div>
+
+    </div>
+    @*<i class="flaticon-arrows next"></i>*@
+
+</div>
+
+<script>
+
+    XN.Auth.OpenEvents();
+</script>
+
+<script>
+
+    $(function () {
+
+        $('.sl-lv-wrap').jcarousel({ wrap: null });
+        var pimgList = $('.sl-lv-wrap').jcarousel();
+        $('.xn-listview-feed .prev')
+            .on('jcarouselcontrol:active', function () {
+                $(this).removeClass('inactive');
+            })
+            .on('jcarouselcontrol:inactive', function () {
+                $(this).addClass('inactive');
+
+            })
+            .jcarouselControl({
+                target: '-=4',
+                carousel: pimgList
+            });
+
+        $('.xn-listview-feed .next')
+            .on('jcarouselcontrol:active', function () {
+
+                $(this).removeClass('inactive');
+            })
+            .on('jcarouselcontrol:inactive', function () {
+                $(this).addClass('inactive');
+
+            }).jcarouselControl({
+                target: '+=4',
+                carousel: pimgList
+            });
+
+
+        if (XN.IsMobile) {
+            $('.xn-listview-feed .next,.xn-listview-feed .prev').hide();
+            $('.sl-lv-wrap')
+                .jcarousel()       // init jcarousel
+                .jcarouselSwipe(); // init jcarouselSwipe
+        }
+        else {
+            $(".sl-lv-wrap").jcarousel();
+        }
+    });
+</script>

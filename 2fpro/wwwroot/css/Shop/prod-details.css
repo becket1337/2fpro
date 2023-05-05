@@ -1,0 +1,97 @@
+﻿.pv-wrapper{
+    background:white;
+}
+.item-features {
+    background: whitesmoke;
+    padding: 30px;
+    font-family:proxima-l;
+}
+.pv-wrapper h1::before{content:none;}
+.pv-wrapper h1 {
+    font-family: proxima-l;
+    padding: 0;
+    font-size: 34px;
+}
+.prod-view_catname {
+    padding: 5px;
+    color: black;
+    background: #e3e3e3;
+    display: inline;
+}
+.prod-view_title h1{
+    padding:20px 0;
+}
+.pv-tabstrip-wrap {
+    padding: 20px;
+    padding-top:70px;
+}
+.tab-content {
+    padding: 20px;
+    font-size: 16px;
+    font-family: 'Open Sans';
+}
+
+.tab-content h2{
+    font-size:28px;
+}
+    .tab-content h1 {
+        font-size: 32px;
+    }
+    .tab-content h3 {
+        font-size: 24px;
+    }
+.view-img, item-features-wrap {
+    padding-top: 20px;
+}
+.item-features-wrap{
+    padding-top:20px;
+}
+.feat-row {
+    display: flex;
+    border-bottom: 1px solid #dddddd;
+    padding: 5px 0;
+}
+.feat-tr{
+    width:30%;
+}
+.feat-td {
+    width: 100%;
+    font-family: 'Proxima-bold';
+    text-align: right;
+}
+.item-features__price {
+    font-family: 'Proxima-reg';
+    font-size: 48px;
+}
+.item-features__title {
+    font-weight: bold;
+    padding: 10px 0;
+}
+.item-features__table{
+    width:80%;
+}
+.prod-des{
+    padding:30px 0;
+}
+#myTab {
+    font-size: 21px;
+}
+@media (min-width: 480px), (min-width:300px) {
+    #Prodview .content-wrapper {
+        padding:0;
+    }
+}
+
+@media (min-width: 768px) {
+   
+}
+
+@media (min-width: 1024px) {
+   #Prodview .content-wrapper {
+        padding: 0 30px;
+    }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape){
+ 
+}

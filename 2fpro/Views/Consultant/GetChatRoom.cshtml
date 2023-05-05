@@ -1,0 +1,250 @@
+﻿@*@model _2fpro.Models.LiveUser
+
+@Scripts.Render("~/bundles/signalr")
+@Scripts.Render("~/bundles/livechat")
+@Styles.Render("~/Content/livechat")
+<script src="~/livechat/hubs"></script>
+
+
+<script>
+    $(function () {
+
+        $('.ch-body-3_1').mCustomScrollbar({
+            advanced: {
+                updateOnContentResize: true
+            },
+
+            theme: "dark",
+            autoHideScrollbar: true,
+            scrollButtons: {
+                enable: false
+            },
+            callbacks: {
+                whileScrolling: function () {
+
+                    $('.ch-head').css({
+                        position: "relative",
+                        zIndex: 5,
+                        boxShadow: "0 4px 5px -3px #444"
+                    });
+                },
+                onScroll: function () {
+                    $('.ch-head').css({
+                        position: "relative",
+                        zIndex: 5,
+                        boxShadow: ""
+                    });
+                }
+            }
+
+
+
+
+        });
+
+
+        $('.ch-close').hover(function () {
+
+            $(this).find("i.icon-remove").css({ color: "#fff" });
+        }, function () { $(this).find("i.icon-remove").css({ color: "#dadada" }); });
+
+        LivechatInit();
+    });
+
+</script>
+
+
+
+
+<!--<div>
+        @foreach (var item in ViewBag.Users)
+        {
+            @item.UserName
+            <ul>
+            @foreach (var item1 in item.LiveMessages)
+            {
+                <li>@item1.TextMess</li>
+            }
+                </ul>
+        }
+
+    </div>-->
+
+<div id="livechat" data-uid="" @if (User.IsInRole("admin")) { <text> class="adm-lch-isauth" </text>  }>
+    @if (User.IsInRole("admin"))
+    {
+        <div class="ch-wrap-1_1">
+            <div class="ch-inbox-h">Новые вопросы:</div>
+            <div class="ch-inbox-body">
+                <div class="ch-inbox">
+
+
+                    <!--  <div class="ch-user">
+                        <div class="ch-username">
+                            владимир
+                        </div>
+                            <div class="ch-inbox-cnt">5</div>
+
+                            </div>-->
+                </div>
+                <div class="ch-notifybox">Последнее подключение</div>
+                <div class="ch-notifybox-user">никого пока нет</div>
+            </div>
+        </div>
+    }
+    <div class="ch-wrap-1_2">
+        <div class="ch-head-1_1">
+            <div class="ch-head-1_2">
+                <div class="ch-head">
+                    <div class="ch-icon"><i class="fa fa-comments" style="font-size:16px;"></i><span class="ch-log-text">Онлайн-консультант</span></div>
+
+                    <div class="ch-close">
+                        @if (User.IsInRole("admin"))
+                        {
+                            <i class="fa fa-power-off" style="font-size:21px;"></i>
+                            <i class="ch-all-inbox"></i>
+                            <i class="fa fa-inbox" style="font-size:21px;"></i>
+                        }
+                        <i class="fa fa-angle-double-down" style="font-size:21px;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ch-body-1_1">
+            <div class="ch-body-1_2">
+                <div class="ch-body-1_3">
+                    <div class="ch-body">
+                        <div class="ch-body-2_1">
+                            <div class="ch-body-2_2">
+                                <div class="ch-body-wrap clear-fix">
+                                    <div class="ch-body-3_1">
+
+                                        <div class="ch-text">
+
+                                            <div class="live-form">
+
+                                                @if (User.IsInRole("admin"))
+                                                {
+                                                    <text>
+                                                        @using (Html.BeginForm("", "", FormMethod.Post, htmlAttributes: new { id = "livechat-form" }))
+                                                        {
+                                                            @Html.AntiForgeryToken()
+                                                            <!--<form id="livechat-form" data-isauth="true">-->
+                                                            <input type="submit" id="l-send1" class="adm-lchat-auth" style=" float: left;" value="Подключиться" />
+
+                                                            
+                                                        }
+                                                    </text>
+                                                }
+                                                else
+                                                {
+                                                    if (_2fpro.Areas.Admin.ConsultantController.ConsultIsOnline())
+                                                    {
+                                                        using (Html.BeginForm("", "", FormMethod.Post, htmlAttributes: new { id = "livechat-form" }))
+                                                        {
+                                                            @Html.Hidden("IsOnline", true)
+                                                            @Html.Hidden("IsAdmin", false)
+                                                            @Html.AntiForgeryToken()
+                                                            @Html.TextBoxFor(x => x.UserName, htmlAttributes: new { placeholder = "Ваше имя", id = "l-name", name = "lname" })
+                                                            @Html.ValidationMessageFor(x => x.UserName)
+                                                            @Html.Hidden("Email", "qwe@asdf.yt", new { id = "l-email" })
+                                                            @Html.Hidden("FeedMessage", "txt", new { id = "l-feed" })
+                                                            <!--<input type="text" id="l-name" name="lname" placeholder="Ваше имя"/>
+                                                                <input type="text" id="l-email" name="lemail" placeholder="Email"/>
+                                                            <textarea  id="l-message" style="height:3em;" name="lmessage" placeholder="Сообщение" ></textarea>-->
+                                                            <input type="submit" id="l-send" value="Подключиться" />
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        { Html.RenderAction("FormFeed", "Consultant"); }
+                                                    }
+                                                }
+                                            </div>
+
+                                        </div>
+
+                                        <div class="ch-active ch-info-notify">
+                                            @if (!User.IsInRole("admin"))
+                                            {
+
+                                                if (_2fpro.Areas.Admin.ConsultantController.ConsultIsOnline())
+                                                {
+                                                    @:Консультант в данный момент онлайн.
+                                        }
+                                                else
+                                                {
+                                                    @:Консультант не в сети, воспользуйтесь формой обратной связи.
+                                        }
+
+
+                                            }
+
+
+
+
+                                        </div>
+                                        <div class="ch-error ch-error-notify"></div>
+                                        @if (User.IsInRole("admin"))
+                                        {
+                                            <br />
+
+
+                                            <div class="ch-info-notify">Всего онлайн: <span class="in-chat">@ViewBag.OnlineUsers</span>  </div>
+                                        }
+                                        <div class="last-line" style="height:50px;"></div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ch-opt-1_1">
+                            <div class="ch-opt-1_2">
+                                <div class="ch-opt-2_1">
+                                    <div class="ch-opt-2_2">
+                                        <div id="chat-input" class="ch-field" style="display:none">
+                                            <div class="ch-field-input">
+                                                <div class="ch-field-holder">
+                                                    <textarea id="ch-edit" data-to="" placeholder="Оставьте сообщение..."></textarea> <div class="ch-clear">
+                                                        <i class="icon-remove-sign" style="font-size:18px;"></i>
+
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ch-copyright">
+
+                            Разработка от <span style="color: #990303;">X-NOVA</span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        //var $form = $("#livechat-form");
+
+        //$form.removeData("validator");
+        //$form.removeData("unobtrusiveValidation");
+        //$.validator.unobtrusive.parse($form);
+
+
+    });
+</script>
+*@
+
+

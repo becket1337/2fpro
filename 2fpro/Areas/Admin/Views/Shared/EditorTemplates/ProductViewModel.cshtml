@@ -1,0 +1,109 @@
+﻿@model  _2fpro.ViewModel.ProductViewModel
+@{
+    var pType = new List<SelectListItem> {
+        new SelectListItem {Text="Верхняя одежда",Value="Верхняя одежда"},
+        new SelectListItem {Text="Толстовки и олимпийки",Value="Толстовки и олимпийки"},
+        new SelectListItem {Text="Джемперы и кардиганы",Value="Джемперы и кардиганы"},
+        new SelectListItem {Text="Плащ",Value="Плащ"},
+        new SelectListItem {Text="Ветровка",Value="Ветровка"}
+
+    };
+    var coup = new List<SelectListItem> {
+        new SelectListItem {Text="Есть",Value="Есть"},
+        new SelectListItem {Text="Нет",Value="Нет"}
+      };
+    //Model.Fill = "PPU";// Model.Fill == null ? "высоко эластичный ППУ" : Model.Fill;
+}
+
+<div class="product-view k-widget">
+    <dl>
+
+      
+        <dd>Название</dd>
+        <dd>
+            @(Html.TextBoxFor(p => p.ProductName))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="ProductName" class="k-invalid-msg"></span>
+        </dd>
+        <dd>Размеры</dd>
+        <dd>
+            @(Html.TextBoxFor(p => p.Size))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="Size" class="k-invalid-msg"></span>
+        </dd>
+        <dd>Материал</dd>
+        <dd>
+            @(Html.TextBoxFor(p => p.Material))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="Material" class="k-invalid-msg"></span>
+        </dd>
+        <dd>Наполнение</dd>
+        <dd>
+            @Html.TextBoxFor(p => p.Fill)
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="Fill" class="k-invalid-msg"></span>
+        </dd>
+        @*<dd>Упаковка</dd>
+        <dd>
+            @(Html.TextBoxFor(p => p.Packaging))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="Packaging" class="k-invalid-msg"></span>
+        </dd>
+        <dd>Размер Упаковки</dd>
+        <dd>
+            @(Html.TextBoxFor(p => p.PackagingSize))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="PackagingSize" class="k-invalid-msg"></span>
+        </dd>
+        <dd>Вес</dd>
+        <dd>
+            @(Html.TextBoxFor(p => p.Weight))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="Weight" class="k-invalid-msg"></span>
+        </dd>
+        <dd>Производитель</dd>
+        <dd>
+            @(Html.TextBoxFor(p => p.Manufacturer))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="Manufacturer" class="k-invalid-msg"></span>
+        </dd>*@
+        <dd>Скидка</dd>
+        <dd>
+            @(Html.TextBoxFor(p => p.Discount))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="Discount" class="k-invalid-msg"></span>
+        </dd>
+         <dd>Цена</dd>
+            <dd>
+                  @(Html.TextBoxFor(p => p.Price, new { style = "width:100px;" }))
+                  
+                  <span data-for="Price" class="k-invalid-msg"></span>
+              </dd>
+        <dd>Описание</dd>
+        <dd>
+            @(Html.TextAreaFor(p => p.Description))
+            <!-- UnitsInStock validation message placeholder -->
+            <span data-for="Description" class="k-invalid-msg"></span>
+        </dd>
+        <dd>Категории</dd>
+        <dd>
+            @(Html.DropDownListFor(p => p.CategoryID, (SelectList)ViewBag.Cats, new { style = "width:200px;" }))
+            <!-- UnitsInStock validation message placeholder -->
+            <span data-for="Description" class="k-invalid-msg"></span>
+        </dd>
+
+
+
+
+    </dl>
+
+</div>
+
+<script>
+    $(function () {
+        $('#Fill').html("высоко эластичный ППУ");
+    });
+    $('.k-grid-cancel').text("Отмена");
+    $('.k-grid-update').text("Сохранить");
+    $('.k-edit-buttons').css('backgroundColor', ' white');
+</script>

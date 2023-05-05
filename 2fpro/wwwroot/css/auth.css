@@ -1,0 +1,114 @@
+﻿.md-auth {
+   
+background-color:rgba(252, 252, 252, 0.65);
+    width: 100%;
+}
+
+.md-auth .md-content {
+     top:20%;
+        box-shadow: 0 0 10px gray;
+    width: 300px;
+    margin: 0 auto;
+    background-color: #FFF;
+   
+    position: relative;
+       
+
+}
+.md-auth #socialLoginList {
+    margin:0;
+    display:inline-block;
+}
+    .md-auth .feed-loader {
+            position: absolute;
+        top: 150px;
+        left: 120px;
+        display: none;
+    }
+    .md-auth button {
+        display: block;
+        margin: 0 auto;
+    }
+    .md-auth .modalh {
+        background: #f1f1f1;
+            padding: 20px;
+        
+    }
+
+    .md-auth .modalp {
+        padding: 20px;
+        zoom: 1;
+        font-size: 13px;
+    }
+    /*.md-auth .modal-wrap input[type="text"],input[type="password"],textarea {
+        width: 100%;
+        border: 0;
+        box-shadow: 0 0 10px #b8b8b8;
+        padding: 10px;
+       
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }*/
+
+.md-auth .md-close {
+    top:0;
+}
+.md-auth {
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+    z-index: 9999;
+}
+.md-show {
+    
+}
+.md-auth .md-loader {
+      position: absolute;
+     top: 30%;
+    left: 50%;
+}
+.md-auth .submit-loader {
+    position: absolute;
+    top: 5px;
+    left: 76%;
+        z-index: 1;
+}
+.field-validation-error {
+    color:red;
+}
+.feed-valid {
+    padding: 5px;
+}
+@media (min-width: 480px),(min-width:300px) {
+   .md-auth {
+      
+    } 
+}
+@media (min-width: 768px) {
+    .md-auth {
+      
+    }
+}
+@media (min-width: 992px) {
+   .md-auth {
+       
+    }
+}
+@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {
+
+     .md-auth {
+      
+    }
+}

@@ -1,0 +1,166 @@
+﻿@model _2fpro.Models.Post
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    //string[] files = null;
+    //if (System.IO.Directory.Exists(System.IO.Path.Combine("~/Content/Files/Post/" + Model.ID)))
+    //{
+    //    files = System.IO.Directory.GetFiles(System.IO.Path.Combine("~/Content/Files/Post/" + Model.ID));
+    //}
+    Model.Body =System.Net.WebUtility.HtmlDecode(Model.Body);
+    
+}
+
+<p class="breadcrumbs" style="font-weight:bold;">
+    @Html.ActionLink("Статьи", "Index")  &rArr;
+<span style="font-weight:normal;"> @Model.Title</span>
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+<fieldset>
+    <legend>Редактировать</legend>
+
+
+    <div class="form-group">
+
+        <label>Название</label>
+
+
+        @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Title)
+    </div>
+    @*<div class="editor-label">
+            Главное фото
+        </div>
+        <div class="editor-field">
+            @Html.Kendo().Upload().Name("file")
+        </div>
+    <div class="editor-label">
+            Внутренние фото (загрузка идет в новую папку на сервере - /Content/Files/Post/@Model.ID/)
+        </div>
+        <div class="editor-field">
+
+            @(Html.Kendo().Upload()
+                    .ShowFileList(true)
+                    .Name("files")
+                    .Async(a => a
+                        .Save("PostUploadStart", "Post")
+                        .AutoUpload(true))
+                        .Events(x => x.Complete("uploadComplete").Success("uploadSuccess").Upload(@<text>
+                            function(e) {
+                            console.log($('#wm').prop('checked'));
+                            e.data = { id: @Model.ID,isWM:$('#wm').prop('checked') };
+                            }
+                        </text>)))
+
+        </div>
+        <div class="editor-label">
+            <input type="checkbox" id="wm" /> c водяным знаком (сохранение идет в папку /Content/watermark )
+        </div>
+        <div id="files-holder">
+
+            <partial name="/Admin/Post/GetPostImages">
+        </div>*@
+    <div class="form-group">
+
+        <label> дата (@Model.CreatedAt.ToShortDateString())</label>
+
+
+        @Html.TextBoxFor(model => model.CreatedAt, "{0:yyyy-MM-dd}", new {@class="form-control", type = "date" })
+        @Html.ValidationMessageFor(model => model.CreatedAt)
+    </div>
+    <div class="form-group">
+
+        <label>Превью</label>
+        @Html.TextAreaFor(model => model.Preview, new { @class="form-control" })
+        @Html.ValidationMessageFor(model => model.Preview)
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Контент</label>
+        @(Html.Kendo().Editor()
+                                        .Name("Body")
+
+                                        .HtmlAttributes(new { style = "width: 100%;" })
+                                        .Resizable(resizable => resizable.Content(true))
+                                        .Tools(tools => tools
+                                            .Clear()
+                                            .Bold().Italic().Underline().Strikethrough()
+                                            .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                                            .InsertUnorderedList().InsertOrderedList()
+                                            .Outdent().Indent()
+                                            .CreateLink().Unlink()
+                                            .InsertImage()
+                                            .InsertFile()
+                                            .SubScript()
+                                            .SuperScript()
+                                            .TableEditing()
+                                            .ViewHtml()
+                                            .Formatting()
+                                            .CleanFormatting()
+                                            .FontName()
+                                            .FontSize()
+                                            .ForeColor().BackColor()
+                                            .Print()
+                                        ))
+        @Html.ValidationMessageFor(model => model.Body)
+    </div>
+    <p>
+        <button class="k-button k-primary" type="submit"><span class="label">Сохранить</span></button>
+    </p>
+</fieldset>
+}
+
+<div>
+
+    <a class="k-button " href="/Admin/Post?page=@ViewBag.page">Назад к списку</a>
+
+</div>
+@*<script>
+
+  function uploadComplete(e) {
+      // var check = $("<input type='radio' class='isMain' name='isMain' /><span>в превью</span>");
+      // check.insertAfter($('.k-filename'));
+      var prodId = '@Model.ID';
+
+      $('#files-holder').load('/Admin/Post/GetPostImages?id=' + prodId, function () { imagePreview(); }).effect("highlight", {}, 2000);
+
+  }
+  function uploadSuccess(e) {
+      var resp = $.parseJSON(e.XMLHttpRequest.responseText);
+      if (resp.type == "length") alert(resp.mess);
+      if (resp.type == "error") alert("Ошибка сервера!");//"Ошибка сервера!");
+  }
+
+  $(document).ready(function () {
+      var str = $('#files').closest('.k-upload-button');
+
+      str.find('span').html('Выбрать файлы');
+      str.closest('.k-dropzone').find('em').html('перетащить сюда');
+      //console.log(str.closest('div').find('em').selector);
+      str = $('#file').closest('.k-upload-button');
+      str.find('span').html('Выбрать файл');
+
+  });
+  $(document).on("click", ".file-d", function () {
+      var list = $('.file-d');
+      $this = $(this);
+      var index = $.map(list, function (obj, index) {
+          if (obj.id == $this.attr('id')) {
+              return index;
+          }
+      });
+
+      $.post("/Post/RemoveImage", { name: $(this).attr('id'),id:$(this).data('id') }, function () {
+          list[index].remove();
+      });
+  });
+</script>*@

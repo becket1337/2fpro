@@ -1,0 +1,37 @@
+﻿@model _2fpro.ViewModel.CategoryViewModel
+
+
+
+<div>
+    <fieldset>
+        <div class="form-group">
+            <label>Название*</label>
+            @(Html.TextBoxFor(p => p.CategoryName, new { @class = "form-control" }))
+            <!-- UnitPrice validation message placeholder -->
+            <span data-for="CategoryName" class="k-invalid-msg"></span>
+        </div>
+       
+        <div class="form-group">
+            @(Html.Kendo().CheckBox().Name("DoShow").Label("Отключить видимость"))
+        </div>
+
+        <div class="form-group">
+            <label>Определить подкатегорией </label>
+            @*@(Html.DropDownListFor(p => p.ParentCaregoryId, (SelectList)ViewBag.Cats, new { @class = "form-control", data_value_primitive = true }))*@
+
+            @{
+                SelectList list = (SelectList)ViewBag.Cats;
+                SelectList list1 = new SelectList(list.Where(x => x.Value != (Model != null ? Model.ID.ToString() : "")).ToList(), "Value", "Text");}
+            @(Html.Kendo().DropDownListFor(p => p.ParentCategoryId)
+
+                                .BindTo(list)
+                                .OptionLabel("Выбрать")
+                                .ValuePrimitive(true)
+
+            ))
+            <!-- Unit<div class="editor-label"><label>Назначить подразделом</label></div>Price validation message placeholder -->
+            <span data-for="CategoryID" class="k-invalid-msg"></span>
+        </div>
+    </fieldset>
+
+</div>

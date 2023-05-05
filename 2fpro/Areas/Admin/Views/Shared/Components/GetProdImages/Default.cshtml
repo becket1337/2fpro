@@ -1,0 +1,139 @@
+﻿@model _2fpro.Models.Product
+@inject _2fpro.Service.Interface.IProductRepository pRep
+<script>
+
+    function hint(element) {
+
+        var row = element.clone();
+        var table = $('<table  style="background:whitesmoke;"></table>');
+        table.append(row);
+        //$('#tar').html(table);
+        return table;
+    }
+
+    function placeholder(element) {
+        return $('<tr  />').addClass("placeholder").append('<td style="height:50px;" colspan="5">Поместить сюда</td></tr>');
+    }
+
+    function onChange(e) {
+        var arr = [];
+        var sortlist = $('.xn-sort').children('.xn-sortitem');
+
+            var oldIndex = e.oldIndex,
+            newIndex = e.newIndex;
+        if (oldIndex > newIndex) {
+            for (var i = newIndex; i <= oldIndex; i++) {
+                var sortitem, sortitem1;
+                if (oldIndex == i) {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(newIndex);
+                }
+                else {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(i + 1);
+                }
+                console.log('id - ' + sortitem.data('id') + ', sort - ' + sortitem1.data('sort') + 'old - ' + oldIndex + ', new - ' + newIndex);
+                arr.push({ id: sortitem.data('id'), sort: sortitem1.data('sort') });
+
+            }
+            $.post('/Product/EditSort', { jsonData: JSON.stringify(arr) }, function () {
+                var prodId = $('#photos').data('prodid');
+                $('.prod-images').load('/Admin/Product/GetProdImages?pid=' + prodId).effect("highlight", {}, 2000);
+            });
+
+        }
+        else if (oldIndex < newIndex) {
+
+            for (var i = newIndex; i >= oldIndex; i--) {
+                sortitem, sortitem1;
+                if (oldIndex == i) {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(newIndex);
+                }
+                else {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(i - 1);
+                }
+                console.log('id - ' + sortitem.data('id') + ', sort - ' + sortitem1.data('sort') + 'old - ' + oldIndex + ', new - ' + newIndex);
+                arr.push({ id: sortitem.data('id'), sort: sortitem1.data('sort') });
+
+            }
+            $.post('/Product/EditSort', { jsonData: JSON.stringify(arr) }, function () {
+                var prodId = $('#photos').data('prodid');
+                $('.prod-images').load('/Admin/Product/GetProdImages?pid=' + prodId).effect("highlight", {}, 2000);
+            });
+
+        }
+        else { }
+       
+
+    }
+    function removeImages(idx) {
+        
+        $.post('/Product/DeleteImages', { id: idx }, function () {
+           
+            $('#prodimages-table').remove();
+        });
+        
+
+    }
+</script>
+
+<style>    #img-cont tr {
+        cursor: move;
+    }
+    table{width:100%;}
+</style>
+
+
+@if (Model.ProdImages.Count() != 0)
+{
+    <h3>Все фото:(@Model.ProdImages.Count()) <a onclick="removeImages(@Model.ID);" href="javascript:void(0);" >удалить все</a></h3>
+    <div>
+        <table id="prodimages-table">
+            <tr style="background:gray;color:white;">
+                @if (!Context.IsMobileBrowser())
+                {<th>очередность</th>}
+                <th>фото</th>
+                <th>в превью</th>
+                <th>ссылка</th>
+                <th>удалить</th>
+            </tr>
+            <tbody class="xn-sort" id="img-cont">
+                @foreach (var item in Model.ProdImages.OrderByDescending(x => x.Sortindex))
+                {
+                    var checkprev =await  pRep.CheckPreview(item.ID);
+                    <tr class="xn-sortitem" data-sort="@item.Sortindex" data-id="@item.ID">
+                        @if (!Context.IsMobileBrowser())
+                        {<td style="width:30px;">@item.Sortindex</td>}
+                        <td style="width:100px;">
+                            @*<img src="@Url.Action("GetProdImage", "ImageData", new {pimgid=item.ID,width=100,height=100 })" width="75" height="75" />*@
+                            <img src="@Url.Content("~/Content/Files/Product/"+item.ProductID+"/200x150/"+item.ImageMimeType)" width="75" />
+                            <span @(checkprev ? "class=preview-text" : "")>
+                                @(checkprev ? "превью" : "")
+                            </span>
+                        </td>
+
+                        <td style="width:30px;"><input type="radio" name="previewImg" data-pimgid="@item.ID" @(checkprev ? "checked" : "") /> </td>
+                        <td style="width:100px;">@Url.Content("~/Content/Files/Product/" + item.ProductID + "/" + item.ImageMimeType)</td>
+                        <td style="width:30px;"><i class="fa fa-times preview-del" style="cursor:pointer" data-pimgid="@item.ID"></i></td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+}
+@(Html.Kendo().Sortable()
+            .For("#img-cont")
+
+            .HintHandler("hint")
+            .PlaceholderHandler("placeholder")
+
+            .Events(events => events.Change("onChange"))
+)
+

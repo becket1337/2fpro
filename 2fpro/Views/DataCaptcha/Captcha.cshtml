@@ -1,0 +1,22 @@
+﻿
+
+<script>
+    $(document).ready(function () {
+       
+        $("#wallCaptcha_@ViewBag.Set").attr("src", "/DataCaptcha/Show?" + (new Date()).getTime());
+        
+    });
+</script>
+<div id="rep-cap">
+    @if (ViewBag.Set != null)
+    {
+<img alt="Captcha" id="wallCaptcha_@ViewBag.Set" src="#" style="" />
+    
+<span><i id="loadCaptcha_@ViewBag.Set" class="icon-refresh"></i></span>
+    }
+    else
+    {
+        <img alt="Captcha" id="wallCaptcha" src="#" style="" />
+        <span><i id="loadCaptcha" class="icon-refresh"></i></span>
+    }
+</div>

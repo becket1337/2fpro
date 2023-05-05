@@ -1,0 +1,30 @@
+﻿@model _2fpro.Models.Gallery
+
+@{
+    ViewBag.Title = "Show";
+    Layout = "~/Views/Shared/_PageMenuLayout.cshtml";
+}
+
+<p class="breadcrumbs">@Html.ActionLink("Галлерея","Index") > @Model.GalleryTitle</p>
+
+
+
+
+  
+    <div id="gallery">
+        
+     @foreach (var item in Model.Images)
+     {
+
+         if (item.ImageData == null)
+         { 
+                 @:none.
+                 }
+         else
+         { 
+    <img width="75" height="75" src="@Url.Action("GetPhotoGalleryImage", "ImageData", new { id = item.ID,width=75,height=75,isGallery=false })" data-big="@Url.Action("GetPhotoGalleryImage", "ImageData", new { id = item.ID,width=0,height=0,isGallery=false })"  data-description="@item.ImageTitle ">
+    
+         }
+     }
+            </div>
+

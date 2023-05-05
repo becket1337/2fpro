@@ -1,0 +1,151 @@
+﻿
+
+@model List<_2fpro.Models.Menu>
+
+@{
+
+}
+
+
+@if (Model != null)//попап меню
+{
+    if (ViewBag.MenuSec == 0)
+    {
+        var childLinks = Model.Select(x => new { x.ParentId }).ToArray();
+
+        <ul class="tmenu toplvl-nav row">
+
+            @foreach (var item in Model.OrderBy(x => x.SortOrder).Where(x => x.ParentId == 0 && x.Url != "law-service"))
+            {
+            <li class="tmenu-item col-md-12 col-lg-6">
+                @if (item.ParentId == 0 && Model.Any(x => x.ParentId == item.Id)) //start submenu
+                {
+                    var urlParent = (new Dictionary<string, string> { { "url", item.Url } });
+                    <a class="ti-lvl1" href="/Menu/Departments">@item.Text</a>
+
+                    <ul class="tmenu__submenu">
+                        @foreach (var itemChild in Model.Where(x => x.ParentId == item.Id))
+                        {
+                            var urlChild = (new Dictionary<string, string> { { "url", /*item.Url + "/" + */itemChild.Url } });
+                            <li class="tmenu__submenu-item"><a class="ti-lvl2" asp-route="PageIndex" asp-all-route-data="urlChild">@itemChild.Text</a></li>
+                        }
+                    </ul>
+                }//end submenu
+
+                else
+                {
+                    var urlParent = (new Dictionary<string, string> { { "url", item.Url } });
+                    if (item.Url == "Home")
+                    {
+                        <text><a class="ti-lvl1 align-items-st" href="/">@item.Text</a></text>}
+                    else if (item.Url == "CatList")
+                    { <text><a class=" ti-lvl1" href="/Category/Catalog">@item.Text</a></text>}
+                else if (item.Url == "Departments")
+                { <text><a class=" ti-lvl1" href="/Menu/Departments">@item.Text</a></text>}
+          
+        else if (item.Url == "news")
+        { <text><a class=" ti-lvl1" href="/Post/Reviews">@item.Text</a></text>}
+        else
+        {
+            <text><a class="ti-lvl1" asp-route="PageIndex" asp-all-route-data="urlParent">@item.Text</a></text>
+        }
+
+    }
+
+            </li>
+
+
+
+            }
+
+
+
+        </ul>
+    }
+    if (ViewBag.MenuSec == 1)//сайдбар меню
+    {
+       
+
+        <ul class="lbmenu toplvl-nav">
+
+            @foreach (var item in Model.OrderBy(x => x.SortOrder).Where(x => x.ParentId == 0 ))
+            {
+            <li class="tmenu-item">
+
+                @{var urlParent = (new Dictionary<string, string> { { "url", item.Url } });
+                }
+                @if (item.Url == "Home")
+                {
+                    <text><a class="ti-lvl1 lblight" href="/">@item.Text</a></text>}
+                else if (item.Url == "CatList")
+                { <text><a class=" ti-lvl1 lblight" href="/Category/Catalog">@item.Text</a></text>}
+            else if (item.Url == "Departments")
+            { <text><a class=" ti-lvl1 lblight" href="/Menu/Departments">@item.Text</a></text>}
+        else if (item.Url == "news")
+        { <text><a class=" ti-lvl1" href="/Post/Reviews">@item.Text</a></text>}
+        else
+        {
+            <text><a class="ti-lvl1 lblight" asp-route="PageIndex" asp-all-route-data="urlParent">@item.Text</a></text>
+        }
+
+
+
+            </li>
+
+
+
+            }
+
+
+
+        </ul> }
+
+    if (ViewBag.MenuSec == 2)//услуги список
+    { <div></div>
+      <ul class="serv-layout-list tmenu">
+         
+          @foreach (var item in Model.Where(x => x.ParentId != 0))
+          {
+              var urlParent = (new Dictionary
+              <string, string>
+      { { "url", item.Url } });
+
+      <li class="tmenu-item">
+          <a asp-route="PageIndex" asp-all-route-data="urlParent">@item.Text</a>
+      </li>
+
+  }
+      </ul>
+                <div>
+                    <a class="lay-btn main-btn-l" href="/Departments">Подробнее</a>
+                </div>
+
+                            }
+                            if (ViewBag.MenuSec == 3)//footer menu
+                            {
+                                <ul>
+                                    @foreach(var item in Model.OrderBy(x => x.SortOrder).Where(x => x.ParentId == 0))
+                                    {
+                                    <li>
+                                        @{var urlParent = (new Dictionary<string, string> { { "url", item.Url } });
+                                        }
+                                        @if (item.Url == "Home")
+                                        {
+                                            <text><a class="ti-lvl1 lblight" href="/">@item.Text</a></text>}
+                                        else if (item.Url == "CatList")
+                                        { <text><a class=" ti-lvl1 lblight" href="/Category/Catalog">@item.Text</a></text>}
+                                    else if (item.Url == "Departments")
+                                    { <text><a class=" ti-lvl1 lblight" href="/Menu/Departments">@item.Text</a></text>}
+                                else if (item.Url == "news")
+                                { <text><a class=" ti-lvl1" href="/Post/Reviews">@item.Text</a></text>}
+                                else
+                                {
+                                    <text><a class="ti-lvl1 lblight" asp-route="PageIndex" asp-all-route-data="urlParent">@item.Text</a></text>
+                                }
+
+                                    </li>
+                                    }
+
+                                </ul>
+                            }
+                        }

@@ -1,0 +1,36 @@
+﻿@model _2fpro.Models.LiveUser
+@using Microsoft.AspNetCore.Http.Extensions
+@{
+    ViewBag.Title = "LiveChat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    MainPopupOpen();
+    $('.ajax-service-item').closest('li').removeClass("selected");
+    $('.main-link').removeClass("selected");
+    $('.leftmenu .ajax-service-item[href="@Context.Request.GetDisplayUrl()"]').closest('li').addClass("selected");
+    $('.main-link[href="@Context.Request.GetDisplayUrl()"]').addClass("selected");
+</script>
+
+
+
+<div class="ajax-page-item clear-fix" >
+<h2>Live chat @ViewBag.IsLocalhost</h2>
+
+
+  
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+  

@@ -1,0 +1,46 @@
+﻿@model _2fpro.Models.Menu
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<h2>Удаление</h2>
+<h3>Вы хотите удалить @Model.Text?</h3>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.MenuSection)
+    @Html.HiddenFor(x => x.ParentId)
+    <p>
+        <button class="k-button k-primary" type="submit">Удалить</button>
+
+    </p>
+}
+@if (Model.ParentId == 0)
+{
+    <a class="k-button" href="@Url.Action("MenuList", "Menu", new {type=Model.MenuSection,page=ViewBag.page})">Назад</a>
+}
+else
+{
+    <a class="k-button" href="@Url.Action("Details", "Menu", new { id = Model.ParentId, page = ViewBag.page })">Назад к разделу</a>
+}
+@(Html.Kendo().Notification()
+    .Name("notification")
+    .Position(x => x.Left(0))
+    .AutoHideAfter(10000)
+)
+@if (TempData["message"] != null)
+{
+    <script>
+
+        $(function () {
+
+            var notification = $("#notification").data("kendoNotification");
+            var type ="";
+            switch(@TempData["type"]){case 1:type="success";break;case 2:type="info";break;case 3:type="warning";break;default:type="error";};
+            notification.show(
+               '@TempData["message"]'
+            ,type);
+        });
+    </script>
+}

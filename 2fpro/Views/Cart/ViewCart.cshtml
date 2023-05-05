@@ -1,0 +1,39 @@
+﻿@model _2fpro.ViewModel.CartViewModel
+@{
+    ViewBag.Title = "Корзина";
+
+}
+@if (Model.Cart.Lines.Count() > 0)
+{
+
+    <section class=" clear-fix" id="cwrap-p">
+        <table>
+            @foreach (var item in Model.Cart.Lines)
+            {
+                <tr class="prod_@item.Product.ID">
+
+                    <td>
+                        <img src="@Url.Action("GetProdImage", "ImageData", new {pid=item.Product.ID,width=50,height=50 })" />
+                    </td>
+                    <td><button class="item-des cart-value-btn"><span><i class="fa fa-minus-circle"></i></span></button><span>@item.Quantity</span><button class="item-des cart-value-btn"><span><i class="fa fa-plus-circle"></i></span></button></td>
+
+                    <td>
+                        <i class="fa fa-times" data-id="@item.Product.ID"></i>
+                    </td>
+                </tr>
+
+            }
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+        <div style="margin-bottom: 10px;">
+            <button class="newitem-button" onclick="window.location='@Url.Action("Index", "Checkout", new {step=1 })';">Корзина</button>
+        </div>
+
+    </section>
+}
+else
+{
+    @:Корзина пуста
+}

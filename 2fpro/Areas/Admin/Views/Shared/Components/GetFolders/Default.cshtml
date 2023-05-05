@@ -1,0 +1,27 @@
+﻿@model _2fpro.ViewModel.FilesViewModel
+@using _2fpro.Extension
+@{
+    ViewBag.Title = "GetFolders";
+
+    
+
+}
+
+
+<h3>Папки</h3>
+<ul class="folder-ul">
+    @if (Model.Dirs.Any())
+    {
+        foreach (var item in Model.Dirs)
+        {
+            bool isSelected = (item == Model.Dirs.First() && Model.PagingInfo.DirName == null) || item.Name == Model.PagingInfo.DirName;
+            <li class="folder-li">
+
+
+                <span class="folder-item  @(isSelected?"selected-folder":"")" data-folder="@item.Name"><i class="fa @(isSelected?"fa-folder-open":"fa-folder-o")"></i> <span>@item.Name</span> </span>
+                <span class="folder-remove" data-folder="@item.Name">удалить</span>
+            </li>
+        }
+    }
+</ul>
+

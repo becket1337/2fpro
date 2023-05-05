@@ -1,0 +1,93 @@
+﻿<section class="reviews-section">
+    <div class="reviews-wrapper">
+
+        <div class="container">
+            <div class="reviews-slider-wrapper row justify-content-center">
+                <div class="flaticon-arrows review-next"></div> 
+                <div class="review-prev flaticon-arrows-1"></div>
+                <div class="reviews-target col-10">
+
+                    <div class="reviews-slider">
+                        <div class="review">
+                            <div class="review-title">Имя фамилия</div>
+                            <div class="review-text">
+                                Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании
+                                Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании
+                            </div>
+                        </div>
+                        <div class="review">
+                            <div class="review-title">Имя фамилия</div>
+                            <div class="review-text">
+                                Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании
+                                Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании
+                            </div>
+                        </div>
+                        <div class="review">
+                            <div class="review-title">Имя фамилия</div>
+                            <div class="review-text">
+                                Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании
+                                Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании
+                            </div>
+                        </div>
+                        <div class="review">
+                            <div class="review-title">Имя фамилия</div>
+                            <div class="review-text">
+                                Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании
+                                Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании Отзыв о услугах компании
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="reviews-openall  text-center "><button class="border-btn">Открыть все</button></div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    $(function () {
+
+        $('.reviews-target').jcarousel({ wrap: null });
+        var pimgList = $('.reviews-target').jcarousel();
+        $('.review-prev')
+            .on('jcarouselcontrol:active', function () {
+                $(this).removeClass('inactive');
+            })
+            .on('jcarouselcontrol:inactive', function () {
+                $(this).addClass('inactive');
+
+            })
+            .jcarouselControl({
+                target: '-=2',
+                carousel: pimgList
+            });
+
+        $('.review-next')
+            .on('jcarouselcontrol:active', function () {
+
+                $(this).removeClass('inactive');
+            })
+            .on('jcarouselcontrol:inactive', function () {
+                $(this).addClass('inactive');
+
+            }).jcarouselControl({
+                target: '+=2',
+                carousel: pimgList
+            });
+
+
+        if (XN.IsMobile) {
+            $('.review-prev,.review-next').hide();
+            $('.reviews-target')
+                .jcarousel()       // init jcarousel
+                .jcarouselSwipe(); // init jcarouselSwipe
+        }
+        else {
+            $(".reviews-target").jcarousel();
+        }
+    });
+</script>

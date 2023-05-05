@@ -1,0 +1,290 @@
+﻿@model _2fpro.Models.Product
+
+@inject _2fpro.Service.Interface.IProductRepository pRep
+
+@inject Microsoft.Extensions.Caching.Distributed.IDistributedCache _cache
+@{
+
+
+    var currPrice = Model.Discount != 0 ?
+        Model.DiscountedPrice().ToString("N", System.Globalization.CultureInfo.CreateSpecificCulture("ru")).Replace(",00", "") :
+        Model.Price.ToString("N", System.Globalization.CultureInfo.CreateSpecificCulture("ru")).Replace(",00", "");
+
+    string catName = Model.CatName;
+
+    ViewBag.Title = Model.ProductName;
+    Layout = "~/Views/Shared/_ProdView.cshtml";
+    _2fpro.Models.ProdImage previewImg = Model.ProdImages.FirstOrDefault(x => x.IsPreview == 1);
+    //site domain
+    string siteurl = "";
+    bool islocal = Context.Request.IsLocalPath();
+    siteurl = islocal ? siteurl = "~" : siteurl = ViewBag.Sitepath;
+
+    string price = Model.Price.ToString("N", System.Globalization.CultureInfo.CreateSpecificCulture("ru")).Replace(",00", "");
+    string discPrice = Model.DiscountedPrice().ToString("N", System.Globalization.CultureInfo.CreateSpecificCulture("ru")).Replace(",00", "");
+
+    var currPrice1 = Model.Discount != 0 ?
+    Model.DiscountedPrice() :
+    Model.Price;
+    // ТКАНи
+    //ссылка на каталог
+    var linkParams = (new Dictionary<string, string> { { "catid", Model.CategoryID.ToString() }, { "catname", catName.Unidecode() }, { "page", "1" } });
+
+    /*<div class="item-features__tobuy">
+                       <a class="tobuy-btn prod-view-btn @(pRep.ProdIsAdded(Model.ID,Cart) ? "prod-view-btn-added":"prod-toadd")" data-page-details="true" data-event-type="cart__add" data-pid="@Model.ID" title="Кухонный стол Вестерн-Мини Комби" href="javascript:void(0);">
+                           <span class=" ">@(pRep.ProdIsAdded(Model.ID, Cart) ? "Товар в корзине" : "Добавить в корзину")</span>
+                           <div>
+                           </div>
+
+
+                       </a>
+                   </div>
+
+
+   data-isadded="@pRep.ProdIsAdded(item.ID, cart)" @if (Context.Request.IsMobileBrowser()) { <text> data-event-type="cart__add" data-pid="@item.ID" data-type="c" </text> }
+
+   var cart =await  _cache.GetAsync<Cart>("Cart");
+   */
+}
+<link rel="stylesheet" href="~/css/swiper-prodview.css" />
+<link rel="stylesheet" href="~/css/Shop/prod-details.css" />
+
+<div class="container-fluid">
+    <div class="prod-view prod-view__details" id="pid_@Model.ID">
+        <div class="pv-wrapper row">
+            <div class="breadcrumb side-block">@Html.ActionLink("Главная", "Index", "Home")&nbsp;<i class="fas fa-chevron-right"></i>&nbsp;<a href="/Category/Catalog">Каталог</a>@*&nbsp;<i class="fas fa-chevron-right"></i>&nbsp; <a href="/Product/CatalogView?catid=@Model.CategoryID">@ViewBag.catname</a>*@&nbsp;<i class="fas fa-chevron-right"></i>&nbsp; <a class="submenu-link" href="/Product/CatalogView?catid=@Model.CategoryID">@catName</a>&nbsp;<i class="fas fa-chevron-right"></i>&nbsp; @Model.ProductName</div>
+            <div class="prod-view__leftside col-md-7 col-sm-12">
+                <div class="view-img">
+
+                    <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
+                         class="swiper mySwiper2">
+                        <div class="swiper-wrapper">
+
+                            @foreach (var img in Model.ProdImages.OrderByDescending(x => x.Sortindex).OrderByDescending(x => x.IsPreview))
+                            {
+                                <div class="swiper-slide">
+                                    <img class="detail-item" data-id="@img.ID" data-pid="@img.ProductID" src="@Url.Content(siteurl + "/Content/Files/Product/" + img.ProductID + "/height500/" + img.ImageMimeType)" />
+                                </div>
+                            }
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                    <div thumbsSlider="" class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            @foreach (var img in Model.ProdImages.OrderByDescending(x => x.Sortindex).OrderByDescending(x => x.IsPreview))
+                            {
+                                <div class="swiper-slide">
+                                    <img class="detail-item" data-id="@img.ID" data-pid="@img.ProductID" src="@Url.Content(siteurl+"/Content/Files/Product/" + img.ProductID + "/200x150/" + img.ImageMimeType)" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                <script>
+                    var swiper = new Swiper(".mySwiper", {
+
+                        spaceBetween: 20,
+                        slidesPerView: 5,
+                        breakpoints: {
+                            // when window width is >= 320px
+                            320: {
+                                slidesPerView: 3,
+                                spaceBetween: 0
+                            },
+                            // when window width is >= 480px
+                            480: {
+                                slidesPerView: 3,
+                                spaceBetween: 0
+                            },
+                            // when window width is >= 640px
+                            640: {
+                                slidesPerView: 5,
+                                spaceBetween: 0
+                            }
+                        },
+                        freeMode: true,
+                        watchSlidesProgress: true,
+                    });
+                    var swiper2 = new Swiper(".mySwiper2", {
+                        loop: true,
+                        spaceBetween: 10,
+                        navigation: {
+                            nextEl: ".swiper-button-next",
+                            prevEl: ".swiper-button-prev",
+                        },
+                        thumbs: {
+                            swiper: swiper,
+                        }
+                    });
+                </script>
+
+
+                @*<div class="prod-image">
+                        <div id="imwrap">
+                            <img class="prod-view__target-img img-responsive"  src="@Url.Content(siteurl+"/Content/Files/Product/" + Model.ID + "/" + previewImg.ImageMimeType)" />
+                        </div>
+                    </div>
+                    <div class="imglist-wrap imglist-view" id="prod_sl_1">
+
+                        <div class="prod-imglist view-imglist">
+
+                            <ul id="gallery_01">
+
+                                <li>
+                                    <img class="detail-item" id="zoom_1" data-id="@previewImg.ID" data-pid="@previewImg.ProductID" src="@Url.Content(siteurl + "/Content/Files/Product/" + previewImg.ProductID + "/200x150/" + previewImg.ImageMimeType)" height="76" width="60" />
+                                </li>
+
+                                @foreach (var img in Model.ProdImages.Where(x => x.IsPreview == 0).OrderByDescending(x => x.Sortindex))
+                                {
+
+
+                                    <li>
+                                        <img class="detail-item" data-id="@img.ID" data-pid="@img.ProductID" src="@Url.Content(siteurl+"/Content/Files/Product/" + img.ProductID + "/200x150/" + img.ImageMimeType)" height="76" width="60" />
+                                    </li>
+
+                                }
+                            </ul>
+
+                        </div>
+
+                    </div>*@
+            </div>
+
+
+
+            <div class="item-features-wrap col-md-5 col-sm-12">
+                <div class="item-features side-block">
+                    <div class="item-features__title">
+                        <div class="item-features__h1">
+                            @if (Model.InStock)
+                            {
+                                <div class="prod-view_instock">Нет в наличии</div>
+                            }
+
+                            <div class="prod-view_title">
+                                <h1>@Model.ProductName</h1>
+
+                            </div>
+                            <div class="prod-view_catname">Артилкул: @Model.Material</div>
+
+
+
+
+                            @*<div class="prod-view_desc">
+                                    <div class="pv_desc-title">Описание</div>
+                                    <div class="pv_desc-content">@Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Description))</div>
+                                </div>*@
+                        </div>
+
+
+                    </div>
+
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Color) || !string.IsNullOrWhiteSpace(Model.Material) || !string.IsNullOrWhiteSpace(Model.Size) || !string.IsNullOrWhiteSpace(Model.Manufacturer))
+                    {<div class="item-features__title"><div>Характеристики</div></div>}
+                    <div class="item-features__table">
+
+
+
+                        @if (!string.IsNullOrWhiteSpace(Model.Color))
+                        {
+
+                            <div class="feat-row">
+                                <div class="feat-tr">Цвет</div>
+                                <div class="feat-td">@Model.Color</div>
+                            </div>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(Model.Material))
+                        {
+
+                            <div class="feat-row">
+                                <div class="feat-tr">Материал</div>
+                                <div class="feat-td">@Model.Material</div>
+                            </div>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(Model.Size))
+                        {
+
+                            <div class="feat-row">
+                                <div class="feat-tr">Размеры</div>
+                                <div class="feat-td">@Model.Size</div>
+                            </div>
+                        }
+                        @if (Model.PackagingSize > 0)
+                        {
+
+                            <div class="feat-row">
+                                <div class="feat-tr">Кол-во в упаковке</div>
+                                <div class="feat-td">@Model.PackagingSize</div>
+                            </div>
+                        }
+
+                        @if (!string.IsNullOrWhiteSpace(Model.Manufacturer))
+                        {
+
+                            <div class="feat-row">
+                                <div class="feat-tr">Производитель</div>
+                                <div class="feat-td">@Model.Manufacturer</div>
+                            </div>
+                        }
+
+                        <div class="prod-des">@Model.ProductType</div>
+                    </div>
+                    @*<div class="item-features__price">
+                            <div class="item-features__price-value" data-price="@currPrice">
+                                @if (Model.Discount != 0)
+                                {
+                                    <div class="curr-price">@price ₽</div><div class="price-updated">@discPrice ₽</div><div class="item-features__discount">-@(Model.Discount.ToString() + "%")</div>
+                                }
+                                else
+                                {
+                                    <div class="price-updated">@price ₽</div>
+                                }
+                            </div>
+                        </div>
+                        <div class="item-features__btns">
+                            <div class="feat-btn"><button class="main-btn" data-content-type="orderForm" data-pid="@EncryptHelper.Encrypt(Model.ID.ToString())">Заказать</button></div>
+
+                        </div>*@
+                </div>
+
+
+
+
+            </div>
+
+            <div class="pv-tabstrip  justify-content-center  row">
+                <div class="pv-tabstrip-wrap col-xl-10 col-lg-12">
+                    @*<ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Описание</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Доставка и оплата</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Отзывы</button>
+                            </li>
+                        </ul>*@
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">@Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Description))</div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">доставка и оплата</div>
+                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">отзывы</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+    </div>
+
+
+</div>
+<partial name="_AboutSection" />

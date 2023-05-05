@@ -1,0 +1,78 @@
+﻿@model IEnumerable<_2fpro.Models.Menu>
+
+@(Html.Kendo().Sortable()
+        .For("#img-cont")
+
+        .HintHandler("hint")
+        .PlaceholderHandler("placeholder")
+
+        .Events(events => events.Change("onChange"))
+)
+<style>
+    .hint {
+        background: black;
+    }
+</style>
+<script>
+
+    function hint(element) {
+        var row = element.clone();
+        var table = $('<table class="admTable stripedMe" ></table>');
+        table.append(row);
+        $('#tar').html(table);
+        return table;
+
+    }
+
+    function placeholder(element) {
+        return $('<tr />').addClass("placeholder").append('<td colspan="6">Поместить сюда</td></tr>');
+    }
+
+    function onChange(e) {
+        var target = $('#droptarget');
+        var idx = e.item.data("id"),
+            gid = e.item.data("galid")
+        text = e.item.find('td.sort-name').text(),
+        newIndex = e.newIndex + 1,
+        oldIndex = e.oldIndex + 1;
+
+        opos = $('.sort-item:eq(' + newIndex + ')').data('sort');
+        npos = $('.sort-item:eq(' + oldIndex + ')').data('sort');
+        console.log(opos + ', ' + npos + ' eq: ' + e.newIndex + ' ' + e.oldIndex);
+        $.post('/Menu/EditSort', { id: idx, newPos: npos, oldPos: opos }, function () {
+
+        });
+
+
+    }
+
+</script>
+<div id="tar"></div>
+<table class="admTable stripedMe" id="menulist">
+    <tr class="tdTitle">
+        <th>Id</th>
+        <th>Название</th>
+        <th>Url</th>
+        <th>Сортировка</th>
+        <th>Секция меню</th>
+        <th></th>
+    </tr>
+    <tbody id="img-cont">
+        @foreach (var item in Model)
+        {
+            <tr class="sort-item" data-sort="@item.SortOrder" data-id="@item.Id">
+                <td>@item.Id</td>
+                <td class="sort-name">@item.Text</td>
+                <td>@item.Url</td>
+                <td>@item.SortOrder</td>
+                <td> @(item.MenuSection != 0 ? "второй раздел" : "первый раздел")</td>
+                <td>
+                    <a href="/Admin/Menu/Edit/@item.Id" title="Редактировать" class="k-button"><span class="k-icon k-i-pencil"></span></a>
+                    <a href="/Admin/Menu/Delete/@item.Id" title="Удалить" class="k-button"><span class="k-icon k-i-close"></span></a>
+                </td>
+            </tr>
+
+
+        }
+    </tbody>
+</table>

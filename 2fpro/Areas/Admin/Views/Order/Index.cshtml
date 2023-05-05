@@ -1,0 +1,103 @@
+﻿@model _2fpro.ViewModel.OrderViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    Model.PagingInfo.PageUrlWithParam = (x, y) => Url.Action("Index", new { page = x, sort = y });
+}
+
+<script>
+    $(function () {
+        $(document).on('change', '#OrderStatus', function () {
+            var val = $(this).val();
+
+            window.location.replace('/Admin/Order/Index?page=@Model.PagingInfo.CurrentPage&sort='+val);
+        });
+    });
+</script>
+<h2>Заказы</h2>
+
+<p>фильтр по статусу: @Html.DropDownListFor(x => x.OrderStatus, Model.OrderFilters, "...", null)  <a class="k-button" href="/Admin/Order/DeleteAll">удалить все</a></p>
+
+<table class="admTable stripedMe">
+    <tr class="tdTitle">
+
+    @if (!Context.IsMobileBrowser()){
+        <th style="width:50px;">ID</th>
+        <th style="width:200px;">
+            Имя
+        </th>
+    }
+        <th style="width:220px;">
+            Дата заказа
+        </th>
+
+        <th style="width:200px;">
+            Статус
+        </th>
+
+        <th style="width:100px;"></th>
+    </tr>
+
+    @foreach (var item in Model.Orders)
+    {
+
+    <tr>
+        @if (!Context.IsMobileBrowser())
+        {
+            <td>
+
+                @item.ID
+            </td>
+       
+        <td>
+            @item.Name
+        </td> 
+        }
+        <td>
+            @item.CreatedAt
+        </td>
+
+
+        <td>
+            @item.OrderStatus
+
+        </td>
+        <td>
+            <!--<a href="/Admin/Order/Edit/@item.ID" title="Редактировать" class="button"><span class="icon icon145">Edit</span></a> -->
+            <a href="/Admin/Order/Details/@item.ID" title="Детали" class="k-button"><i class="fa fa-file"></i></a>
+
+
+            <a href="/Admin/Order/Delete?id=@item.ID&Npage=@Model.PagingInfo.CurrentPage" title="Удалить" class="k-button"><span class="k-icon k-i-close"></span></a>
+        </td>
+    </tr>
+    }
+
+</table>
+<div class="pager"><pager info="@Model.PagingInfo"></pager></div>
+@(Html.Kendo().Notification()
+        .Name("notification")
+        .Position(x => x.Left(0))
+        .AutoHideAfter(10000)
+)
+@if (TempData["message"] != null)
+{
+    <script>
+
+        $(function () {
+
+            var notification = $("#notification").data("kendoNotification");
+            var type ="";
+            switch(@TempData["type"]){case 1:type="success";break;case 2:type="info";break;case 3:type="warning";break;default:type="error";};
+            notification.show(
+               '@TempData["message"]'
+            ,type);
+        });
+    </script>
+}
+
+<style>
+
+
+</style>

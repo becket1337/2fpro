@@ -1,0 +1,81 @@
+﻿@model _2fpro.Models.Product
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment _env
+@inject _2fpro.Service.Interface.IProductRepository pRep
+@{
+    _2fpro.Models.ProdImage previewImg = Model.ProdImages.FirstOrDefault(x => x.IsPreview == 1);
+    var root = Context.Request.IsLocalPath() ? "~" : _env.WebRootPath;
+    var imagePath = Url.Content("/Content/Files/Product/" + Model.ID + "/" + previewImg.ImageMimeType);
+
+    //var lastLogged = await _cache.GetAsync("lastLogged");
+    //var encLogged = System.Text.Encoding.UTF8.GetString(lastLogged);
+    //var cart = await _cache.GetAsync<SessionStorage>(encLogged);
+    //if (cart == null)
+    //{
+    //     await  _cache.SetAsync<SessionStorage>(encLogged, new SessionStorage() { Cart = new Cart() });
+    //}
+    SessionStorage cart = ViewBag.GetCart;
+
+    var ssss = cart.Cart;
+}
+
+<script>
+    $(function () {
+        $('*[data-quan="1"]').on('click', function () {
+            var targ = $('*[data-prod-count="1"]');
+            var quan = parseInt(targ.val());
+            quan!=1?quan--:"";
+            targ.val(quan);
+            targ.data("prod-numb", quan);
+        });
+        $('*[data-quan="2"]').on('click', function () {
+            var targ = $('*[data-prod-count="1"]');
+            var quan = parseInt(targ.val());           
+            quan++;
+            targ.val(quan);
+            targ.data("prod-numb", quan);
+            //console.log(targ.data('prod-numb'));
+        });
+    });
+</script>
+<div class="prod-layout-wrap row" data-pid="@Model.ID">
+    <div class="pd-left col-md-6 col-sm-12">
+
+        <div class="pd-row"><div class="pd-title"><h1>@Model.ProductName</h1> <div class="mob-layout-prodimg d-block d-sm-none"><img src="@imagePath" width="100" /></div></div></div>
+        <div class="pd-row">B
+            <div class="pd-price"><span class="pd-price_text">Цена:</span><span class="pd-price_cash"> @Model.Price.ToString("N0") ₽  </span> </div>
+            <div class="pd-quan">
+                <span class="pd-quan_descr" data-quan="1">−</span>
+                <span class="pd-quan_count"><input type="text" class="cart-quantity-val" value="1"  data-prod-numb="1"  data-prod-count="1" /></span>
+                <span class="pd-quan_iscr" data-quan="2">+</span>
+            </div>
+        </div>
+        <div class="pd-row ">
+            <div class="pd-disc">
+                <span class="pd-disc_icon"><img src="~/site/main/discount.png" /></span><span class="pd-disc_text">Хочу дешевле</span>
+            </div>
+            <div class="pd-btns">
+                <button class="main-btn" data-content-type="orderForm">Заказ в один клик</button>
+
+                @if (pRep.ProdIsAdded(Model.ID, cart.Cart))
+                {
+                    <button class="main-btn prodd-toadd prod-view-btn-added" data-page-index="true" data-isadded="true" data-event-type="cart__add" data-pid="@Model.ID" data-type="c"><span>Товар в корзине</span></button>
+                }
+                else
+                {
+
+                    <button class="main-btn prodd-toadd" data-page-index="true" data-isadded="false" data-event-type="cart__add" data-pid="@Model.ID" data-type="c"><span>Купить</span></button>
+                }
+
+                
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="pd-right col-md-6 col-sm-12 d-none d-sm-block"><img src="@imagePath" /></div>
+
+</div>

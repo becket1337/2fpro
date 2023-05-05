@@ -1,0 +1,170 @@
+﻿@model _2fpro.Models.Gallery
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@(Html.Kendo().Sortable()
+        .For(".xn-sort")
+        .Axis(SortableAxis.X)
+        .HintHandler("hint")
+        .PlaceholderHandler("placeholder")
+
+        .Events(events => events.Move("onMove").Cancel("onCancel").End("onEnd").Start("onStart"))
+)
+<script>
+    $(document).on('click', '.gal-item-del', function () {
+        $.post('/PhotoGallery/DeleteImg/' + $(this).data('id'), function (data) {
+            $('#' + data.imgId).closest("div").remove();
+        });
+    });
+    var arr = [],
+        itemData = {};
+    function hint(element) {
+        return element.clone().addClass("hint");
+    }
+
+    function placeholder(element) {
+        return element.clone().addClass("placeholder").text("Поместить сюда");
+    }
+    /* main fucntions */
+    function onStart(e) {
+        var id = e.sender.element.attr("id");
+        console.log(id + " start: " + e.item.text());
+    }
+
+    function onMove(e) {
+        var id = e.sender.element.attr("id"),
+            text = e.item.attr('data-sort'),
+            placeholder = e.list.placeholder;
+
+        console.log(text + " " + id + " move to index: " + this.indexOf(placeholder));
+    }
+
+    function onEnd(e) {
+        var id = e.sender.element.attr("id"),
+            text = e.item.find('>div').text(),
+            oldIndex = e.oldIndex,
+            newIndex = e.newIndex;
+        if (oldIndex > newIndex) {
+            for (var i = newIndex; i <= oldIndex; i++) {
+                var sortlist = $('.xn-sort').children('.xn-sortitem');
+                var sortitem = sortlist.eq(i);
+                var sortitem1 = sortlist.eq(i + 1);
+                console.log('id - ' + sortitem.attr('id') + ', sort - ' + sortitem1.data('sort') + 'old - ' + oldIndex + ', new - ' + newIndex);
+                arr.push({ id: sortitem.attr('id'), sort: sortitem1.data('sort') });
+
+            }
+            $.post('/PhotoGallery/EditSort', { jsonData: JSON.stringify(arr) }, function () {
+
+            });
+        }
+        else if (oldIndex < newIndex) {
+            for (var i = newIndex; i >= oldIndex; i--) {
+                var sortlist, sortitem, sortitem1;
+                if (oldIndex == i) {
+                    sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(newIndex);
+                }
+                else {
+                    sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(i - 1);
+                }
+                console.log('id - ' + sortitem.attr('id') + ', sort - ' + sortitem1.data('sort') + 'old - ' + oldIndex + ', new - ' + newIndex);
+                arr.push({ id: sortitem.attr('id'), sort: sortitem1.data('sort') });
+
+            }
+            $.post('/PhotoGallery/EditSort', { jsonData: JSON.stringify(arr) }, function () {
+
+            });
+        }
+        else { }
+        //console.log(id + " end: " + text + " oldIndex: " + oldIndex + " newIndex: " + newIndex + " action: " + e.action);
+    }
+
+    function onChange(e) {
+        var id = e.sender.element.attr("id"),
+            text = e.item.text(),
+            newIndex = e.newIndex,
+            oldIndex = e.oldIndex;
+
+        console.log(id + " change: " + text + " newIndex: " + newIndex + " oldIndex: " + oldIndex + " action: " + e.action);
+    }
+    /* end main fucntions */
+    function DeleteAll(id) {
+        $.post('/PhotoGallery/DeleteAll', { galid: id }, function () { $('.gal-item').remove(); });
+    }
+    function onCancel(e) {
+        var target = $('#droptarget');
+        target.html("cancel");
+    }
+</script>
+
+
+<p>
+
+    <a class="k-button" href="@Url.Action("Index", "PhotoGallery", new {page=ViewBag.Page})"><i class="fa fa-arrow-left"></i></a>
+    <br /><br /><br />
+</p>
+<p class="breadcrumbs">@Html.ActionLink("галлерея", "Index")  / @Model.GalleryTitle </p>
+
+
+<!--<div class="display-field">
+  Название -  @Html.DisplayFor(model => model.GalleryTitle)
+</div><br />-->
+
+<div>
+
+    <div style="float:left;">
+        <img width="150" height="150" src="@Url.Content("~/Content/Files/Gallery/" + Model.ID + "/" + Model.GalleryMimeType)" />
+    </div>
+
+
+</div><br />
+<div style="width: 100%;float: left;clear: both;">
+    <h3>Все фото (@Model.Images.Count()):</h3>
+    <a href="#" onclick="$('#gal-popup').data('kendoWindow').open()"><button class="k-button"><i class="fa fa-upload"></i>  Загрузить</button></a><br /><br /><br />
+    <a class="k-button" onclick="DeleteAll(@Model.ID);">Удалить все</a>
+    <p id="droptarget"></p>
+    <div id="img-cont" class="xn-sort">
+        @foreach (var item in Model.Images.OrderBy(x => x.Sortindex))
+        {
+
+
+            <div class="gal-item xn-sortitem" data-sort="@item.Sortindex" data-id="@item.ID" data-galid="@item.GalleryID" id="@item.ID">
+
+                <div class="xn-sortitem-title">@item.ID - @item.Sortindex </div>
+                <a href="#">
+
+                    <img width="65" height="65" class="preview gal-img-item" id="@item.ID" title="@item.ImageTitle" src="@Url.Content("~/Content/Files/Gallery/" + Model.ID + "/images/"+item.ImageMimeType)" />
+                </a>
+                <button id="gal-item_@item.ID" data-id="@item.ID" data-galid="@item.GalleryID" title="удалить" class="gal-item-del" style="width: 33px;padding: 0;float: right;" class="action">
+                    <span class="fa fa-trash"></span>
+                </button>
+            </div>
+
+
+
+        }
+    </div>
+</div>
+
+@(Html.Kendo().Window()
+        .Title("Загрузка фото")
+        .Name("gal-popup")
+        .Modal(true)
+        .Visible(false)
+
+        .LoadContentFrom(Url.Action("UploadStart", new { galId = Model.ID }))
+        .Width(500)
+        .Height(400)
+        .Events(e => e.Close("gpClose"))
+)
+
+<script>
+
+    function gpClose() { window.location.reload(); }
+</script>

@@ -1,0 +1,112 @@
+﻿@*@model _2fpro.Models.Feedback
+
+ 
+     <script>
+         function onSuccessfeed() {
+            
+             //$('#sendingProgress').empty().append('Спасибо! Сообщение отправлено.');
+            
+             $("#sendfeed").unbind('click');
+             //$("#sendfeed").empty().append('Отправить');
+
+         }
+         function onBeginfeed() {
+             $('#target .xn-dark-button').html('<img class="submit-loader" src="/Content/ajax-loaders/horizont/89.GIF" >');
+             $("#sendfeed").prop('disabled', true);
+             //$('.feed-loader').show();
+             $('#target input,#target  textarea').css('opacity', '0.5');
+         }
+         function onComplete() {
+             $("#sendfeed").unbind('click');
+             $("#sendfeed").prop('disabled', false);
+             $('#target .xn-dark-button').html('Отправить');
+             //$('.feed-loader').hide();
+             $('#target input,#target  textarea').css('opacity', '1');
+             //$("#sendfeed").empty().append('Отправить');
+         }
+
+
+         function onFailure() {
+             // $("#sendfeed").empty().append('Отправить');
+             alert("Ошибка ! Повторите снова.");
+             $("#sendfeed").prop('disabled', false);
+
+         }
+
+     </script>
+          
+           <div class="modalh">
+           <h3 class="headline">Задать вопрос</h3>
+               <div class="md-close iconicfill-x"><button class="xn-close-btn-bl"></button></div>
+           </div>
+          <div class="modalp" style="overflow:hidden">
+    @using (Ajax.BeginForm("Send", "Feedback", new AjaxOptions
+    {
+        HttpMethod = "post",
+        UpdateTargetId = "target",
+
+        InsertionMode = InsertionMode.Replace,
+        OnSuccess = "onSuccessfeed",
+        OnBegin = "onBeginfeed",
+        OnComplete = "onComplete",
+        OnFailure = "onFailure"
+
+    }, new {id="feed__form" }))
+    { @Html.AntiForgeryToken()
+        <div id="target" class="modal-wrap">
+       
+        <div class="feededitor">
+            @Html.TextBoxFor(model => model.Name, new { placeholder = "Ваше имя" })
+             <div class="feed-valid"> @Html.ValidationMessageFor(x => x.Name)</div>
+        </div>
+       
+        <div class="feededitor">
+            @Html.TextBoxFor(model => model.Email, new { placeholder = "Контактный E-mail" })
+         <div class="feed-valid"> @Html.ValidationMessageFor(x => x.Email)</div>
+        </div>
+
+       
+        <div class="feededitor">
+            @Html.TextAreaFor(model => model.Text, new { cols = 10, rows = 7, placeholder = "Текс сообщения" })
+           <div class="feed-valid">@Html.ValidationMessageFor(x => x.Text)</div>
+        </div>
+        @if (Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["AllowCaptcha"]))
+        {
+                   <div id="wall-anti-spam" >
+                <div class="reg-label" style="float:left;padding:0">Введите слово&nbsp;&nbsp;&nbsp;&nbsp;  </div>
+                <div id="captcha" class="reply-protect" style="height:30px;width:130px;float:left">
+                    @{Html.RenderAction("Captcha", "DataCaptcha", new { set = 2 });}
+                    </div>
+   <script>
+
+       $(document).on("click", "#loadCaptcha_2", function () {
+           $("#wallCaptcha_2").attr("src", "/DataCaptcha/Show?" + (new Date()).getTime());
+
+       });
+       
+   </script>
+
+            <div class="captchainput" style="width: 100px;padding-left: 20px;float: left;"> 
+            
+                @Html.TextBox("Captcha", null, new { id = "Captcha-Input-r", style = "width:100px" })
+               
+                    
+                </div> 
+                </div>
+        }
+            <div class="feededitor">
+                <button type="submit" class="main-btn default-btn " style="float:right;" >
+                    <span class="cat-btn__text">Отправить</span>
+
+
+                </button>
+                
+                <input type="button" class="xn-dark-button btn btn-default md-close visible-xs" value="Закрыть">
+                </div>
+            </div>
+        <p id="fail"></p>
+    }
+             
+    </div>
+ <div class="feed-loader"><img src="@Url.Content("~/Content/ajax-loaders/feed-load.gif")" /></div>*@
+

@@ -1,0 +1,32 @@
+﻿@model _2fpro.Models.Diagnostic
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<div class="diag-info-wrapper userinfo_wrapper">
+    <div class="diag-info_title"><a class="diag-icon-back" id="diag-info-back"><i class="fa fa-arrow-left"></i></a>
+       <span>Геолокация</span>
+    </div>
+    <div class="diag-info_content">
+        <div class="diag-info-row"><span class="diag-info-row_text">ip:</span><span class="diag-info-row_val">@Model.IpAddress</span></div>
+        <div class="diag-info-row"><span class="diag-info-row_text" title="@Model.CustomStringField">Пользователь:</span><span class="diag-info-row_val">@(Model.CustomStringField.Length > 15 ? Model.CustomStringField.Substring(0, 15) + ".." : Model.CustomStringField)</span></div>
+        <div class="diag-info-row"><span class="diag-info-row_text">Откуа:</span><span class="diag-info-row_val">@Model.Location</span></div>
+        <div class="diag-info-row"><span class="diag-info-row_text">Гео код:</span><span class="diag-info-row_val">@Model.CountryCode</span></div>
+        <div class="diag-info-row"><span class="diag-info-row_text">Широта:</span><span class="diag-info-row_val">@Model.Latitude</span></div>
+        <div class="diag-info-row"><span class="diag-info-row_text">Долгота:</span><span class="diag-info-row_val">@Model.Longitude</span></div>
+
+        <div class="diag-info-row"><span class="diag-info-row_text">Мобильное ус-во:</span><span class="diag-info-row_val">@(Model.IsMobileConn ? "да" : "нет")</span></div>
+        <div class="diag-info-row"><span class="diag-info-row_text">Был на сайте:</span><span class="diag-info-row_val">@Model.CurrDateTime</span></div>
+
+        <div class="diag-info-row"><span class="diag-info-row_text">Код региона:</span><span class="diag-info-row_val">@Model.RegionCode</span></div>
+        <div class="diag-info-row"><span class="diag-info-row_text">Регион:</span><span class="diag-info-row_val">@Model.RegionName</span></div>
+        <div class="diag-info-row"><span class="diag-info-row_text">Часовой пояс:</span><span class="diag-info-row_val">@Model.Timezone</span></div>
+        <div class="diag-info-row"><span class="diag-info-row_text">Zip-код:</span><span class="diag-info-row_val">@Model.Zip</span></div>
+        <div class="diag-info-row"><span class="diag-info-row_text">Статус:</span><span class="diag-info-row_val">@Model.Status</span></div>
+        <div class="diag-info-row"><span class="diag-info-row_text">Организация (org):</span><span class="diag-info-row_val">@Model.OrganizationName</span></div>
+        <div class="diag-info-row"><span class="diag-info-row_text">Провайдер (isp):</span><span class="diag-info-row_val">@Model.AsNumberAndName</span></div>
+        <div class="diag-info-row"><span class="diag-info-row_text">Сеть (as):</span><span class="diag-info-row_val">@Model.ISPName</span></div>
+    </div>
+
+</div>

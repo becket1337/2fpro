@@ -1,0 +1,33 @@
+﻿@model _2fpro.ViewModel.PostViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+ <table>
+@foreach (var item in Model.Posts)
+{
+   
+
+       
+            <tr class="post-date"><td  colspan="2">@item.CreatedAt.ToString("dd'/'MM'/'yyyy")</td></tr>
+            <tr class="post-desc">
+                <td>@Html.ActionLink(item.Title, "Details", "Post", new { id = item.ID },null)</td>
+                <td><img src="@Url.Action("GetPostImage", "Post", new { id = item.ID })" /></td>
+
+            </tr>
+            <tr><td class="post-divider"></td></tr>
+
+      
+
+
+        <!--<div style="display: block;float: left;">@item.CreatedAt.ToShortDateString()</div>
+         <div>@Html.ActionLink(item.Title, "Details", "Post", new { id = item.ID },null)</div>-->
+         
+       
+}
+
+ </table>
+

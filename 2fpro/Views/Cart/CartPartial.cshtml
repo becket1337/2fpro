@@ -1,0 +1,40 @@
+﻿
+@model _2fpro.ViewModel.CartViewModel
+@{bool hasItems = Model.Cart.Lines.Count() == 0 ? false : true;}
+<div id="cart__partial">
+
+    <nav class="foreign-cont" style="visibility:hidden;opacity:0;">
+
+        <div class="forg-tnl"></div>
+        <div class="forg-top-content">
+            <div class="top-cart-checkout"><a style="display:block;font-size:18px;margin:0;" class="main-btn w138 loader-state" asp-controller="Checkout" asp-action="Index" asp-route-step="1">Оформить заказ</a></div>
+            <div class="top-cart-total">
+               
+                <span class="forg-h2">Ваша корзина покупок</span>
+                <span class="forg-h4">
+                    <span class="forg-h3">Кол-во: </span>
+                    <span class="partial-cart__summary">
+
+                        @(Model.Cart.Lines.Count() > 0 ? Model.Cart.SumItems.ToString() : "Корзина пуста")
+
+                    </span>
+                    
+                </span>
+                <span class="partial-cart__total" style="text-align:right;">@(Model.Cart.Lines.Count() > 0 ? Model.Cart.TotalValue().ToString() : "")&nbsp;@(Model.Cart.Lines.Count() == 0 ? "" : "руб")</span>
+            
+            </div>
+            
+        </div>
+        <table class="forg-menu">
+
+            @foreach (var item in Model.Cart.Lines)
+            {
+                <tr class="item-row" data-pid="@item.Product.ID">
+                    <td><img class="forg-img" src="/Content/Files/Product/@item.Product.ID/200x150/@item.Product.ProdImages.FirstOrDefault(x=>x.IsPreview==1).ImageMimeType" /></td>
+                    <td><span>@(item.Product.ProductName.Length > 25 ? item.Product.ProductName.Substring(0, 25) + "..." : item.Product.ProductName)</span><span class="top-cart-remove" data-event-type="cart__remove">удалить</span></td>
+                    <td>@item.Product.Price.ToString("N", System.Globalization.CultureInfo.CreateSpecificCulture("ru")).Replace(",00", "") руб</td>
+                </tr>
+            }
+        </table>
+    </nav>
+</div>

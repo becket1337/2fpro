@@ -1,0 +1,73 @@
+﻿@using _2fpro.Models
+@model AdmLoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Areas/Admin/Views/Shared/_LoginLayout.cshtml";
+}
+<div class="adm-log-wrap">
+    @*<img src="@Url.Content("~/Content/images/logo.jpg")" align="left" />*@
+
+</div>
+<script>
+    $(function(){
+    $('.adm-wrapper form').attr('autocomplete', 'off');
+    });
+</script>
+<div class="adm-logo" >
+    <span>Вход в Админ/панель.</span>
+</div>
+
+
+<div class="adm-main">
+@Html.ValidationSummary(true, "")
+
+@using (Html.BeginForm()) {
+  @(Html.Kendo().Notification()
+    .Name("popupNotification")
+)
+ @Html.AntiForgeryToken()
+       
+       <div class="adm-form clear-fix">
+         <p>
+   
+</p>
+            
+               
+            
+            <div class="main-login">
+                <div class="adm-logo-line">
+                    @*<span >Логин</span>*@
+                    @Html.TextBoxFor(x => x.Email, new { @class = "",placeholder="Логин",id="Email",type="text", autocomplete = "off" })
+                    
+                    <!--<span style="color:red;">@Html.ValidationMessageFor(m => m.Email)</span>-->
+                </div>
+
+           
+                <div class="adm-logo-line">
+                    @*<span >Пароль</span>*@
+                    @Html.PasswordFor(x => x.Password, new
+                {
+                    @class = "",
+                    placeholder="Пароль",
+                    id = "Password",
+                    type = "text",
+                    autocomplete = "off"})
+                    <!--<span style="color:red;"> @Html.ValidationMessageFor(m => m.Password)</span>-->
+                </div>
+
+            <div>
+               @(Html.Kendo().CheckBox().Name("RememberMe").Checked(false).Label("Запомнить").HtmlAttributes(new { id = "RememberMe" }))
+                
+            </div>
+
+            
+                <div class="adm-logo-line">
+                    <button class="k-button k-primary adm-sub-but" type="submit">Войти</button>
+                    @*Html.Kendo().Button().Name("admsub").HtmlAttributes(new {type="submit" }).Content("Войти")*@
+                    </div>
+                </div>
+    
+    </div>
+}
+</div>

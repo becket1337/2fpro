@@ -1,0 +1,29 @@
+﻿@model IEnumerable<_2fpro.Models.Diagnostic>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<div class="diag-info-wrapper diag-userslist_wrapper">
+    <div class="diag-info_title">
+        <a class="diag-icon-back" id="diag-userslist-back"><i class="fa fa-arrow-left"></i></a>
+        <span>История посещений за день</span>
+    </div>
+    <div class="diag-info_content">
+        @foreach (var item in Model)
+        {
+            var username = item.CustomStringField.Length > 10 ? item.CustomStringField.Substring(0, 10) + ".." : item.CustomStringField;
+
+            var resultName = item.CustomStringField.Length > 30 ? "Anonym" : username;
+            <div class="diag-info-row diag_identity" data-username="@item.CustomStringField">
+        
+                <span class="diag-info-row_text" title="@item.CustomStringField">@resultName</span>
+                @*<span class="diag-info-row_val">@item.IpAddress</span>*@
+                <span>@item.Location</span>
+                <span class="diag-details"><a class="diag-trigger-moreinfo"><span class=""> </span><i class="fa fa-globe"></i></a></span>
+            </div>
+        }
+     
+    </div>
+
+</div>

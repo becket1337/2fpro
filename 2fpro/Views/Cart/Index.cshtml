@@ -1,0 +1,134 @@
+﻿@inject Microsoft.Extensions.Caching.Distributed.IDistributedCache _cache
+@model _2fpro.ViewModel.CartViewModel
+@{
+    ViewBag.Title = "Оформление заказа";
+    var session = await _cache.GetAsync<SessionStorage>(Context.User.Identity.Name);
+    var Model = new _2fpro.ViewModel.CartViewModel
+    {
+        Cart = session.Cart
+    };
+}
+<script>
+    function removeSucc(data) {
+        $('#prod_' + data.id).fadeOut('slow');
+    }
+
+</script>
+
+
+<div class="cartwrap  ">
+
+    @*@Model.Cart.ClientDetails.Address
+        @Model.Cart.ClientDetails.Delivery
+        @Model.Cart.ClientDetails.Email
+        @Model.Cart.ClientDetails.FirstName
+        @Model.Cart.ClientDetails.Phone
+        @Model.Cart.ClientDetails.LastName
+        @Model.Cart.ClientDetails.Payment
+
+        @ViewBag.CliendIsEmpty*@
+    @if (Model.Cart.Lines.Count() > 0)
+    {
+        @*<table>
+            <thead>
+            <tr>
+                <th style="width: 100px;">Фото</th>
+                <th style="width: 100px;">Название</th>
+                <th style="width: 100px;">Цена</th>
+                <th style="">кол-во</th>
+                <th style="width:100px;">итого</th>
+                <th>удалить</th>
+            </tr>
+                </thead>
+            <tbody>*@
+        <div class="cart-cont side-block container">
+            @foreach (var item in Model.Cart.Lines)
+            {
+                var imgTitle = item.Product.ProdImages.FirstOrDefault(x => x.IsPreview == 1).ImageMimeType;
+
+
+            <div class="cart-row item-row row" data-pid="@item.Product.ID">
+                <div class="col-sm-2  my-auto"><img src="@Url.Content("~/Content/Files/Product/" + item.Product.ID + "/200x150/" + imgTitle)" /></div>
+                <div class="col-sm-5  my-auto">
+
+                    <div class="cart-update-info">
+                        @if (!Context.Request.IsMobileBrowser())
+                        {
+                            <div class="cart-title-td">
+                                <span class="cart-title-text">@(item.Product.ProductName.Length > 60 ? item.Product.ProductName.Substring(0, 60) + ".." : item.Product.ProductName)</span>
+                                
+                                <div class="cart-update__actions">
+
+                                    @*<span class="cart-price-td">@item.Product.Price.ToString("0 000") <i class="fa fa-rouble"></i></span>
+                            <span class="cart-quantity-td"><button class="item-dec cart-value-btn"><span><i class="fa fa-minus-circle"></i></span></button><span class="cart-quantity-val">@item.Quantity</span><button class="item-inc cart-value-btn"><span><i class="fa fa-plus-circle"></i></span></button></span>
+                                    *@
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                @if (Context.Request.IsMobileBrowser())
+                {
+                    <div class="col-sm-3  my-auto">
+                        <span class="cart-title-text">@(item.Product.ProductName.Length > 60 ? item.Product.ProductName.Substring(0, 60) + ".." : item.Product.ProductName)</span>
+
+                        <div class="cart-update__actions">
+
+                            @*<span class="cart-price-td">@item.Product.Price.ToString("0 000") <i class="fa fa-rouble"></i></span>
+                    <span class="cart-quantity-td"><button class="item-dec cart-value-btn"><span><i class="fa fa-minus-circle"></i></span></button><span class="cart-quantity-val">@item.Quantity</span><button class="item-inc cart-value-btn"><span><i class="fa fa-plus-circle"></i></span></button></span>
+                            *@
+                        </div>
+                    </div>
+                } 
+                <div class="col-sm-3  my-auto">
+
+                    <span class="cart-summary__wrap"><span class="cart-quantity-td"><span data-event-type="cart__decrease"><span class="item-dec">&mdash;</span></span><span class="cart-quantity-val">@item.Quantity</span><span data-event-type="cart__increase"><span class="item-inc">+</span></span></span></span>
+                    <span class="top-cart-remove" data-event-type="cart__remove">удалить</span>
+                </div>
+                <div class="col-sm-2  my-auto">
+                    <span class="item-total">@((item.Product.DiscountedPrice() * item.Quantity).ToString("N0")) ₽</span>
+                  
+                </div>
+
+
+                @*<div class="cart-remove-td"><i class="fa fa-times" data-id="@item.Product.ID"></i></div>*@
+            </div>
+
+
+            }
+            <div class="cart-row__bottom">
+                <div class="cart-sum-td">Общая цена: <span class="pbasket-total">@Model.Cart.TotalValue().ToString("N0") ₽</span></div>
+                <div class="cart-clear"></div>
+                <div class="cart-options" style="text-align:right;position:relative;">
+                    <button class="default-btn" onclick="$.post('/Cart/Clear');$('.cartwrap').html('Корзина пуста');">Очистить корзину</button>
+                    <button class="default-btn" onclick="window.location='/';">Продолжить покупки</button>
+                    <button class="main-btn" data-event-type="cart__checkout">Оформить заказ</button>
+
+                </div>
+            </div>
+        </div>
+
+        @*   <tr>
+                <td colspan="4" style="text-align:right;"></td>
+                <td class="cart-sum-td" colspan="2">Общая цена: <span class="pbasket-total">@Model.Cart.TotalValue().ToString("0 000")</span> <i class="fa fa-rouble"></i></td>
+            </tr>
+            <tr>
+                <td colspan="6"><button class="newitem-button" onclick="$.post('/Cart/Clear');$('.cartwrap').html('Корзина пуста');">Очистить корзину</button></td>
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align:right;position:relative;">
+                    <button class="newitem-button" onclick="window.location='/';">Продолжить покупки</button>
+                    <button class="newitem-button checkout-auth">Оформить заказ</button>
+
+                        </td>
+                    </tr>
+                        </tbody>
+                </table>*@
+
+    }
+    else
+    { <div>Корзина пуста!</div>}
+</div>
+
+

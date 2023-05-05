@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Http.Extensions
+@if (_2fpro.Extension.SiteHelpFunctions.IsMobileBrowser(Context.Request) && Context.Request.Method == "GET")
+{
+    <div class="view-switcher ui-bar-a">
+        @if (_2fpro.Extension.SiteHelpFunctions.IsMobileBrowser(Context.Request))
+        {
+            @: Displaying mobile view
+            @Html.ActionLink("Desktop view", "SwitchView", "ViewSwitcher", new { mobile = false, returnUrl = Context.Request.GetDisplayUrl() }, new { rel = "external" })
+        }
+        else
+        {
+            @: Displaying desktop view
+            @Html.ActionLink("Mobile view", "SwitchView", "ViewSwitcher", new { mobile = true, returnUrl = Context.Request.GetDisplayUrl() }, new { rel = "external" })
+        }
+    </div>
+}

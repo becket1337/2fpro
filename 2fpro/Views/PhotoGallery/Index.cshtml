@@ -1,0 +1,83 @@
+﻿@model _2fpro.ViewModel.PhotoGalleryViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PageMenuLayout.cshtml";
+    
+}
+   <script>   $(function () { });</script>
+<h2>Галлерея</h2>
+
+<div class="xn-listview-cont aligned-content" id="photogallery-target">
+    <div class="xn-listview-table">
+        <div class="xn-listview-tr">
+            <div class="xn-listview-td">
+                <div class="xn-listview-wrapper">
+                    <ul class="xn-listview-feed" id="anim-listview"> 
+                          <!-- start of list-->
+                        @foreach (var item in Model.Galleries)
+                        {
+
+                            
+                                                 
+                            <li class="xn-listview-item" data-id="@item.ID">
+                              
+                                <a class="normal" href="#">
+                                    <div class="item-img-target">
+                                        <i class="fa fa-eye"></i>
+                                        <div>Просмотр</div>
+                                    </div>
+                                <div class="item-img">
+                                    @if (item.GalleryData != null)
+                                    {                                                                                
+                                        
+                                     
+    <img title="@item.GalleryTitle" class="img-responsive" id="mpic_@item.ID" src="@Url.Content("~/Content/Files/Gallery/" + item.ID + "/200x150/"+item.GalleryMimeType)" />
+                                    }
+                                </div>
+                                @*<div class="item-title">
+                                    @(item.GalleryTitle.Length > 50 ? item.GalleryTitle.Substring(0, 50) + "..." : item.GalleryTitle)
+
+                                </div>*@
+                                    </a>
+                              
+                                @*<div class="item-desc">
+                                        Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов
+                                    </div>*@
+                            </li>
+   
+
+                        }
+                        <!-- End listview -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        @*<div class="listview-item" id="pid_@item.ID">
+                <div class="listview-wrap">
+                    <div class="prod-title">
+                        <a class="prod-preview" href="@Url.Action("Details", "Product", new { id=item.ID})">@item.ProductName</a>
+                    </div>
+                    <div class="prod-img-wrapper">
+                        <div class="prod-image">
+                            <img id="mpic_@item.ID" data-id="@item.ProdImages.SingleOrDefault(x=>x.IsPreview==1).ID" src="@Url.Action("GetProdImage", "ImageData", new {pid=item.ID,width=150,height=150 },Request.Url.Scheme)" />
+                            <div class="prod-details"> <i class="icon-search"></i>&nbsp; Подробнее</div>
+                        </div>
+
+                    </div>
+                    <div class="prod-desc">
+                        @item.Price.ToString("N0") <i class="fa fa-rouble"></i>
+                    </div>
+                    <div class="prod-more-btn">
+                        <a class="more-btn" href="javascript:void(0);">быстрый просмотр</a>
+                    </div>
+                </div>
+
+            </div>*@
+
+
+

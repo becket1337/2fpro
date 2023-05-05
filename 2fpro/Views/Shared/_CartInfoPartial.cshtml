@@ -1,0 +1,29 @@
+﻿
+
+@{ string width = "";
+    if (ViewData["width"] != null) { width = "w-100"; }
+    }
+
+<div id="prod-details_info-block">
+
+    <div class="prod-details_pay prod-details_if-sec">
+       
+        <i class="far fa-credit-card prod-details_ib-icon"></i>
+        <div class="prod-details_ib-text">
+            <div class="prod-details_ib-title">Оплата</div>
+            <div class="prod-details_ib-desc">Прямая оплата банковской картой</div>
+
+        </div>
+    </div>
+    <div class="prod-details_del prod-details_if-sec">
+       
+        <i class="fas fa-shipping-fast prod-details_ib-icon"></i>
+        <div class="prod-details_ib-text">
+            <div class="prod-details_ib-title">Доставка</div>
+            <div class="prod-details_ib-desc">
+                - Самовывоз<br />
+                - Сервисом курьерской доставки "Достависта". (цена в среднем 500 рублей по Москве)
+            </div>
+        </div>
+    </div>
+</div>

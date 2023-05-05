@@ -1,0 +1,193 @@
+﻿@model _2fpro.Models.Menu
+
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@{
+    int parId = (int)ViewBag.ParentId;
+    bool selected = ViewBag.type == 1 ? true : false;
+    var sectionList = new List<SelectListItem> {
+new SelectListItem  {Text="первый раздел",Value="0"},
+new SelectListItem  {Text="второй раздел",Value="1", Selected=selected}
+
+};
+}
+
+<script src="//cdn.ckeditor.com/4.4.3/full/ckeditor.js"></script>
+<script type="text/javascript">
+    //$(function () { $('input[name="SortOrder"]').attr('type', 'number'); });
+</script>
+<style>
+    input[type="text"] {
+        width: 100%;
+    }
+</style>
+
+@inject _2fpro.Service.Interface.IMenuRepository mrep
+<p class="breadcrumbs" style="font-weight:bold;">
+    @Html.ActionLink("список меню", "MenuList", new { type = ViewBag.pSection })  &rArr;
+    @if (Model!=null)
+    {
+        <text>@Html.ActionLink(mrep.Menues.SingleOrDefault(x=>x.Id== parId).Text, "Details", new { id = ViewBag.ParentId })  &rArr;</text>
+    }
+    <span style="font-weight:normal;"> новый подраздел</span>
+</p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Создание</legend>
+        <div class="menu-options">
+            @Html.Hidden("ParentId", (int?)ViewBag.ParentId)
+            <div class="editor-label">
+                Название
+            </div>
+            <div class="editor-field">
+                <input asp-for="Text" class="form-control" />
+                <span asp-validation-for="Text" class="text-danger"></span>
+                @*@Html.TextBoxFor(model => model.Text)
+                @Html.ValidationMessageFor(model => model.Text)*@
+            </div>
+            <div class="editor-label">
+                Название в URL
+            </div>
+            <div class="editor-field">
+                <input asp-for="Url" class="form-control" />
+                <span asp-validation-for="Url" class="text-danger"></span>
+                @*@Html.TextBoxFor(model => model.Url)
+                @Html.ValidationMessageFor(model => model.Url)*@
+            </div>
+
+            @*<div class="editor-label">
+                    Сортировка
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.SortOrder, new { min = 1 })
+                    @Html.ValidationMessageFor(model => model.SortOrder)
+                </div>*@
+            @if (ViewBag.ParentId == 0)
+            {
+                <div class="editor-label">
+                    Раздел меню
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.MenuSection, sectionList, new { @class = "" })
+                    @Html.ValidationMessageFor(model => model.MenuSection)
+                </div>
+            }
+            else
+            {<div>@Html.Hidden("MenuSection", (int?)ViewBag.MenuSection)</div>}
+        </div>
+        <div class="menu-seo">
+            <p>Для SEO</p>
+            <div class="editor-label">
+                Ключевые слова
+            </div>
+            <div class="editor-field">
+                @Html.TextAreaFor(model => model.SeoKeywords, htmlAttributes: new { style = "height:100px;width:300px" })
+                @Html.ValidationMessageFor(model => model.SeoKeywords)
+            </div>
+            <div class="editor-label">
+                Описание
+            </div>
+            <div class="editor-field">
+                @Html.TextAreaFor(model => model.SeoDescription, htmlAttributes: new { style = "height:100px;width:300px" })
+                @Html.ValidationMessageFor(model => model.SeoDescription)
+            </div>
+        </div>
+        <div class="editor-label" style="clear:both;">
+            Контент
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(m => m.Body)
+        </div>
+        @*<div class="editor-label" style="clear:both;">
+                   Контент для Eng
+               </div>
+               <div class="editor-field">
+                    @Html.TextAreaFor(m=>m.BodyEng)
+                  @(Html.Kendo().Editor()
+              .Encode(false)
+             .Name("BodyEng")
+             .HtmlAttributes(new { style = "height:300px; "})
+             .Tools(tools => tools
+                 .Clear()
+                 .Bold().Italic().Underline().Strikethrough()
+                 .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                 .InsertUnorderedList().InsertOrderedList()
+                 .Outdent().Indent()
+                 .CreateLink().Unlink()
+                 .InsertImage()
+                 .SubScript()
+                 .SuperScript()
+                 .TableEditing()
+                 .ViewHtml()
+                 .Formatting()
+                 .FontName()
+                 .FontSize()
+                 .FontColor().BackColor()
+            )
+             )
+
+               </div>*@
+        <p>
+            <button class="k-button k-primary" type="submit">Создать</button>&nbsp;
+            @if (ViewBag.ParentId == 0)
+            {
+                <a class="k-button" type="button" href="@Url.Action("MenuList", "Menu", new { type = ViewBag.type })">Отмена</a>
+            }
+            else
+            {
+                <a class="k-button" type="button" href="@Url.Action("Details", "Menu", new { id = ViewBag.ParentId })">Назад к разделу</a>
+            }
+        </p>
+    </fieldset>
+}
+@*<div>
+         @if(ViewBag.ParentId==0){
+            <button class="k-button"  onclick="window.location.replace('/Admin/Menu/MenuList?type=@ViewBag.pSection')">Назад к списку</button>
+         }
+         else
+         {
+            <button class="k-button" onclick="window.location.replace('/Admin/Menu/Details?id=@ViewBag.ParentId')">Назад к разделу</button>
+         }
+    </div>*@
+
+<script>
+
+    //$('#Body').kendoEditor();
+    $(window).on("load",function () {
+        CKEDITOR.replace('Body');
+        //CKEDITOR.replace('BodyEng');
+        CKEDITOR.config.allowedContent = true;
+        CKEDITOR.on("instanceReady", function () {
+            // insert code to run after editor is ready
+            var h = $('#admincontent').innerHeight();
+            $('#categories').css({ 'height': h });
+        });
+    });
+</script>
+@(Html.Kendo().Notification()
+        .Name("notification")
+        .Position(x => x.Left(0))
+        .AutoHideAfter(10000)
+)
+@if (TempData["message"] != null)
+{
+    <script>
+
+        $(function () {
+
+            var notification = $("#notification").data("kendoNotification");
+            var type ="";
+            switch(@TempData["type"]){case 1:type="success";break;case 2:type="info";break;case 3:type="warning";break;default:type="error";};
+            notification.show(
+               '@TempData["message"]'
+            ,type);
+        });
+    </script>
+}

@@ -1,0 +1,152 @@
+﻿@{
+
+
+
+}
+
+@if (ViewBag.type == 1)
+{
+
+
+    <div class="xn-inscreaser">
+        <div class="xn-i-wrap1 xn-i-wrap1__cat clear-fix">
+            <div class="xn-i-mphoto">
+                <img src="" id="xn-i-main" />
+            </div>
+            <div class="xn-i-details">
+               
+                <div class="xn-i-title">
+                    <div class="xn-i-title__value d-title"></div>
+                    <div class="xn-i-title__cat d-cat"></div>
+
+
+                </div>
+                @if ((bool)ViewBag.IsMobile){<div class="xn-i-details__spoiler hidden-lg hidden-md hidden-sm visible-xs">Характеристики:<i class="fa fa-arrow-down "></i> </div>}
+                <div class="xn-d-w">
+
+                    <table>
+
+                    
+                        @*<tr class="d-color">
+                            <th>Цвет</th>
+                            <td></td>
+                        </tr>*@
+                        <tr class="d-size">
+                            <th>Размеры</th>
+                            <td></td>
+                        </tr>
+                        <tr class="d-mat">
+                            <th>Материал</th>
+                            <td></td>
+                        </tr>
+                      
+                        @*<tr class="d-weight">
+                            <th>Масса нетто</th>
+                            <td></td>
+                        </tr>
+                        <tr class="d-pack">
+                            <th>Упаковка</th>
+                            <td></td>
+                        </tr>
+                        <tr class="d-packsize">
+                            <th>Размер упаковки</th>
+                            <td></td>
+                        </tr>
+
+                        <tr class="d-manufacturer">
+                            <th>Производитель</th>
+                            <td></td>
+                        </tr>*@
+
+
+                    
+                        @*<tr class="d-desc">
+                            <th>описание</th>
+                            <td></td>
+                        </tr>*@
+
+                    </table>
+                      <div class="md-m_desc-wrap">
+                            <div class="md-m_desc-title">Описание</div>
+                            <div  class="d-desc"></div>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modalh clear-fix">
+        <div class="xn-h-w">
+            @*<div id="xn-i-copyright">Разработка от <a style="color: #DA2F2F;" target="_blank" href="http://x-nova.ru">X-NOVA</a></div>
+                <div class="mob-opts visible-xs">
+                    <a class="xn-dark-button prod-link-details" href="">Подробнее</a>
+                    <a class="xn-dark-button md-close" data-pid="" href="javascript:void(0);">Закрыть</a>
+                </div>*@
+            <div class="xn-i-opts clear-fix"><div class="i-info hidden-xs"></div><div class="i-counter"></div></div>
+
+            <div class="xn-i-wrap2">
+
+                <div class="xn-i-sphoto">
+                </div>
+            </div>
+            <div class="xn-i-button">
+
+                @*<button class="xn-dark-button btn xn-cart-option btn-default" data-event-type="cart__add" data-pid="" >Купить</button>*@
+                
+                <a href="@Url.Action( "Details", "Product", new { id =ViewBag.Prod.GenerateSlug()})" class="main-btn" data-pid="">
+                   Узнать больше о товаре
+
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+
+else
+{
+
+
+    <div class="xn-inscreaser">
+        <div class="xn-i-wrap1">
+
+            <div class="xn-i-mphoto">
+                <img src="" id="xn-i-main" />
+            </div>
+        </div>
+    </div>
+    <div class="modalh clear-fix">
+        <div class="xn-h-w">
+            @*<div id="xn-i-copyright">Разработка от <a style="color: #DA2F2F;" target="_blank" href="http://x-nova.ru">X-NOVA</a></div>
+                <div class="mob-opts visible-xs">
+                    <a class="xn-dark-button prod-link-details" href="">Подробнее</a>
+                    <a class="xn-dark-button md-close" data-pid="" href="javascript:void(0);">Закрыть</a>
+                        </div>*@
+            <div class="xn-i-opts clear-fix"><div class="i-info"></div><div class="i-counter"></div></div>
+
+            <div class="xn-i-wrap2">
+
+                <div class="xn-i-sphoto">
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+}
+
+<script>
+    $(function () {
+        XN.Inscreaser.Init(@ViewBag.type,@Html.Raw(ViewBag.result),@ViewBag.el);
+        @if (ViewBag.result == null)
+        { <text>alert('Пустой объект');</text>}
+
+        if ($('#screenWidth').val() < 500) {
+            $('.xn-i-button').cleanWhitespace();
+            $('.xn-cart-option').after('<br /><br />');
+        }
+    });
+</script>

@@ -1,0 +1,208 @@
+﻿@model IEnumerable<_2fpro.ViewModel.ProductViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@{
+
+
+    //var file = dir.OpenRead();
+
+    //var res = file.Length;
+
+}
+
+
+<div class="prod-wrap">
+    <div class="toolbar">
+        <label class="category-label" for="category">Фильтр по категориям:</label>
+        @(Html.Kendo().DropDownList()
+                                            .Name("cats")
+                                            .OptionLabel("All")
+                                            .DataTextField("CategoryName")
+                                            .DataValueField("CategoryID")
+                                            .AutoBind(false)
+                                            .Events(e => e.Change("categoriesChange"))
+                                            .DataSource(ds =>
+                                            {
+                                                ds.Read("Filter_Categories", "Category");
+                                            })
+        )
+    </div>
+
+    <script>
+        function categoriesChange() {
+            var value = this.value(),
+                grid = $("#listView").data("kendoListView");
+
+            if (value) {
+                grid.dataSource.filter({ field: "CategoryID", operator: "eq", value: parseInt(value) });
+            } else {
+                grid.dataSource.filter({});
+            }
+        }
+    </script>
+
+    <div class="demo-section">
+        <a class="k-button k-button-icontext k-add-button" href="#"><span class="k-icon k-add"></span>Add new record</a>
+    </div>
+
+    <script type="text/x-kendo-tmpl" id="template3">
+        <div class="product-view k-widget">
+            <div class="edit-buttons">
+                <a class="k-button k-button-icontext k-edit-button" href="\\#"><span class="k-icon k-edit"></span></a>
+                <a class="k-button k-button-icontext k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>
+                <a class="k-button k-button-icontext prod-image" href="\\#"><i style="margin-left: -2px;" class="icon-picture"><input type="file" data-id="${ID}" name="file" class="prodimg" /></i></a>
+            </div>
+            <dl>
+                <dt>Картинка</dt>
+                <dd style="height:50px;"><img src="@Url.Action("GetProdImage","ImageData")?id=${ID}&width=75&height=75" id="img_${ID}" height="50" width="50" /> </dd>
+                <dt>Название</dt>
+                <dd>#:ProductName#</dd>
+                <dt>Цена</dt>
+                <dd>#:kendo.toString(Price, "c")#</dd>
+                <dt>Описание</dt>
+                <dd>#:Description#</dd>
+                <dt>Категория</dt>
+                <dd>#:CategoryName#</dd>
+
+            </dl>
+        </div>
+    </script>
+
+
+
+    <div class="demo-section">
+        @(Html.Kendo().ListView<_2fpro.ViewModel.ProductViewModel>(Model)
+                    .Name("listView")
+                    .TagName("div")
+                    .ClientTemplateId("template3")
+
+                    .DataSource(dataSource => dataSource.Custom().Schema(schema => schema
+
+                       .Model(model =>
+                        {
+                            model.Id("ID");
+                            model.Field(p => p.ID).DefaultValue(1600000).Editable(false);
+
+
+                        }))
+
+                        .Sort(sort =>
+                        {
+
+                            sort.Add(x => x.ID).Descending();
+                        })
+                        .PageSize(10)
+                        .Transport(tran => tran
+                        .Create(create => create.Action("Editing_Create", "Product"))
+                        .Read(read => read.Action("Editing_Read", "Product"))
+                        .Update(update => update.Action("Editing_Update", "Product"))
+                        .Destroy(destroy => destroy.Action("Editing_Destroy", "Product")))
+
+                    )
+
+                    .Pageable()
+                    .Editable()
+
+        )
+    </div>
+
+    <script>
+
+        $(function () {
+            var listView = $("#listView").data("kendoListView");
+
+
+            $(".k-add-button:first").on("click", function (e) {
+
+                listView.add();
+                e.preventDefault();
+            });
+        });
+    </script>
+
+    <style scoped>
+        .demo-section {
+            width: 805px;
+        }
+
+        .product-view {
+            float: left;
+            position: relative;
+            width: 400px;
+            margin: -1px -1px 0 0;
+        }
+
+            .product-view input[type="text"] {
+                width: 200px;
+            }
+
+            .product-view dl {
+                margin: 10px 0;
+                padding: 0;
+                min-width: 0;
+            }
+
+            .product-view dt, dd {
+                float: left;
+                margin: 0;
+                padding: 3px;
+                height: 26px;
+                width: 200px;
+                line-height: 26px;
+                overflow: hidden;
+            }
+
+            .product-view dt {
+                clear: left;
+                padding: 3px 5px 3px 0;
+                text-align: right;
+                opacity: 0.6;
+                width: 100px;
+            }
+
+        .k-listview {
+            border: 0;
+            padding: 0;
+            min-width: 605px;
+            min-height: 298px;
+        }
+
+            .k-listview:after, .product-view dl:after {
+                content: ".";
+                display: block;
+                height: 0;
+                clear: both;
+                visibility: hidden;
+            }
+
+        .edit-buttons {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 26px;
+            height: 202px;
+            padding: 2px 2px 0 3px;
+            background-color: rgba(0,0,0,0.1);
+        }
+
+            .edit-buttons .k-button {
+                width: 26px;
+                margin-bottom: 1px;
+            }
+
+        .k-pager-wrap {
+            border-top: 0;
+        }
+
+        span.k-invalid-msg {
+            position: absolute;
+            margin-left: 6px;
+        }
+    </style>
+
+    <style scoped="scoped">
+    </style>
+</div>

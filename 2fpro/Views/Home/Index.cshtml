@@ -1,0 +1,87 @@
+﻿@model _2fpro.Models.Menu
+
+@{
+    ViewBag.Title = ViewBag.Titlee;
+    var culture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+
+@*@if (Convert.ToBoolean(ViewBag.ConfirmEmail))
+{
+    <script>
+
+        $(function () { XN.Auth.BuildModal('#modal-7', '/Account/Mconf?username=@ViewBag.UserName'); });
+    </script>
+}
+@if (Convert.ToBoolean(ViewBag.SetPassword))
+{
+    <script>
+        $(function () {  XN.Auth.BuildModal('#modal-7', '/Account/Mset?userid=' + @ViewBag.UserId + '&code=' + @ViewBag.Code);});
+
+    </script>
+}*@
+<script>
+                //startModal();
+                // $(function () { startModal(true); });
+
+</script>
+@*@{
+    var parName = Model.Text;
+    var parUrl = Model.Url;
+    var bcrumbs = Model.ParentId != 0 ?
+        $@"<a href=""/{parUrl}"" >{parName} </a> / {Model.Text} " :
+        Model.Text;
+}*@
+<div class="page-wrapper">
+    
+
+
+    <div class="content-wrap clear-fix">
+         
+        @*<h2 class="page-h2">@Model.Text</h2>
+        <div>
+            @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Body))
+        </div>*@
+    </div>
+</div>
+@if (Context.Request.IsLocal())
+{
+    <text>
+        @*----- @Request.Browser.IsMobileDevice -----  IsMobileDevice<br />
+            ----- @Request.Browser.ScreenCharactersWidth -----  ScreenCharactersWidth<br />
+            ----- @Request.Browser.RequiresPhoneNumbersAsPlainText -----  RequiresPhoneNumbersAsPlainText<br />
+            ----- @Request.Browser.RequiresOutputOptimization  ----- RequiresOutputOptimization<br />
+            ----- @Request.Browser.PreferredResponseEncoding  ----- PreferredResponseEncoding<br />
+            ----- @Request.Browser.PreferredRequestEncoding  ----- PreferredRequestEncoding<br />
+            ----- @Request.Browser.PreferredRenderingType -----  PreferredRenderingType<br />
+            ----- @Request.Browser.PreferredRenderingMime -----  PreferredRenderingMime<br />
+            ----- @Request.Browser.PreferredImageMime -----  PreferredImageMime<br />
+            ----- @Request.Browser.Platform -----  Platform<br />
+            ----- @Request.Browser.NumberOfSoftkeys -----  NumberOfSoftkeys<br />
+            ----- @Request.Browser.MobileDeviceModel  ----- MobileDeviceModel<br />
+            ----- @Request.Browser.MobileDeviceManufacturer -----  MobileDeviceManufacturer<br />
+            ----- @Request.Browser.MinorVersion -----  MinorVersion<br />
+            ----- @Request.Browser.MaximumRenderedPageSize -----  MaximumRenderedPageSize<br />
+            ----- @Request.Browser.MaximumHrefLength -----  MaximumHrefLength<br />
+            ----- @Request.Browser.MajorVersion -----  MajorVersion<br />
+            ----- @Request.Browser.JScriptVersion -----  JScriptVersion<br />
+            ----- @Request.Browser.JavaApplets -----  JavaApplets<br />
+            ----- @Request.Browser.IsColor -----  IsColor<br />
+            ----- @Request.Browser.InputType -----  InputType<br />
+            ----- @Request.Browser.Id -----  Id<br />
+            ----- @Request.Browser.HasBackButton -----  HasBackButton<br />
+            ----- @Request.Browser.GatewayVersion -----  GatewayVersion<br />
+            ----- @Request.Browser.Frames -----  Frames<br />
+            ----- @Request.Browser.Cookies -----  Cookies<br />
+            ----- @Request.Browser.ClrVersion -----  ClrVersion<br />
+            ----- @Request.Browser.CanSendMail -----  CanSendMail<br />
+            ----- @Request.Browser.CanRenderPostBackCards -----  CanRenderPostBackCards<br />
+            ----- @Request.Browser.CanInitiateVoiceCall -----  CanInitiateVoiceCall<br />
+            ----- @Request.Browser.Adapters.Keys.ToString() -----  Adapters.Keys<br />
+            ----- @Request.Browser.Browser ----- Browser<br />
+             ----- @Request.Browser.ScreenPixelsWidth
+             ----- @Request.Browser.ScreenBitDepth*@
+    </text>
+}

@@ -1,0 +1,7 @@
+﻿@await Component.InvokeAsync("MenuItems", new { menuSection = 0 }) - разделы меню
+
+@await Component.InvokeAsync("CatItems") -                           каталог
+
+@await Component.InvokeAsync("Reviews") -                            отзывы
+
+@await Component.InvokeAsync("DiagnosticInfo") -                     посетители сайта в реальном времени

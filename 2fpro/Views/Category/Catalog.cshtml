@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "Каталог продукции";
+    Layout = "~/Views/Shared/_PageMenuLayout.cshtml";
+}
+
+<div class="container">
+    <div class="page-lay-wrap">
+        <div class="breadcrumb">@Html.ActionLink("Главная", "Index", "Home")&nbsp;<i class="fas fa-chevron-right"></i>&nbsp; Каталог продукции </div>
+        <h1>Каталог</h1>
+
+        @await Component.InvokeAsync("CatItems", new { ismain = false})
+    </div>
+</div>
+
+

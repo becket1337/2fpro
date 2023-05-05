@@ -1,0 +1,73 @@
+﻿@model _2fpro.ViewModel.CheckoutViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PageMenuLayout.cshtml";
+}
+<script>
+    $('a.inactive').on('click', function () { return false; });
+
+    $('ol.breadcrumb li')
+</script>
+
+@{var step3 = ViewBag.Step3 ?
+     Html.ActionLink("Завершение покупки", "Index", "Checkout", new { step = 3 }, new { @class = "addtocart" }) :
+     Html.ActionLink("Завершение покупки", "Index", "Checkout", new { step = 3 }, new { @class = "inactive", disabled = "disabled" });
+
+    var step4 = ViewBag.Step4 ?
+          Html.ActionLink("Оплата", "Index", "Checkout", new { step = 4 }, new { @class = "addtocart" }) :
+          Html.ActionLink("Оплата", "Index", "Checkout", new { step = 4 }, new { @class = "inactive", disabled = "disabled" });
+    var step2 = ViewBag.Step2 ?
+        Html.ActionLink("Оформление Заказа", "Index", "Checkout", new { step = 2 }, new { @class = "addtocart" }) :
+        Html.ActionLink("Оформление Заказа", "Index", "Checkout", new { step = 2 }, new { @class = "inactive" });
+
+    var step1 = Html.ActionLink("Корзина", "Index", "Checkout", new { step = 1 }, new { @class = "addtocart" });
+}
+<nav class="no-touch">
+    <ol class="cd-multi-steps text-top">
+        @if (ViewBag.Step == 1)
+        {
+            <li class="@(ViewBag.Step == 1&&ViewBag.Step2?"current-visited current":"current")"><em>Корзина</em></li>}
+        else
+        {
+            <li class="visited">@step1</li>}
+        @if (ViewBag.Step == 2)
+        {
+            <li class="current"><em>Оформление Заказа</em></li>}
+        else
+        {
+            <li class="@(ViewBag.Step2||ViewBag.Step4?"visited":"") @(ViewBag.Step2&&ViewBag.Step3||ViewBag.Step4?"":"not-before")">@step2</li>}
+        @if (ViewBag.Step == 3)
+        {
+            <li class="current"><em>Завершение покупки</em></li>}
+        else
+        {
+            <li class="@(ViewBag.Step3?"visited":"")">@step3</li>}
+
+    </ol>
+</nav>
+<div id="ch-content" class="clear-fix container checkout-view">
+    @*@ViewBag.Step1 @ViewBag.Step2 @ViewBag.Step3 @ViewBag.Step4*@
+    @if (ViewBag.Step == 1)
+    {
+
+
+        <partial name="~/Views/Cart/Index.cshtml" />
+        <partial name="_CartInfoPartial" view-data="@(new ViewDataDictionary(ViewData){ { "width", ViewBag.Step } })" />
+    }
+    else if (ViewBag.Step == 2)
+    {
+        <partial name="_ShippingDetails" />
+        <partial name="_CartInfoPartial" view-data="@(new ViewDataDictionary(ViewData){ { "width", ViewBag.Step } })" />
+    }
+    else if (ViewBag.Step == 3)
+    {
+        <partial name="~/Views/Checkout/Finished.cshtml" view-data="@(new ViewDataDictionary(ViewData){ { "orderid", ViewBag.orderid } })" />
+    }
+
+
+
+</div>
+
+
+<script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

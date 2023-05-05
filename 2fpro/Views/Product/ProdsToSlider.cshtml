@@ -1,0 +1,27 @@
+﻿@model IEnumerable<_2fpro.Models.Product>
+
+
+
+
+<div class="sl-arrs">
+    <img src="@Url.Content("~/Content/qm/arr-left.png")" />
+    <span class="slider-counter"></span>
+    <img src="@Url.Content("~/Content/qm/arr-right.png")" />
+
+</div>
+
+<div class="slider-wrap clear-fix">
+    @{int circleCounter = 0; int slideCounter = 0;}
+    @foreach (var item in Model)
+    {
+
+        <a href="@Url.Action( "Details", "Product", new { id = item.GenerateSlug() })" class="sl-slide" title="@item.ProductName" onmousemove=""><div class="sl-circle" style="background-image:url(@Url.Content("~/Content/Files/Product/"+item.ID+"/200x150/"+item.ProdImages.SingleOrDefault(x=>x.IsPreview==1).ImageMimeType))">@*<div class="anim-border_@slideCounter"></div>*@ </div></a>
+        circleCounter++;
+        if (slideCounter == 4) { slideCounter = 1; }
+        else { slideCounter++; }
+    }
+
+
+
+</div>
+

@@ -1,0 +1,47 @@
+﻿.cbp-spmenu-body .nav-pills > li > a {
+    border-radius: 0;
+    background-color: #eee;
+    color: #4e89bf;
+}
+    .cbp-spmenu-body .nav-pills > li > a:hover {
+        background-color: whitesmoke;
+    }
+.cbp-spmenu-body .nav-pills > li {
+    float:inherit;
+}
+
+    .cbp-spmenu-body .nav-pills > li + li {
+        margin:0;
+    }
+
+
+.form-control {
+    height: 40px;
+    font-size: 15px;
+}
+.custom-radio:hover {
+    cursor:pointer;
+}
+.custom-control-input:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem #f57d0047;
+}
+.custom-radio .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #6251da;
+}
+.custom-control-input:checked ~ .custom-control-label::before {
+    color: #fff;
+    background-color: #f57d00;
+}
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #f57d00;
+}
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #000000;
+    outline: 0;
+    box-shadow: inherit;
+}
+.form-check{
+    cursor:pointer;
+}

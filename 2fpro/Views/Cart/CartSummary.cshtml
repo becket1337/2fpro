@@ -1,0 +1,13 @@
+﻿@model _2fpro.Models.Cart
+
+
+@*<span>@(Model.Lines.Count() > 0 ? Model.Lines.Count().ToString() : "")</span><span style="float:right;">@Model.TotalValue()</span>*@
+
+ @{var last = 0; }
+    @foreach(var str in Model.Lines)
+    {
+        last = last + str.Quantity;
+    }
+
+@last
+

@@ -1,0 +1,116 @@
+﻿@model List<_2fpro.Models.Category>
+
+@if (ViewBag.IsMain)
+{
+
+    @if (Model != null)
+    {
+        @*<link rel="stylesheet" href="~/css/Shop/cat-tags.css" />
+            <link rel="stylesheet" href="~/css/Shop/cat-tags-main.css" />*@
+        <section id="tag-list">
+            <div class="tl-wrap">
+                <div class="container">
+                    <div class="tl-wrap-inner">
+                        <div class="row">
+
+                            <h2>Технические решения</h2>
+                            <div class="slogan">Мы разрабатываем современные средства комплексных решений огнезащиты</div>
+                          
+                            @foreach (var item in Model.Where(x => x.ParentCategoryId == 0 && !x.DoShow))
+                            {
+                                //var IsCurrentPage = Context.Request.Query["catid"] == item.ID ? "selected-cat" : "";
+                                //var linkParams = (new Dictionary<string, string> { { "catid", item.ID.ToString() }, { "catname", item.CategoryName.Unidecode() }, { "page", "1" } });
+
+                                <div class="tl-item col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 col-6 box">
+                                    <a class="tl-main-link" href="/Product/CatalogView?catid=@item.ID">
+                                        <div class="tl-img-wrap">
+                                            <div class="tl-imgcont">
+                                                <img src="@Url.Content("~/Content/Files/Category/"+item.ID+"/height500/"+item.ImageMimeType)" alt="@item.CategoryName" />
+                                            </div>
+                                        </div>
+
+                                    </a>
+                                    <div class="tl-title-wrap">
+                                        <h4><a href="/Product/CatalogView?catid=@item.ID">@item.CategoryName (@item.Products.Count())</a></h4>
+                                    </div>
+
+                                </div>
+
+                            }
+                              
+                            <div class="tl-btn">
+                                <a class="main-btn" href="/Category/Catalog">Каталог</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    }
+}
+else
+{
+
+    @if (Model != null)
+    {
+        @*<link rel="stylesheet" href="~/css/Shop/cat-tags.css" />
+            <link rel="stylesheet" href="~/css/Shop/cat-tags-main.css" />*@
+        <section id="tag-list">
+            <div class="tl-wrap">
+                <div class="container">
+                    <div class="tl-wrap-inner">
+                        <div class="row">
+
+                          
+                            
+                            @foreach (var item in Model.Where(x => x.ParentCategoryId == 0 && !x.DoShow))
+                            {
+                                //var IsCurrentPage = Context.Request.Query["catid"] == item.ID ? "selected-cat" : "";
+                                //var linkParams = (new Dictionary<string, string> { { "catid", item.ID.ToString() }, { "catname", item.CategoryName.Unidecode() }, { "page", "1" } });
+
+                                <div class="tl-item col-xxl-4 col-xl-4 col-lg-3 col-md-6 col-sm-6 col-xs-6 col-6 box">
+                                    <a class="tl-main-link" href="/Product/CatalogView?catid=@item.ID">
+                                        <div class="tl-img-wrap">
+                                            <div class="tl-imgcont">
+                                                <img src="@Url.Content("~/Content/Files/Category/"+item.ID+"/height500/"+item.ImageMimeType)" alt="@item.CategoryName" />
+                                            </div>
+                                        </div>
+
+                                    </a>
+                                    <div class="tl-title-wrap">
+                                        <h4><a href="/Product/CatalogView?catid=@item.ID">@item.CategoryName (@item.Products.Count())</a></h4>
+                                    </div>
+
+                                </div>
+
+                            }
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    }
+    @*<ul class="tmenu toplvl-nav-cat">
+            <li class="tmenu-item">
+                <a class="ti-lvl1" href="javascript: void (0);">Каталог <i class="fa fa-angle-down"></i></a>
+                <ul id="catsList" class="tmenu__submenu">
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            var IsCurrentPage = Context.Request.Query["catid"] == item.ID ? "selected-cat" : "";
+                            var linkParams = (new Dictionary<string, string> { { "catid", item.ID.ToString() }, { "catname", item.CategoryName.Unidecode() }, { "page", "1" } });
+                            <li data-cat-id="@item.ID" class="@IsCurrentPage tmenu__submenu-item"><a class="ti-lvl2" asp-route="Prodlist" asp-all-route-data="linkParams"> @item.CategoryName (@item.Products.Where(x => !x.DoShow).Count())</a></li>
+                        }
+                    }
+                </ul>
+            </li>
+        </ul>*@
+
+}

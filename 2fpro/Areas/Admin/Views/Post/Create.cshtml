@@ -1,0 +1,159 @@
+﻿@model _2fpro.Models.Post
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+
+}
+
+
+<p class="breadcrumbs" style="font-weight:bold;">
+    @Html.ActionLink("Отзывы", "Index")  
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Редактировать</legend>
+
+
+        <div class="form-group">
+
+            <label>Название</label>
+
+
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+        @*<div class="editor-label">
+                Главное фото
+            </div>
+            <div class="editor-field">
+                @Html.Kendo().Upload().Name("file")
+            </div>*@
+        @*<div class="editor-label">
+                Внутренние фото (загрузка идет в новую папку на сервере - /Content/Files/Post/@Model.ID/)
+            </div>
+            <div class="editor-field">
+
+                @(Html.Kendo().Upload()
+                        .ShowFileList(true)
+                        .Name("files")
+                        .Async(a => a
+                            .Save("PostUploadStart", "Post")
+                            .AutoUpload(true))
+                            .Events(x => x.Complete("uploadComplete").Success("uploadSuccess").Upload(@<text>
+                                function(e) {
+                                console.log($('#wm').prop('checked'));
+                                e.data = { id: @Model.ID,isWM:$('#wm').prop('checked') };
+                                }
+                            </text>)))
+
+            </div>
+            <div class="editor-label">
+                <input type="checkbox" id="wm" /> c водяным знаком (сохранение идет в папку /Content/watermark )
+            </div>
+            <div id="files-holder">
+
+                <partial name="/Admin/Post/GetPostImages">
+            </div>*@
+        <div class="form-group">
+
+            <label> дата</label>
+
+
+            @Html.TextBoxFor(model => model.CreatedAt, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+            @Html.ValidationMessageFor(model => model.CreatedAt)
+        </div>
+        <div class="form-group">
+
+            <label>Превью</label>
+            @Html.TextAreaFor(model => model.Preview, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Preview)
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Контент</label>
+            @(Html.Kendo().Editor()
+                .Name("Body")
+
+                .HtmlAttributes(new { style = "width: 100%;" })
+                .Resizable(resizable => resizable.Content(true))
+                .Tools(tools => tools
+                    .Clear()
+                    .Bold().Italic().Underline().Strikethrough()
+                    .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                    .InsertUnorderedList().InsertOrderedList()
+                    .Outdent().Indent()
+                    .CreateLink().Unlink()
+                    .InsertImage()
+                    .InsertFile()
+                    .SubScript()
+                    .SuperScript()
+                    .TableEditing()
+                    .ViewHtml()
+                    .Formatting()
+                    .CleanFormatting()
+                    .FontName()
+                    .FontSize()
+                    .ForeColor().BackColor()
+                    .Print()
+                ))
+        @Html.ValidationMessageFor(model => model.Body)
+        </div>
+        <p>
+            <button class="k-button k-primary" type="submit"><span class="label">Сохранить</span></button>
+        </p>
+    </fieldset>
+}
+
+<div>
+
+    <a class="k-button " href="/Admin/Post?page=@ViewBag.page">Назад к списку</a>
+
+</div>
+
+<script>
+    function today() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        today = mm + '/' + dd + '/' + yyyy;
+        return today;
+    }
+
+    function getFormattedDate(date) {
+        return date.getFullYear()
+            + "-"
+            + ("0" + (date.getMonth() + 1)).slice(-2)
+            + "-"
+            + ("0" + date.getDate()).slice(-2);
+    }
+
+    $('#CreatedAt').val(getFormattedDate(new Date()));
+
+    //$(document).ready(function () {
+
+    //    //console.log(str.closest('div').find('em').selector);
+    //    var str = $('#file').closest('.k-upload-button');
+    //    str.find('span').html('Выбрать файл');
+
+    //});
+
+</script>

@@ -1,0 +1,56 @@
+﻿@ViewContext.RouteData.Values["controller"] - контроллер из представления
+@using _2fpro.Extension - @Context.Request.IsLocal()
+@Context.Connection.RemoteIpAddress!= System.Net.IPAddress.Parse("127.0.0.1") - проверка на localhost
+@using Microsoft.AspNetCore.Http.Extensions - Context.Request.GetDisplayUrl() - расширение для Path and Url
+@Context.Request.IsMobileBrowser() - IsMobile
+IOptionsMonitor<SiteConfig> settings (construc),( service)private readonly SiteConfig _settings - Конфигурация сайта
+------------------------------------------------------------------------------
+HttpContext in service class
+
+public class UserService : IUserService {
+    private readonly HttpContext _context;
+
+    public UserService(IHttpContextAccessor httpContextAccessor) {
+        _context = httpContextAccessor.HttpContext;
+    }
+}
+------------------------------------------------------------------------------
+
+partial view in custom html helper
+
+<!-- Views/Shared/TagHelpers/MyList.cshtml -->
+@model YourInfoClass
+<ul>
+    <li><strong>Version:</strong> @Model.Version</li>
+    <li><strong>Copyright Year:</strong> @Model.CopyrightYear</li>
+    <li><strong>Approved:</strong> @Model.Approved</li>
+    <li><strong>Number of tags to show:</strong> @Model.TagsToShow</li>
+</ul>
+In your TagHelper:
+
+[HtmlTargetElement("mylist")]
+public class MyListTagHelper : TagHelper
+{
+    private HtmlHelper _htmlHelper;
+    private HtmlEncoder _htmlEncoder;
+
+    public MyListTagHelper(IHtmlHelper htmlHelper, HtmlEncoder htmlEncoder)
+    {
+        _htmlHelper = htmlHelper as HtmlHelper;
+        _htmlEncoder = htmlEncoder;
+    }
+
+    public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+    {
+        output.TagName = "section";
+        output.TagMode = TagMode.StartTagAndEndTag;
+
+        var partial = await _htmlHelper.PartialAsync("TagHelpers/MyList", Info);
+        var writer = new StringWriter();
+        partial.WriteTo(writer, _htmlEncoder);
+
+        output.Content.SetHtmlContent(writer.ToString());
+    }
+}
+
+------------------------------------------------------------------------------

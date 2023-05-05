@@ -1,0 +1,68 @@
+﻿@model _2fpro.ViewModel.FilesViewModel
+@using _2fpro.Extension
+@using System.IO
+@{
+    ViewBag.Title = "Index";
+
+    Model.PagingInfo.PageUrlWithParam = (x, y) => Url.Action("Index", new { page = x, folder = y });
+
+    }
+
+<h3>Файлы</h3>
+<div>
+
+
+
+    <div class="pager">
+        <table class="admTable table stripedMe" id="files-manager">
+            <thead>
+
+                <tr class="tdTitle">
+                    <th scope="col">Превью</th>
+                   
+                    <th class="resp-cell" scope="col">Ссылка на файл</th>
+                    <th scope="col">Размер</th>
+                    <th scope="col">Удалить</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Files.Any())
+                {
+                    foreach (var file in Model.Files)
+                    {
+                        var row = System.IO.Path.GetFileNameWithoutExtension(System.IO.Path.GetFileName("~/Content/Files/Pages/" + Model.PagingInfo.Dir.Name + "/" + file));
+                        long size = file.Length;
+                        <tr id="@(row + file.Length)">
+                            <td>
+                                @if (file.Extension.ToLower().Contains("jpg") || file.Extension.ToLower().Contains("png"))
+                                {
+                                    <img class="preview files-img" title="@file.Name" width="15" height="15" src="/Content/Files/Pages/@Model.PagingInfo.Dir.Name/@file.Name" />
+                                }
+
+                            </td>
+                            @*<td><span title="@file">@(file.Name.Length > 20 ? file.Name.Substring(0, 20) + "..." : file.Name)</span> </td>*@
+                            <td><span title="@file">/Content/Files/Pages/@Model.PagingInfo.Dir.Name/@file.Name  </span></td>
+                            <td>@size.ToFileSize()</td>
+                            <td><i class="fa fa-trash file-d" data-row="@(row + file.Length)" data-file="@file"></i></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+            <tr class="foot-table">
+                <td colspan="4" style="width:800px;">
+                    <pager info="@Model.PagingInfo" />
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+</div>
+
+
+
+<script>
+    $(function () {
+        $('.files-count').html(@Model.PagingInfo.TotalItems);
+                        });
+</script>

@@ -1,0 +1,110 @@
+﻿@model _2fpro.ViewModel.ProductListViewModel
+@inject _2fpro.Service.Interface.IProductRepository pRep
+@inject Microsoft.Extensions.Caching.Distributed.IDistributedCache _cache
+@{
+    
+   
+    Model.PagingInfo.PageUrlWithParam2 = (x, y, z) => Url.RouteUrl("Prodlist", new { page = x, catId = y, catname = z });
+    //SessionStorage cart1 = ViewBag.GetCart;
+    //Cart cart = cart1.Cart;
+}
+
+<script>
+
+    function precision(value) {
+        return value % 1 === 0 ? 0 : null;
+    }
+
+    $('#detCount').html(@Model.PagingInfo.TotalItems);
+    //OSREC.CurrencyFormatter.formatAll(
+    //    {
+    //        selector: '.money',
+    //        currency: 'RUB',
+    //        postFormatFunction: function (value) {
+    //            return value.replace(',00', '');
+    //        }
+
+    //    });
+
+</script>
+
+<div class="xn-listview-cont clearfix">
+    <div class="xn-listview-wrapper">
+
+        <div class="xn-listview-feed ">
+            <!-- start of list-->
+            <script>
+                var str = "1";
+                str1 = str.toString().split();
+            </script>
+            <section id="tag-list">
+                <div class="tl-wrap">
+                    <div class="container-fluid">
+                        <div class="row">
+                            @*<div class="tl-topbar">
+                                <div class="tl-t-filter"></div>
+                                <div class="tl-t-count">Найдено @Model.PagingInfo.TotalItems деталей</div>
+                            </div>*@
+                            @if (Model.Products.Any())
+                            {
+
+
+                          
+                            @foreach (var item in Model.Products??new List<Product>())
+                            {
+                            
+
+                                <div class="tl-item col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-6 box">
+                                    <a class="tl-main-link" href="@Url.Action("Details", "Product", new { id = item.ID,title=item.GenerateSlug() })">
+                                        <div class="tl-img-wrap">
+                                            <div class="tl-imgcont">
+                                                <img id="mpic_@item.ID" data-id="@item.ProdImages.SingleOrDefault(x => x.IsPreview == 1).ID" src="@Url.Content("~/Content/Files/Product/" + item.ID + "/height500/" + item.ProdImages.Where(x => x.IsPreview == 1).SingleOrDefault().ImageMimeType)" />
+                                            </div>
+                                        </div>
+
+                                    </a>
+                                    <div class="tl-title-wrap">
+                                        <span> @item.DiscountedPrice().ToString("N", System.Globalization.CultureInfo.CreateSpecificCulture("ru")).Replace(",00", "") <span class="tl-currency">₽</span></span>
+                                    </div>
+
+                                    @*<div class="tl-modeltype">@item.CatName </div>*@
+                                    <div class="tl-details-wrap">
+                                        <div class="tl-text-wrap">
+                                            @item.ProductName
+                                        </div>
+                                        <div class="tl-det-btn">
+                                            <a href="javascript:void();"  data-content-type="orderForm" data-pid="@EncryptHelper.Encrypt(item.ID.ToString())">Заказать</a>
+                                        </div>
+                                      
+                                    </div>
+
+                                 
+                                </div>
+
+                                }  
+                            }
+                        </div>
+
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- End listview -->
+        </div>
+    </div>
+</div>
+
+<div class="pager"><pager info="@Model.PagingInfo"></pager></div>
+
+
+<style>
+</style>
+
+<script>
+
+
+
+
+    XN.Auth.OpenEvents();
+</script>

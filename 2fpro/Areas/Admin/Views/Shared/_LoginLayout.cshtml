@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+
+    @*@Styles.Render("~/Content/kcss")
+        @Styles.Render("~/Content/admcss")
+        @Styles.Render("~/Content/admlogincss")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")*@
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+    <link href="https://kendo.cdn.telerik.com/2018.2.516/styles/kendo.common-material.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="https://kendo.cdn.telerik.com/2018.2.516/styles/kendo.material.min.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://kendo.cdn.telerik.com/2018.2.516/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.2.516/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.2.516/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.2.516/js/kendo.aspnetmvc.min.js"></script>
+
+
+
+ 
+    <link rel="stylesheet" href="~/css/Admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/tiptip.css" asp-append-version="true" />
+
+
+
+
+    <title>@ViewBag.Title</title>
+
+
+</head>
+<body>
+    <div class="adm-login-form">
+        <div class="adm-wrapper clear-fix">
+            @RenderBody()
+        </div>
+        <div class="adm-copyright">
+
+
+        </div>
+    </div>
+</body>
+</html>
+@RenderSection("scripts", required: false)

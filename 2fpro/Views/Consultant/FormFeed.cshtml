@@ -1,0 +1,18 @@
+﻿@model _2fpro.Models.LiveUser
+
+@using (Html.BeginForm("", "", FormMethod.Post, htmlAttributes: new { id = "livechat-feed" }))
+{
+    @Html.Hidden("IsOnline", true)
+    @Html.Hidden("IsAdmin", false)
+    @Html.AntiForgeryToken()
+    @Html.TextBoxFor(x => x.UserName, htmlAttributes: new { placeholder = "Ваше имя", id = "l-name" })
+    @Html.ValidationMessageFor(x => x.UserName)
+    @Html.TextBoxFor(x => x.Email, htmlAttributes: new { placeholder = "Почта", id = "l-email" })
+    @Html.ValidationMessageFor(x => x.Email)
+    @Html.TextAreaFor(x => x.FeedMessage, htmlAttributes: new { placeholder = "Сообщение", @class = "live-tarea", id = "l-mess" })
+    @Html.ValidationMessageFor(x => x.FeedMessage)
+    @*<input type="text" id="l-name" name="lname" placeholder="Ваше имя"/>
+        <input type="text" id="l-email" name="lemail" placeholder="Email"/>*@
+    @* <textarea  id="l-message" style="height:3em;" name="lmessage" placeholder="Сообщение" ></textarea>*@
+    <span><img class="lch-loader" style="display:none;" src="~/Content/ajax-loaders/301.gif" /></span> <input type="submit" id="l-feedsend" value="Отправить" />
+}

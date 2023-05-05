@@ -1,0 +1,20 @@
+﻿.post-img-view
+{}
+.post-img-view-wrap
+{}
+.post-img-target details__post-target-img
+{}
+.details__post-img-wrap
+{}
+.post-img-arrs
+{}
+.fa fa-angle-left 
+{}
+.fa fa-angle-right 
+{}
+.post-img-list
+{}
+.file-d
+{}
+.post-text
+{}

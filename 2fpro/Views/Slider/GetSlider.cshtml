@@ -1,0 +1,64 @@
+﻿@model IEnumerable<_2fpro.Models.Portfolio>
+@*<div class="img-holder" >
+        <div class="arr-left arrow"><img src="/Content/catalog/left-arrow.png" /></div>
+         <div class="arr-right arrow"><img src="/Content/catalog/right-arrow.png" /></div>
+         <div class="links">
+             <ul>
+                 @for(int i=0;i< Model.Count();i++){
+                    if(i==0){<li class="selected-link"><img src="/Content/catalog/slider-active-link.png" /></li>}
+                    else{ <li><img  src="/Content/catalog/slider-link.png" /></li>}
+                 }
+
+             </ul>
+
+         </div>
+         <div id="img-cont">
+                @foreach (var item in Model)
+                {
+                    if (SliderController.GetFirstSlide() == item.ID)
+                    {<img id="@item.ID"  class="slide-selected slide-img" src="@Url.Action("GetSliderImage", "Slider", new {item.ID })" data-title="@item.Description" data-price="@item.Price" data-desc="@item.Title" width="200" height="200" /> }
+                    else{<img id="@item.ID"  class=" slide-img" src="@Url.Action("GetSliderImage","Slider", new {item.ID })" data-title="@item.Description" data-price="@item.Price" data-desc="@item.Title" width="200" height="200" />}
+                }
+
+         </div>
+
+    </div>*@
+
+
+
+@{var price = (float)Model.FirstOrDefault().Price; }
+
+
+<script src="~/js/slider.js" asp-append-version="true"></script>
+<div class="slider-leftside">
+    <div class="slider-title">@Model.FirstOrDefault().Title</div>
+    <div class="slider-price" style=" font-size: 24px; color: #f57d00;">@price.ToString("C0")</div>
+
+    <div class="slider-btn">
+
+        <a href="@Model.FirstOrDefault().ProdLink" class="tobuy-btn prod-view-btn" title="@Model.FirstOrDefault().Title">
+            <span class="default-main-text ">Подробнее</span><div>
+            </div>
+
+
+        </a>
+    </div>
+</div>
+<div class="slider-rightside">
+    <div class="slider-wrap clear-fix">
+        @{int circleCounter = 0; int slideCounter = 0;}
+        @foreach (var item in Model)
+        {
+            var price1 = (float)item.Price;
+
+            <div class="sl-slide" data-link="@item.ProdLink" data-title="@item.Title" data-price="@price1">
+                <img src="@Url.Content("~/Content/Files/Slider/"+item.ID+"/"+item.ImageMimeType)" />
+            </div>
+
+            circleCounter++;
+            if (slideCounter == 4) { slideCounter = 1; }
+            else { slideCounter++; }
+        }
+
+    </div>
+</div>

@@ -1,0 +1,53 @@
+﻿@{ 
+    var islocal = Context.Request.IsLocalPath() ? false : true;
+    var cachedTime = 30;
+}
+<footer id="footer">
+    
+  <div class="foot-wrap">
+      <div class="container">
+          <div class="foot-wrap-inner">
+              <div class="d-flex flex align-items-start align-items-md-center justify-content-between text-secondary mb-4">
+                  @await Component.InvokeAsync("MenuItems", new { menuSection = 3})
+                  <div class="up-float-button js-link-up btn btn-sm btn-link">
+                      <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+              </div>
+          <hr />
+          <div class="foot-setup">
+              <div class="pmenu-bot container">
+                  <div class="justify-content-between d-flex row  ">
+                      <div class="pmenu-bitem">
+                          <div class="d-block">
+                              <div class="d-flex pbi-item justify-content-start">
+                                  <div class="d-block  col-2 pbi-icon"><i class="fas fa-map-marker-alt" aria-hidden="true"></i></div>
+                                  <div class="d-block"> @await Component.InvokeAsync("StaticSections", new { type = 1 })</div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="pmenu-bitem">
+                          <div class="d-block">
+                              <div class="d-flex pbi-item justify-content-start">
+                                  <div class="d-block col-2 pbi-icon"><i class="fas fa-phone " aria-hidden="true"></i></div>
+                                  <div class="d-block"> @await Component.InvokeAsync("StaticSections", new { type = 2 })</div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="pmenu-bitem">
+                          <div class="d-block">
+                              <div class="d-flex pbi-item justify-content-start">
+                                  <div class="d-block  col-2 pbi-icon"><i class="fas fa-envelope " aria-hidden="true"></i></div>
+                                  <div class="d-block"> @await Component.InvokeAsync("StaticSections", new { type = 3 })</div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div></div>
+      </div>
+
+  </div>
+</footer>
+
+
+

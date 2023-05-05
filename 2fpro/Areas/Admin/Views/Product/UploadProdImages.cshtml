@@ -1,0 +1,41 @@
+﻿
+
+<style>
+    .k-file {
+        float: left;
+    }
+
+    .k-upload-files {
+        overflow: hidden;
+    }
+</style>
+<!--
+<script>
+    function uploadSuccesss(e,data) {
+
+        if (!$(e.target).find('.isMain').length) {
+
+            var check = $("<input type='radio' class='isMain' name='isMain' /><span>в превью</span>");
+            check.insertAfter($('.k-filename'));
+        }
+
+    }
+
+</script>
+<div style="width:100%">
+    @(Html.Kendo().Upload()
+
+        .Name("photos")
+        .Async(a => a
+            .Save("UploadProdImages", "Product", new { pid = ViewBag.Pid })
+            .Remove("RemoveImage","Product")
+            .AutoUpload(true)
+        )
+        .Multiple(true)
+        .HtmlAttributes(new { @class="clear-fix"})
+        .Events(x => x.Complete("uploadSuccesss"))
+
+
+    )
+
+</div><br />-->

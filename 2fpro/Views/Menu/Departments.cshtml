@@ -1,0 +1,25 @@
+﻿@model IEnumerable<_2fpro.Models.Menu> 
+@{
+    ViewData["Title"] = "Departments";
+    ViewBag.Title = "Услуги — " + " ООО «2Ф»";
+    Layout = "~/Views/Shared/_PageMenuLayout.cshtml";
+}
+
+
+
+<div class="dep-wrap">
+    <div class="container">
+        <div class="page-lay-wrap">
+            <div class="breadcrumb">@Html.ActionLink("Главная", "Index", "Home")&nbsp;<i class="fas fa-chevron-right"></i>&nbsp; Услуги </div>
+            <h1>Услуги</h1>
+            <div class="dep-list">
+
+                @await Component.InvokeAsync("MenuItems", new { menuSection = 2 })
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

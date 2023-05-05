@@ -1,0 +1,243 @@
+﻿.s-slider {
+    position: relative;
+    display: flex;
+    height: 250px;
+    overflow: hidden;
+    margin: 30px 0;
+}
+
+    .s-slider .carousel-main__loader {
+        margin: 0 auto;
+        left: 40%;
+        position: absolute;
+        top: 30%;
+    }
+
+.slider-rightside {
+    width: 100%;
+    padding-left: 100px;
+}
+
+.slider-leftside {
+    width: 400px;
+    margin-right: 20px;
+}
+
+.slider-title {
+    font-size: 24px;
+}
+
+.sl-slide img {
+    height: 250px;
+}
+
+.sl-arrs i {
+    display: inline-block;
+    cursor: pointer;
+}
+
+    .sl-arrs i:before {
+        font-size: 30px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+.slider-counter {
+    vertical-align: 6px;
+    font-size: 16px;
+    color: #383838;
+}
+
+.sl-slide {
+}
+
+.slider-wrap {
+    margin: 0 auto;
+    width: 9999px;
+    position: absolute;
+    overflow: hidden;
+    height: 250px;
+    padding-top: 15px;
+}
+
+.serv-m-wrap {
+    position: relative;
+    margin: 0px auto;
+    top: 0px;
+    left: 0px;
+    width: 980px;
+    overflow: hidden;
+    visibility: visible;
+}
+
+.sl-arrs {
+    margin: 10px 0;
+    z-index: 1;
+    position: absolute;
+    top: 175px;
+}
+
+.slider-btn {
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
+.s-slider .sl-slide {
+    background-repeat: no-repeat;
+    background-position: left;
+    top: 0px;
+    left: 980px;
+    width: 980px;
+    height: 300px;
+    position: absolute;
+    display: block;
+    perspective: 900px;
+    transition: 1s;
+}
+
+.s-slider .sl-slide {
+    opacity: 0;
+}
+
+.s-slider .sl-active {
+    opacity: 1 !important;
+    left: 0 !important;
+}
+
+
+/* listview slider*/
+.prod-block {
+    width: 1090px;
+    overflow: hidden;
+    margin: 25px;
+    /*padding: 20px 8px 20px 10px;*/
+}
+
+.prod-view .prod-block {
+    width: 665px;
+    height: 500px;
+}
+
+.prod-block .xn-listview-item {
+    float: left;
+}
+
+.prod-block-wrap {
+    list-style-type: none !important;
+    width: 20000em;
+    position: relative;
+    list-style: none;
+    left: 0;
+    top: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.prod-block-cont i.inactive {
+    display: none;
+}
+
+.prod-block-cont {
+    position: relative;
+}
+
+    .prod-block-cont .next {
+        position: absolute;
+        right: -15px;
+        top: 35%;
+        width: 60px;
+        height: 60px;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 60px;
+        cursor: pointer;
+        z-index: 1;
+        border-radius: 50px;
+        background: white;
+        box-shadow: 0 2px 8px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .prod-block-cont .prev {
+        position: absolute;
+        left: -25px;
+        top: 35%;
+        width: 60px;
+        height: 60px;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 60px;
+        cursor: pointer;
+        z-index: 1;
+        border-radius: 50px;
+        background: white;
+        box-shadow: 0 2px 8px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .prod-block-cont i:before {
+        font-size: 30px;
+        margin: 0;
+    }
+
+.imglist-view .next:hover, .imglist-view .prev:hover {
+    color: #ffb40d;
+}
+
+
+@media (min-width: 480px),(min-width:300px) {
+    .serv-m-wrap {
+        width: initial;
+    }
+
+    .slider-leftside {
+        width: 240px;
+        margin-right: 20px;
+    }
+
+    .slider-btn .prod-view-btn {
+        width: initial !important;
+    }
+
+    .slider-rightside {
+        width: 100%;
+        padding-left: initial;
+    }
+
+    .sl-slide img {
+        height: 230px;
+    }
+}
+
+@media (min-width: 768px) {
+    .sl-slide img {
+        height: 250px;
+    }
+
+    .slider-leftside {
+        width: 400px;
+        margin-right: 20px;
+    }
+
+    .slider-rightside {
+        width: 100%;
+        padding-left: 100px;
+    }
+
+    .slider-btn .prod-view-btn {
+        width: 200px !important;
+    }
+
+    .serv-m-wrap {
+        width: initial;
+    }
+}
+
+@media (min-width: 992px) {
+    .serv-m-wrap {
+        width: 980px;
+    }
+}
+
+@media (min-width: 1200px) {
+}

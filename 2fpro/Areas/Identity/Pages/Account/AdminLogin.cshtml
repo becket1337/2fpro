@@ -1,0 +1,99 @@
+﻿@page
+@model _2fpro.Areas.Identity.Pages.Account.AdminLoginModel
+
+@{
+    ViewData["Title"] = "Admin Log in";
+
+    Layout = "~/Areas/Admin/Views/Shared/_LoginLayout.cshtml";
+}
+@if (ViewContext.HttpContext.Request.IsMobileBrowser())
+{
+    <link rel="stylesheet" href="~/css/admlogin-mobile.css" asp-append-version="true" />
+}
+<div class="adm-log-wrap">
+    @*<img src="@Url.Content("~/Content/images/logo.jpg")" align="left" />*@
+
+</div>
+<script>
+    $(function () {
+        $('.adm-wrapper form').attr('autocomplete', 'off');
+    });
+</script>
+<div class="adm-logo">
+    <span>Вход в Админ/панель.</span>
+</div>
+
+<div style="display:none;">@ViewContext.HttpContext.User.Identity.Name</div>
+<div class="adm-main">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <form method="post" asp-antiforgery="true">
+        @(Html.Kendo().Notification()
+                                        .Name("popupNotification")
+        )
+
+
+        <div class="adm-form clear-fix">
+            <p>
+
+            </p>
+
+
+
+            <div class="main-login">
+                <div class="adm-logo-line">
+
+                    <input asp-for="Input.Email" placeholder="Логин" class="form-control" type="text" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+
+
+                <div class="adm-logo-line">
+
+                    <input asp-for="Input.Password" class="form-control" placeholder="Пароль" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <div class="checkbox">
+                        @*<input asp-for="Input.RememberMe" />
+                            <label></label>*@
+                        @*<input name="Input.RememberMe" type="checkbox" id="Input.RememberMe" class="k-checkbox" checked="checked" value="false" />
+                            <label for="Input.RememberMe" class="k-checkbox-label">
+
+                               Запомнить меня ?
+                            @(Html.Kendo().CheckBox().Name("RememberMe").Label("Запомнить меня?"))
+                            </label>*@
+
+
+                        <input asp-for="Input.RememberMe" class="k-checkbox" />
+                        <label asp-for="Input.RememberMe" class="k-checkbox-label">
+
+                            Запомнить меня ?
+                        </label>
+                    </div>
+
+                </div>
+
+
+                <div class="adm-logo-line">
+                    <button class="k-button k-primary adm-sub-but" type="submit">Войти</button>
+                    @*Html.Kendo().Button().Name("admsub").HtmlAttributes(new {type="submit" }).Content("Войти")*@
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+<script>
+    console.log($("#Input").prop('checked'));
+    $('#Input.RememberMe').bind('click', function () {
+        if ($("#Input.RememberMe").prop('checked'))
+            $(this).val($("#Input.RememberMe").prop('checked'));
+        console.log($("#Input.RememberMe").prop('checked'));
+    });
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,227 @@
+﻿@model _2fpro.ViewModel.FilesViewModel
+@using _2fpro.Extension
+@using System.IO
+@{
+    ViewBag.Title = "GetFiles";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    Model.PagingInfo.PageUrlWithParam= (x,y) => Url.Action("Index", new { page = x,folder=y } );
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".stripedMe tr").mouseover(function () { $(this).addClass("over"); }).mouseout(function () { $(this).removeClass("over"); });
+        $(".stripedMe tr:even").addClass("alt");
+        $('.folder-item:eq(0)').addClass('selected-folder');
+        $(document).on("click", ".file-d", function () {
+
+            var row = $(this).data('row');
+            $this = $(this);
+            console.log(row);
+            $.post("/Admin/UploadFiles/Delete", { filename: $(this).data('file'), dirname: $('.selected-folder').find("span").text() }, function () {
+                $this.closest('tr').remove();
+            });
+        });
+      
+    });
+</script>
+<h2>Менеджер файлов</h2>
+
+<div class="manager-cont">
+    <div style="position:relative;"><div id="create-folder-btn" class="k-button k-primary">Создать папку</div><div id="fm-del-all" class="k-button">Удалить все</div><div class="manager-loader" style="display:none;"><img class="ov-spin" src="/Content/ajax-loaders/horizont/350.gif" /></div></div>
+    <div id="folder-list">
+        @await Component.InvokeAsync("GetFolders",new { folder=Model.PagingInfo.Dir.Name})
+
+    </div>
+    <div id="FilesList">
+     
+        
+        @await Component.InvokeAsync("GetFiles", new {page=Model.PagingInfo.CurrentPage, folder=Model.PagingInfo.Dir.Name })
+    </div>
+
+    <div id="filesleft">
+        <div id="photos"></div><br />
+
+
+
+
+        <h4>Все файлы(<span class="files-count"></span>):</h4>
+
+        <div style="width:70%">
+            @(Html.Kendo().Upload()
+                                    .ShowFileList(true)
+                                    .Name("files")
+                                            .Messages(m => m.Select("Загрузить файлы"))
+                                    .Async(a => a
+                                        .Save("Save", "UploadFiles")
+                                        .Remove("Remove", "UploadFiles")
+                                        .AutoUpload(true)
+
+
+                                    )
+
+                                    .Events(x => x
+                                        .Success("uploadSuccess")
+                                        .Complete("uploadComp")
+                                        .Upload(@<text>
+                                            function(e) {
+                                            e.data = { folder: $(".selected-folder span").text() };
+                                            }
+                                        </text>))
+
+
+
+            )
+
+        </div><br />
+    </div>
+</div>
+<script>
+    function addload() {
+        $('.manager-loader').show();
+    }
+    function removeload() {
+        $('.manager-loader').hide();
+    }
+    $(document).ready(function () {
+
+
+        $("#create-folder-btn").bind("click", function () {
+            wnd = $("#create-folder").data("kendoWindow");
+            wnd.open();
+            wnd.center();
+
+        });
+        $(document).on("click", "#fm-del-all", function () {
+            $.post('/Admin/UploadFiles/DelAll', function () { location.reload(); });
+        });
+        $(document).on("click", "#folder-post", function () {
+            var name = $('#folder-form input').val();
+            addload();
+            $.post("/Admin/UploadFiles/CreateDirectory?name=" + name, function () {
+                wnd = $("#create-folder").data("kendoWindow");
+                wnd.close();
+                $('#ma-notify').html('папка создана');
+                $.post("/Admin/UploadFiles/GetFolders", {}, function (data) {
+
+                    $("#folder-list").html(data);
+                    $("#folder-list").effect('highlight');
+                    removeload();
+                });
+            });
+        });
+        $(document).on("click", ".folder-item", function () {
+            addload();
+            $this = $(this);
+          
+           
+            jsonData = { page: 1, folder: $this.data('folder') };
+          
+            $.ajax({
+                url: "/Admin/UploadFiles/GetFiles",
+                data: jsonData,
+
+
+                type: 'post',
+                success: function (data) {
+                    $('.folder-item').removeClass('selected-folder');
+                    //$('.folder-item i').removeClass('fa-folder-open');
+                    //$('.folder-item i').removeClass('fa-folder-o');
+                    var str = 0;
+                    $.map($('.folder-item i'), function (e) {
+
+                        if ($(e).hasClass('fa-folder-open')) $(e).removeClass('fa-folder-open').stop().addClass('fa-folder-o');
+                    });
+
+
+                    $this.addClass('selected-folder');
+                    $this.find('i').removeClass('fa-folder-o');
+                    $this.find('i').addClass('fa-folder-open');
+
+                    $("#FilesList").html(data);
+                    $(".stripedMe tbody tr:even").addClass("alt");
+                    imagePreview();
+                    removeload();
+                }
+            });
+        });
+
+        $(document).on("click", ".folder-remove", function () {
+            addload();
+            var name = $(this).data('folder');
+            $this = $(this);
+            $.post("/Admin/UploadFiles/RemoveDirectory?name=" + name, function () {
+
+                $this.closest('.folder-li').remove();
+                $.post("/Admin/UploadFiles/GetFolders", {}, function (data) {
+
+                    $("#folder-list").html(data);
+                    $("#folder-list").effect('highlight');
+                    $('tbody').remove();
+                    removeload();
+                });
+
+            });
+
+
+
+            var notification = $("#notification").data("kendoNotification");
+
+
+            notification.show(
+                'папка удалена'
+                , 'success');
+        });
+    });
+
+    function uploadSuccess(e) {
+        var resp = $.parseJSON(e.XMLHttpRequest.responseText);
+        if (resp.type == "length") alert("Длина файла не должна превышать 4 MB.");
+        else if (resp.type == "error") alert("Ошибка сервера!");
+        else if (resp.type == "zero") alert("Не выбрана папка!");
+        else {
+
+          
+        }
+    }
+    function uploadComp() {
+       
+        $.post("/Admin/UploadFiles/GetFiles", { page: 1, folder: $('.selected-folder').find("span").text() }, function (data) {
+            $("#FilesList").effect('highlight');
+            $("#FilesList").html(data);
+            $(".stripedMe tbody tr:even").addClass("alt");
+            imagePreview();
+        });
+
+
+    }
+
+
+
+
+</script>
+
+@(Html.Kendo().Window()
+                .Name("create-folder")
+                .Title("Новая папка")
+                .Visible(false)
+                    .Modal(true)
+                .Content(@<text>
+                    <form id="folder-form">
+                        @Html.ValidationSummary(true)
+                        <div class="form-group">
+                        @Html.TextBoxFor(model => model.DirName, new  {@class="form-control" })
+                        @Html.ValidationMessageFor(model => model.DirName)
+                            </div>
+                    </form>
+
+                    <button class="k-button" id="folder-post">создать</button>
+                </text>))
+
+
+@(Html.Kendo().Notification()
+                .Name("notification")
+                .Position(x => x.Left(0))
+                .AutoHideAfter(10000)
+)
+
+<script src="~/js/pager.js"></script>

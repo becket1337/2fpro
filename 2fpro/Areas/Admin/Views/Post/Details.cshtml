@@ -1,0 +1,25 @@
+﻿@model _2fpro.Models.Post
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Детали</h2>
+
+<fieldset>
+    <legend>@Model.Title</legend>
+
+    
+
+    
+    <div class="display-field">
+        @Html.Raw(Model.Body)
+    </div>
+
+    
+</fieldset>
+<p>
+    
+    @Html.ActionLink("к списку", "Index")
+</p>

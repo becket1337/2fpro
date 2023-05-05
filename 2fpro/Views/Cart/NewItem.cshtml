@@ -1,0 +1,25 @@
+﻿@model _2fpro.Models.Product
+
+<!--
+    <div class="newitem-img">
+        <img src="@Url.Action("GetProdImage", "ImageData", new {id=Model.ID,width=50,height=50 })" />
+
+    </div>
+    <div class="newitem-desc">
+
+        @Model.ProductName
+    </div>
+    <div class="newitem-controls">
+        X
+
+    </div>
+
+<div class="newitem-linear"></div>
+-->
+<div class="newitem">
+    <div class="newitem-ways">
+        <button class="newitem-button">Продолжить покупки</button>
+        <button class="newitem-button" onclick="window.location='@Url.Action("Index", "Checkout", new  {step=1 })'">Оформить заказ</button>
+    </div>
+</div>
+

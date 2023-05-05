@@ -1,0 +1,184 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+.navbar-header {
+    box-shadow: 0 0 2px gray;
+}
+h2, h3, h4 {
+    padding: 10px 0;
+    font-size: 18px;
+}
+.navbar-brand{
+    margin-right:initial;
+}
+.top-cart-wrap {
+    padding: 10px;
+}
+#showLeft i {
+    font-size: 24px;
+    padding: 15px;
+}
+.k-mobile .table{
+    table-layout:fixed;
+}
+    .k-mobile .table td {
+        padding: 5px;
+        word-break: break-all;
+    }
+
+.tdTitle th:last-child {
+     width: initial;
+}
+
+.k-mobile .k-edit-form-container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    border: 0;
+    display: block;
+    box-sizing: border-box;
+    width:100%;
+}
+.k-mobile fieldset{
+    padding:0;
+    margin:0;
+    border:0;
+}
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+.k-mobile input[type="text"], .k-mobile textarea {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-height: 40px;
+}
+.k-overflow-anchor{padding:0;}
+.k-mobile .k-edit-field, .k-mobile .k-edit-form-container .editor-field {
+    float: initial;
+    clear: initial;
+    margin-left: initial;
+    /* float: right; */
+    /* clear: right; */
+    width: 100%;
+    /* margin-right: 2%; */
+    padding: 0 0 .6em;
+}
+.k-mobile .k-edit-form-container .editor-label, .k-edit-label {
+    padding: 0;
+}
+.k-mobile .k-edit-form-container .editor-label, .k-edit-label {
+    float: initial; 
+    clear: both;
+     width: 100%;
+    padding: .4em 0 1em;
+    margin-left: 2%;
+    text-align: left;
+}
+.k-mobile .product-view {
+    float: initial;
+    width: initial !important;
+    border: 0;
+}
+.k-mobile .product-view input[type="text"] {
+    width: initial !important;
+}
+.k-mobile dl dd {
+    margin-left: initial;
+    width: 100%;
+    padding: 0;
+}
+.k-mobile .menu-options {
+    width: initial;
+    float: initial;
+    text-align: left;
+}
+.k-mobile .menu-seo {
+    width: initial;
+    float: initial;
+    margin-right: initial;
+    padding-left: initial;
+    border-left: initial;
+    text-align: left;
+}
+.k-mobile .k-window{
+width:100%!important;
+left:0;
+}
+.k-mobile .k-grid-content table tr:first-child td{
+    padding:5px;
+    width:75px;
+}
+.k-mobile #admincontent a {
+    padding:5px;
+}
+.k-mobile table {
+    /*table-layout: fixed;*/
+    box-sizing: border-box;
+    width: 100%;
+}
+    .k-mobile table td {
+        box-sizing: border-box;
+        width: 75px;
+        word-break: break-all;
+        padding: 0;
+        height: auto;
+        font-size: 13px;
+    }
+.k-mobile .k-grid .k-hierarchy-cell {
+    /*display:initial;*/
+}
+.k-mobile .prew-img {
+    max-width: 200px !important;
+}
+.k-mobile .k-editor-overflow-popup {
+    max-width: 320px;
+}
+.k-mobile .k-editor-widget{
+    width:100%!important;
+}
+.k-mobile .k-overflow-anchor{
+    padding:0!important;
+}
+.k-mobile .k-editor-toolbar a{
+    padding:0!important;
+}
+@media (min-width: 480px), (min-width:300px) {
+    .container {
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 768px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 992px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1200px;
+    }
+}
+@media (min-width: 1440px) {
+    .container {
+       
+        max-width: 1440px;
+    }
+}

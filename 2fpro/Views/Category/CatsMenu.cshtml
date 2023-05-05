@@ -1,0 +1,23 @@
+﻿@model IEnumerable<_2fpro.Models.Category>
+<script>
+    $(function () {
+        $('#catsList li').filter(function () {
+            return $(this).data('catId') == '@Context.Request.Query["catId"]';//..Current.Request.QueryString["catId"]';
+        }).addClass('selected-cat');
+    });
+</script>
+
+<ul class="tmenu">
+    <li class="tmenu-item">
+        <a href="javascript: void (0);">Продукция <i class="fa fa-angle-down"></i></a>
+        <ul id="catsList" class="tmenu__submenu">
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <li data-cat-id="@item.ID" class="tmenu__submenu-item"><a class="submenu-link" href="@Url.Action("ProdList", "Product", new { catId = item.ID })"> @item.CategoryName (@item.Products.Count())</a></li>
+                }
+            }
+        </ul>
+    </li>
+</ul>

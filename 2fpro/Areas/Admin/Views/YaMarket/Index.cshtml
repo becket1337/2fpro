@@ -1,0 +1,94 @@
+﻿@model _2fpro.Models.YaMakret
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+
+}
+
+<h2>Выгрузка каталога для Яндекс Маркета</h2><br />
+
+@using (Html.BeginForm("MarketExport", "YaMarket", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(x => x.ID)
+    <fieldset>
+
+        <br />
+        <p>
+
+            @if (!string.IsNullOrWhiteSpace((string)ViewBag.ExportError))
+            {
+                <span style="color:red;">
+                    <span>Произошла ошибка! </span><br />
+                    <span>@ViewBag.ExportError</span>
+                </span> <br />
+            }
+
+
+        </p>
+
+        <div>
+            <div>
+                Ссылка на xml-файл каталога
+            </div>
+            <div>
+                <input value="@ViewBag.YaLink" class="form-control" style="    background: #f1f1f1;" />
+            </div>
+        </div>
+        <h3>Данные магазина (shop)</h3>
+        <div class="form-group">
+            <label> Название компании (company)</label>
+            @Html.TextBoxFor(model => model.CompanyName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CompanyName)
+        </div>
+        <div class="form-group">
+            <label> Название магазина (name)</label>
+            @Html.TextBoxFor(model => model.SiteName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SiteName)
+        </div>
+        <div class="form-group">
+            <label> Url-сайта (url)</label>
+            @Html.TextBoxFor(model => model.UrlSite, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.UrlSite)
+        </div>
+        <div class="form-group">
+            <label> Почта (email)</label>
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+
+        <div class="form-group">
+            <label> sales_notes (макс 50 символов)</label>
+            @Html.TextBoxFor(model => model.SalesNotes, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SalesNotes)
+        </div>
+
+        <button type="submit" class="k-button k-primary">Выгрузить</button><br /><br />
+    </fieldset>
+}
+@(Html.Kendo().Notification()
+                    .Name("notification")
+                    .Position(x => x.Left(0))
+                    .AutoHideAfter(10000)
+)
+@if (!string.IsNullOrWhiteSpace((string)ViewBag.ExportDone))
+{
+    <script>
+
+        $(function () {
+
+            var notification = $("#notification").data("kendoNotification");
+            var type = "";
+            type = "success";
+            notification.show(
+                /**/
+                'Выгрузка успешно завершена!'
+                /**/
+                , type);
+        });
+    </script>
+}

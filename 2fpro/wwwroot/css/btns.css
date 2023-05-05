@@ -1,0 +1,42 @@
+﻿.main-btn {
+    border: 0;
+    padding: 10px 15px;
+    font-family: 'Proxima-reg';
+    width: 100%;
+    background: transparent;
+    border:1px solid black;
+    color: black;
+    font-size: 21px;
+    margin: 20px 0;
+}
+    .main-btn:hover {
+        background: #E7C733;
+        border: 1px solid #E7C733;
+        color: white;
+    }
+.default-btn{
+
+}
+.main-btn-l {
+    border: 0;
+    padding: 10px 15px;
+    font-family: 'Proxima-reg';
+    
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    font-size: 21px;
+    margin: 20px 0;
+}
+.main-btn-l:hover {
+    background: #E7C733;
+    border: 1px solid #E7C733;
+    color: white;
+}
+.lay-btn {
+    cursor:pointer;
+    font-family: 'Open Sans';
+    font-size: 24px;
+    font-weight: 400;
+    padding: 20px 40px;
+}

@@ -1,0 +1,135 @@
+﻿@model _2fpro.Models.Menu
+@inject _2fpro.Service.Interface.IMenuRepository mrep
+
+@{
+
+    ViewBag.Title = Model.Text + " — " + " ООО «2Ф»";
+    Layout = "~/Views/Shared/_PageMenuLayout.cshtml";
+    var culture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+
+
+}
+<script>
+
+
+</script>
+@section SEO{
+
+    <meta name="keywords" content="@Model.SeoKeywords" />
+    <meta name="description" content="@Model.SeoDescription" />
+
+}
+@{
+    var parName = await mrep.GetMenuName(Model.ParentId);
+    var parUrl = await mrep.GetMenuUrl(Model.ParentId);
+    var bcrumbs = Model.ParentId != 0 ?
+        $@"<a href=""/Menu/{parUrl}"" >{parName} </a>&nbsp; <i class=""fas fa-chevron-right""></i>&nbsp; {Model.Text} " :
+        Model.Text;
+}
+<script>
+    //$(function () {
+
+    //$('html, body').animate({
+    //    scrollTop: $("#article").offset().top
+    //}, 500);
+    //});
+</script>
+<link rel="stylesheet" href="~/css/mygal.css" />
+@if (Model.Url == "mygallery")
+{
+
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.0/css/lightgallery.min.css" />
+
+    <!-- lightgallery plugins -->
+    <link type="text/css" rel="stylesheet" href="~/lib/lightgallery/css/lg-zoom.css" />
+    <link type="text/css" rel="stylesheet" href="~/lib/lightgallery/css/lg-thumbnail.css" />
+    <link type="text/css" rel="stylesheet" href="~/lib/lightgallery/css/lg-transitions.css" />
+
+    <!-- OR -->
+
+    <link type="text/css" rel="stylesheet" href="~/lib/lightgallery/css/lightgallery-bundle.min.css" />
+    <script src="~/lib/lightgallery/lightgallery.umd.js"></script>
+    <!-- Or use the minified version -->
+    <script src="~/lib/lightgallery/lightgallery.min.js"></script>
+
+    <!-- lightgallery plugins -->
+    <script src="~/lib/lightgallery/plugins/thumbnail/lg-thumbnail.umd.js"></script>
+    <script src="~/lib/lightgallery/plugins/zoom/lg-zoom.umd.js"></script>
+
+    <script type="text/javascript">
+        //lightGallery(document.getElementById('str'), {
+        //    plugins: [lgZoom, lgThumbnail],
+        //    licenseKey: "0000-0000-000-0000",
+        //    speed: 500,
+        //    mode:'lg-fade'
+        //    // ... other settings
+        //});
+        $(function () {
+            lightGallery(document.getElementById('str'), {
+                mode: 'lg-fade'
+            });
+            
+            
+        });
+      
+    </script>
+
+}
+    <script>
+        $(function () {
+
+            $('.snippet-list-checkbox__box').html('<span class="d-block position-absolute snippet-list-checkbox__check"></span>');
+        })
+    </script>
+<style>
+    #aboutpage .page-h2{display:none;}
+    .snippet-list-checkbox__check {
+        width: 19px;
+        height: 10px;
+        border: 2px solid #d5001c;
+        -webkit-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        top: 20px;
+        left: 19px;
+        border-top: none;
+        border-right: none;
+    }
+    .snippet-list-checkbox__check {
+        border-bottom-color: #E2B900;
+        border-left-color: #E2B900;
+    }
+</style>
+<div class="page-wrapper" id="@(Model.Url=="mygallery"?"galview":"")@(Model.Url=="about"?"aboutpage":"")" >
+
+    <div class="container">
+
+        <div class="content-wrap page-lay-wrap clear-fix" data-page-id="@Model.Id">
+            <div class="breadcrumb side-block"><a href="/">Главная</a> &nbsp;<i class="fas fa-chevron-right"></i>&nbsp; @Html.Raw(bcrumbs) </div>
+            <h1 class="page-h2">@Model.Text</h1>
+
+
+
+            <div id="@(Model.Url=="mygallery"?"str":"")">
+
+                @if (Model.Url == "mygallery")
+                {
+                    @await Component.InvokeAsync("GetImagesFromFolder")
+                }
+                else
+                {
+
+                @if (culture == "ru")
+                {
+                    @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Body))
+                }
+                else
+                {
+                    @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Body))
+                }
+                }
+            </div>
+            </div>
+
+    </div>
+</div>

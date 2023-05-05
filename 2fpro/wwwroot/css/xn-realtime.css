@@ -1,0 +1,209 @@
+﻿.diag-content {
+   
+}
+.diag-wrapper {
+    position: fixed;
+    font-family: robot-regular,arial;
+    background: #ffffff;
+    color: black;
+    box-shadow: 0 0 5px #bbbbbb;
+    left: 0;
+    z-index: 12434;
+    font-size: 13px;
+    height: auto;
+}
+.diag-wrapper1 {
+    width: 322px;
+    display:none;
+}
+.diag-row-green {
+    color: forestgreen;
+    width: 100%;
+    display: inline-block;
+}
+.diag-row-red {
+    color: orangered;
+    width: 100%;
+    display: inline-block;
+}
+.diag-row-orange {
+    color: darkorange;
+    width: 100%;
+    display: inline-block;
+}
+
+.diag-foot{
+    padding:10px 0;
+}
+.diag-wrapper h4 {
+    color: black;
+    font-size: 15px;
+    padding: 5px 15px;
+    text-transform: initial;
+    background: #efefef;
+    margin: 0 -15px;
+    font-family: Robot-condensed;
+}
+.diag-location {
+    padding: 5px 0;
+}
+.geoloc_item:first-of-type   {
+    padding-top: 5px;
+}
+.diag-receiver {
+    padding-top: 5px;
+    overflow-y: scroll;
+    max-height: 125px;
+}
+.diag-header {
+    font-size: 15px;
+    background: #626775;
+    color: #ffffff;
+    padding: 5px;
+    position: relative;
+    display: table;
+    width: 100%;
+}
+    .diag-header img {
+        width: 50px;
+    }
+    .diag-header .diag-title {
+        padding: 0 10px;
+      
+        color: #e6e6e6;
+    }
+.diag-header_row {
+    min-height: 48px;
+    display: flex;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.diag-close {
+    padding: 10px;
+    margin-left: 10px;
+}
+.diag-trigger-moreinfo {
+    padding: 5px;
+}
+.diag-trigger-moreinfo i{
+    padding: 0 5px;
+    font-size: 18px;
+}
+.diag-header_btns {
+    clear: both;
+    display: inline-block;
+    cursor:pointer;
+}
+    .diag-header_btns span {
+        border-bottom: 1px solid;
+        color: #dadada;
+        line-height: 30px;
+    }
+.diag-header_row i {
+    font-size: 30px;
+  
+    color: #e6e6e6;
+}
+.diag-toggled {
+    position: absolute;
+    right: -40px;
+    z-index: 12343;
+    top: 50px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 28px;
+    color: #6d6d6d;
+    background: #bbbbbb;
+}
+.diag-users-list {
+    overflow-y: scroll;
+    height: 150px;
+}
+.diag-user {
+    margin: 2px 0;
+    padding: 2px;
+}
+
+.diag-details {
+    padding: 2px;
+   cursor:pointer;
+}
+.diag-user-name{
+    width:110px;
+    display:inline-block;
+}
+
+.diag-info_content {
+    padding: 0 10px 10px 10px;
+}
+.diag-userslist_wrapper .diag-info_content {
+    height: 362px;
+    overflow-y: scroll;
+}
+.diag-info_title {
+    padding: 5px 10px;
+    display: flex;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    font-size: 16px;
+    color: #585858;
+    background: whitesmoke;
+}
+    .diag-info_title span {
+        padding-bottom: 5px;
+    }
+    .diag-info_title span {
+        padding:10px;
+    }
+        .diag-user-timer {
+    color: #356b13;
+    background: #c1dac4;
+    padding: 0 3px;
+}
+.diag-user-timer-off {
+    color: #9a631d;
+    background: #fbebaf;
+}
+.diag-info-wrapper {
+    position: absolute;
+    top: 0;
+    background: white;
+    width: 100%;
+    height: 100%;
+    
+    font-size: 14px;
+}
+.diag-info-row_text {
+    width: 100px;
+    display: inline-block;
+}
+diag-info-row_val {
+    width: 60%;
+    display: inline-block;
+}
+.diag-info-row {
+    font-size: 12px;
+}
+#diag-online-count {
+    padding: 5px 0;
+}
+#diag-online-count i{
+    font-size:18px;
+}
+.diag-integ-val {
+    font-size: 14px;
+    color: #fa7459;
+}
+.diag-icon-back {
+    padding: 10px;
+    cursor: pointer;
+}

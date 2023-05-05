@@ -1,0 +1,54 @@
+﻿@model _2fpro.ViewModel.PostViewModel
+
+
+@{
+    ViewBag.Title = "Новости | 2fpro.ru";
+    Layout = "~/Views/Shared/_PageMenuLayout.cshtml";
+
+    Model.PagingInfo.PageUrl = (x) => "/Admin/Post/Index?page=" + x;
+}
+
+<link rel="stylesheet" href="~/css/news-list.css" />
+<div class="page-wrapper">
+    <div class="container">
+        <div class=" page-lay-wrap ">
+            <div class="breadcrumb side-block">@Html.ActionLink("Главная", "Index", "Home") &nbsp;<i class="fas fa-chevron-right"></i>&nbsp; Новости </div>
+
+            <h1>Пресс-центр</h1>
+            <div class="news-list">
+                @*@if (string.IsNullOrWhiteSpace(item.Preview))
+                    {<text></text>}*@
+                @foreach (var item in Model.Posts)
+                {
+                    <div class="nl-item mt-3 mb-4 d-flex">
+                        <div class="nl-item-wrap">
+                            <div class="nl-item-img   d-none d-sm-block align-self-stretch col-4 pl-0">
+                                <a href="/Post/Details/@item.ID">
+                                    <div class="nl-item-imgfill" style="background-image:url(@Url.Content("~/Content/Files/Post/"+item.ID+"/s/"+item.ImageMimeType))">@*<img src="@Url.Content("~/Content/Files/Post/"+item.ID+"/s/"+item.ImageMimeType)" alt="@item.Title" />*@</div>
+                                </a>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="nl-desc-wrap">
+                                        <div class="row align-items-center flex-grow-1">
+                                            <div class="nl-item-date col-12 col-sm-2 ml-3 mx-sm-4 ">
+                                                <div class="nl-day">@item.CreatedAt.ToString("dd")</div>
+                                                <div class="nl-month">@item.CreatedAt.ToString("dd MMMM").Remove(0,3)</div>
+                                            </div>
+                                            <a href="/Post/Details/@item.ID" class=" col-12 col-sm-8 "><div class="nl-item-preview">@item.Title</div></a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                }
+            </div>
+            <div class="pager">
+                <pager info="@Model.PagingInfo"></pager>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+﻿@model _2fpro.Models.Post
+
+@if (!string.IsNullOrWhiteSpace(Model.ImageMimeType))
+{
+    <div class="cat-curr-item" data-mime="@Model.ImageMimeType">
+        <table id="prodimages-table" style="width: 100%;">
+            <tr style="background:gray;color:white;">
+
+                <th>фото</th>
+
+                <th>ссылка</th>
+                <th>удалить</th>
+            </tr>
+            <tbody class="xn-sort" id="img-cont">
+
+
+                <tr class="xn-sortitem" data-id="@Model.ID">
+
+                    <td style="width:15%">
+                        @*<img src="@Url.Action("GetProdImage", "ImageData", new {pimgid=item.ID,width=100,height=100 })" width="75" height="75" />*@
+                        <img src="@Url.Content("~/Content/Files/Post/" + Model.ID + "/s/" + Model.ImageMimeType)" width="75" />
+
+                    </td>
+
+
+                    <td style="width:70%">@Url.Content("~/Content/Files/Category/" + Model.ID + "/" + Model.ImageMimeType)</td>
+                    <td style="width:15%;"><i class="fa fa-times preview-del" style="cursor:pointer" data-pimgid="@Model.ID"></i></td>
+                </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+}

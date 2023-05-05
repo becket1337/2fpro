@@ -1,0 +1,33 @@
+﻿@model IEnumerable<_2fpro.Models.Post>
+
+<section class="reviews-section">
+    <div class="reviews-wrapper">
+        <div class="adv-header"><h2>Последние новости</h2></div>
+        <div class="container">
+            <div class="reviews-slider-wrapper row justify-content-center">
+              
+                <div class="reviews-target col-md-10 col-sm-12">
+                    <div class="reviews-slider">
+                        @foreach (var item in Model)
+                        {
+
+                            <div class="review">
+                                <div class="review-title">@item.Title</div>
+                                <div class="review-text">
+                                    @Html.Raw(item.Preview)
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+
+
+                    <div class="reviews-openall  text-center "><a class="border-btn" asp-controller="Post" asp-action="Index">Узнать еще</a></div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>

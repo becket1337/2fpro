@@ -1,0 +1,129 @@
+﻿<script>
+    $(function () {
+        var galleryThumbs = new Swiper('.gallery-thumbs', {
+            spaceBetween: 0,
+            slidesPerView: 4,
+            freeMode: true,
+            watchSlidesVisibility: true,
+            watchSlidesProgress: true,
+        });
+        var swiper = new Swiper('.swiper-video-container', {
+            effect: 'fade',
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            thumbs: {
+                swiper: galleryThumbs
+            }
+        });
+    });
+
+
+</script>
+
+<div class="swiper-container swiper-video-container">
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+        <!-- Slides -->
+        <div class="swiper-slide">
+            <div>
+                <video autoplay muted loop>
+                    <source src="~/Content/images/vid.mp4" type="video/mp4">
+                </video>
+                <div class="slider-text">
+                    <div>
+                      
+                        <h2>
+                            Some Text for the Video</h2>
+                            <div>Description</div>
+                                <button class="main-btn-l" href="#">Button</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div>
+                <div class="ms-banner" >
+                    <img src="/Content/images/city.png" />
+                </div>
+            
+                <div class="slider-text">
+                    <div class="container">
+                        <div class="row">
+                            <div>
+                                <h2>
+                                    Some Text for the Video</h2>
+                                        <div>DESCRIPTION</div>
+                                        <a href="#">Button</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div>
+                <div class="ms-banner">
+                    <img src="/Content/images/slider2.png" />
+                </div>
+
+                <div class="slider-text">
+                    <div class="container">
+                        <div class="row">
+                            <div>
+                                <h2>
+                                    Some Text for the Video
+                                </h2>
+                                <div>DESCRIPTION</div>
+                                <a href="#">Button</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div>
+                <div class="ms-banner">
+                    <img src="/Content/images/slider3.png" />
+                </div>
+
+                <div class="slider-text">
+                    <div class="container">
+                        <div class="row">
+                            <div>
+                                <h2>
+                                    Some Text for the Video
+                                </h2>
+                                <div>DESCRIPTION</div>
+                                <a href="#">Button</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="swiper-container gallery-thumbs">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <img src="~/Content/images/thumb1.jpg" width="200">
+            <div class="thumbs-transition"></div>
+        </div>
+        <div class="swiper-slide">
+            <img src="/Content/images/slider3.png" width="200">
+            <div class="thumbs-transition"></div>
+        </div>
+        <div class="swiper-slide">
+            <img src="/Content/images/slider3.png" width="200">
+            <div class="thumbs-transition"></div>
+        </div>
+        <div class="swiper-slide">
+            <img src="/Content/images/slider3.png" width="200">
+            <div class="thumbs-transition"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,182 @@
+﻿@model IEnumerable<_2fpro.Models.Portfolio>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@(Html.Kendo().Sortable()
+        .For("#img-cont")
+
+        .HintHandler("hint")
+        .PlaceholderHandler("placeholder")
+
+        .Events(events => events.End("onEnd").Start("onStart").Move("onMove"))
+)
+
+
+<script>
+
+    function hint(element) {
+        var row = element.clone();
+        var table = $('<table class="admTable stripedMe" ></table>');
+        table.append(row);
+        //$('#tar').html(table);
+        return table;
+    }
+    var arr = [],
+        itemData = {};
+
+    function placeholder(element) {
+        //return $('<tr />').addClass("placeholder").append('<td colspan="6">Поместить сюда</td></tr>');
+        return element.clone().addClass("placeholder");
+    }
+
+    function onStart(e) {
+        var id = e.sender.element.attr("id");
+        console.log(id + " start: " + e.item.text());
+    }
+
+    function onMove(e) {
+        var id = e.sender.element.attr("id"),
+            text = e.item.attr('data-sort'),
+            placeholder = e.list.placeholder;
+
+        console.log(text + " " + id + " move to index: " + this.indexOf(placeholder));
+    }
+
+    function onEnd(e) {
+        var id = e.sender.element.attr("data-id"),
+            text = e.item.find('>div').text(),
+            oldIndex = e.oldIndex,
+            newIndex = e.newIndex;
+        if (oldIndex > newIndex) {
+            for (var i = newIndex; i <= oldIndex; i++) {
+                var sortlist, sortitem, sortitem1;
+                if (oldIndex == i) {
+                    sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(newIndex);
+                }
+                else {
+                    sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(i + 1);
+                }
+                //console.log('id - '+sortitem.attr('id')+', sort - '+sortitem1.data('sort')+'old - '+oldIndex+', new - '+newIndex);
+                arr.push({ id: sortitem.attr('data-id'), sort: sortitem1.data('sort') });
+
+            }
+            $.post('/Menu/EditSort', { jsonData: JSON.stringify(arr) }, function () {
+
+            });
+        }
+        else if (oldIndex < newIndex) {
+
+            for (var i = newIndex; i >= oldIndex; i--) {
+                var sortlist, sortitem, sortitem1;
+                if (oldIndex == i) {
+                    sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(newIndex);
+                }
+                else {
+                    sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(i - 1);
+                }
+                //console.log('id - '+sortitem.attr('id')+', sort - '+sortitem1.data('sort')+'old - '+oldIndex+', new - '+newIndex);
+                arr.push({ id: sortitem.attr('data-id'), sort: sortitem1.data('sort') });
+
+            }
+            $.post('/Slider/UpdateSort', { jsonData: JSON.stringify(arr) }, function () {
+
+            });
+        }
+        else { }
+        //console.log(id + " end: " + text + " oldIndex: " + oldIndex + " newIndex: " + newIndex + " action: " + e.action);
+    }
+
+</script>
+
+
+<h2>Слайдер</h2>
+
+<p style="display: inline-block;">
+    <a href="@Url.Action("Create", "Slider")" class="k-button k-button-icontext"><span class="k-icon k-i-plus">&nbsp;</span>Создать</a>
+    <a href="@Url.Action("DeleteAll", "Slider")" class="k-button k-button-icontext">Удалить все</a>
+</p>
+<table class="admTable stripedMe">
+    <tr class="tdTitle">
+        <th style="width:50px">ID</th>
+        <th style="width:200px;">Фото</th>
+        <th>
+            Название
+        </th>
+        <th>
+            Описание
+        </th>
+        <th>
+            сортировка
+        </th>
+
+
+
+
+        <th></th>
+    </tr>
+    <tbody id="img-cont" class="xn-sort">
+        @if (Model.Count() != 0)
+        {
+            foreach (var item in Model)
+            {
+
+                <tr class="sort-item xn-sortitem" data-sort="@item.Sortindex" data-id="@item.ID">
+                    <td>@item.ID</td>
+                    <td>
+
+                        <img class="preview files-img" data-large="/Content/Files/Slider/@item.ID/@item.ImageMimeType" src="@Url.Content("~/Content/Files/Slider/"+item.ID+"/small/"+item.ImageMimeType) " id="@item.ID" alt="@item.Title" height="50" width="50" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sortindex)
+                    </td>
+
+                    <td>
+                        <a href="@Url.Action("Edit", "Slider", new { id = item.ID})" title="Редактировать" class="k-button"><span class="k-icon k-i-pencil"></span></a>
+
+
+                        <a href="@Url.Action("Delete", "Slider", new { id = item.ID })" title="Удалить" class="k-button"><span class="k-icon k-i-close"></span></a>
+                    </td>
+                </tr>
+            }
+
+
+        }
+    </tbody>
+</table>
+@(Html.Kendo().Notification()
+        .Name("notification")
+        .Position(x => x.Left(0))
+        .AutoHideAfter(10000)
+)
+@if (TempData["message"] != null)
+{
+    <script>
+
+        $(function () {
+
+            var notification = $("#notification").data("kendoNotification");
+            var type ="";
+            switch(@TempData["type"]){case 1:type="success";break;case 2:type="info";break;case 3:type="warning";break;default:type="error";};
+            notification.show(
+               '@TempData["message"]'
+            ,type);
+        });
+    </script>
+}

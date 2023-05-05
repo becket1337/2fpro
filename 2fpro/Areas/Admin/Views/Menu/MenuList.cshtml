@@ -1,0 +1,395 @@
+﻿@model _2fpro.ViewModel.MenuViewModel
+@{
+    ViewBag.Title = "MenuList";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .grid-placeholder {
+        width: 300px;
+        padding: 5px;
+        margin: 0;
+    }
+
+    tr[role="row"] {
+        cursor: move;
+    }
+
+    .placeholder {
+        border: 1px dashed #ccc;
+        color: #333;
+    }
+
+    .hint {
+        opacity: 0.4;
+    }
+</style>
+
+
+
+<script>
+
+
+    function hint(element) {
+        var row = element.clone().addClass("placeholder");
+        var table = $('<table class="admTable stripedMe" ></table>');
+        table.append(row);
+        //$('#tar').html(table);
+        return table;
+    }
+
+    //var noHint = $.noop;
+    var arr = [],
+        itemData = {};
+
+    function placeholder(element) {
+        //return $('<div class="grid-placeholder" />').addClass("placeholder").append('<p>Поместить сюда</p>');
+        //return $('<tr />').addClass("placeholder").append('<td colspan="6">Поместить сюда</td></tr>');
+        return element.clone().addClass("placeholder");
+    }
+
+    function onStart(e) {
+        var id = e.sender.element.attr("id");
+        console.log(id + " start: " + e.item.text());
+    }
+
+    function onMove(e) {
+        var id = e.sender.element.attr("id"),
+            text = e.item.attr('data-sort'),
+            placeholder = e.list.placeholder;
+
+        console.log(text + " " + id + " move to index: " + this.indexOf(placeholder));
+    }
+
+    function onEnd(e) {
+        var reloadGrid = e.sender.element;
+
+        var isDetails = e.sender.element.attr('class') == 'k-grid k-widget k-display-block k-editable';
+        var sortlist = isDetails ? $('.xn-sort').children('.xn-sortitem') : $('.xn-sort1').children('.xn-sortitem');
+
+        var id = e.sender.element.attr("data-id"),
+            text = e.item.find('>div').text(),
+            // = e.sender.element.find('.xn-sort').children('.xn-sortitem'),// xn-sort = tbody-контейнер для сортирвки ||||||||   xn-sortitem - <tr>
+            oldIndex = e.oldIndex,
+            newIndex = e.newIndex;
+        if (oldIndex > newIndex) {
+            for (var i = newIndex; i <= oldIndex; i++) {
+                var sortitem, sortitem1;
+                if (oldIndex == i) {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(newIndex);
+                }
+                else {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(i + 1);
+                }
+                console.log('id - ' + sortitem.data('id') + ', sort - ' + sortitem1.data('sort') + 'old - ' + oldIndex + ', new - ' + newIndex);
+                arr.push({ id: sortitem.data('id'), sort: sortitem1.data('sort') });
+
+            }
+            $.post('/Menu/EditSort', { jsonData: JSON.stringify(arr) }, function () {
+                reloadGrid.data('kendoGrid').dataSource.read();
+
+            });
+        }
+        else if (oldIndex < newIndex) {
+
+            for (var i = newIndex; i >= oldIndex; i--) {
+                sortitem, sortitem1;
+                if (oldIndex == i) {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(newIndex);
+                }
+                else {
+                    //sortlist = $('.xn-sort').children('.xn-sortitem');
+                    sortitem = sortlist.eq(i);
+                    sortitem1 = sortlist.eq(i - 1);
+                }
+                console.log('id - ' + sortitem.data('id') + ', sort - ' + sortitem1.data('sort') + 'old - ' + oldIndex + ', new - ' + newIndex);
+                arr.push({ id: sortitem.data('id'), sort: sortitem1.data('sort') });
+
+            }
+            $.post('/Menu/EditSort', { jsonData: JSON.stringify(arr) }, function () {
+                reloadGrid.data('kendoGrid').dataSource.read();
+
+            });
+        }
+        else { }
+        //console.log(id + " end: " + text + " oldIndex: " + oldIndex + " newIndex: " + newIndex + " action: " + e.action);
+    }
+
+
+    function wActivate() {
+        console.log('open');
+        var data = $('#Body').data('kendoEditor');
+        data.trigger('select');
+    }
+    function wClose(e) {
+
+        //data = $('#grid').data('kendoGrid');
+        //data.dataSource.read();
+
+    }
+</script>
+
+<h2>Главное меню @(Model.ctype == 0 ? "1го уровня" : "2го уровня")</h2>
+@{ var isMob = Context.Request.IsMobileBrowser();
+    var windowW = isMob ? "0" : "1250";
+    var windowH = isMob ? "0" : "700";
+}
+@(Html.Kendo().Grid<_2fpro.ViewModel.MenuViewModel>()
+                .Name("grid")
+                .Columns(columns =>
+                {
+                    if (!isMob) columns.Bound(e => e.Id).Width(50).Title("ID");
+                    columns.Bound(e => e.Text).Width(200).Title("Название");
+                    if (!isMob) columns.Bound(e => e.Url).Width(150).HtmlAttributes(new { style = "" }).Title("Url");
+
+                    //columns.Bound(e => e.ParentId).Width(75).HtmlAttributes(new { style = "" }).Title("ID-родитель");
+
+                    if (!isMob) columns.Bound(e => e.SortOrder).Width(100).Title("Сортировка");
+                    if (!isMob)
+                        columns.Command(command => { command.Edit().Text(" "); command.Destroy().Text(" "); }).Width(150);
+                    else columns.Command(command => { command.Edit().Text(" "); command.Destroy().Text(" "); }).Width(100);
+                })
+
+                .Filterable()
+                .ToolBar(toolbar =>
+                {
+                    toolbar.Create().Text("Создать");
+                    toolbar.Custom().HtmlAttributes(new { onclick = "customBtn(); return false;" })
+                    .Name("Обновить")
+                    .Text("Обновить")
+                    .IconClass("k-icon k-i-copy");
+                })
+                .Editable(editable => { editable.Mode(GridEditMode.PopUp).Window(x => x.Height(int.Parse(windowH)).Width(int.Parse(windowW)).Events(y => y.Activate("wActivate").Close("wClose"))); })
+                .Pageable()
+                .Sortable()
+
+                .Scrollable()
+                .ClientDetailTemplateId("template")
+                .HtmlAttributes(new { style = "height:700px;" })
+                .DataSource(dataSource => dataSource
+
+                .Ajax()
+                .PageSize(20)
+                .Model(model =>
+                {
+                    model.Id(p => p.Id);
+                    model.Field(p => p.Id).Editable(false);
+                    model.Field(p => p.MenuSection).DefaultValue(Model.ctype);
+                }).Events(q => q.RequestEnd("reqEnd").Sync("sync_handler"))
+                .Sort(x => x.Add("SortOrder").Ascending())
+                .Create(update => update.Action("Editing_Create", "Menu"))
+                .Read(read => read.Action("Editing_Read", "Menu"))
+                .Update(update => update.Action("Editing_Update", "Menu"))
+                .Destroy(destroy => destroy.Action("Editing_Destroy", "Menu"))
+                ).Events(x => x.DataBound("dataBound").Save("save").Edit("edit").Change("change").SaveChanges("savech")))
+<script id="template" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<_2fpro.ViewModel.MenuViewModel>()
+            .Name("grid_#=Id#")
+            .Columns(columns =>
+            {
+                if (!isMob) columns.Bound(o => o.Id).Title("ID").Width(80);
+                columns.Bound(o => o.Text).Title("Название").Width(110);
+                if (!isMob) columns.Bound(o => o.Url).Title("Url").Width(200);
+                if (!isMob) columns.Bound(o => o.SortOrder).Title("Сортировка").Width(190);
+                if (!isMob)
+                    columns.Command(command => { command.Edit().Text(" "); command.Destroy().Text(" "); }).Width(150);
+                else columns.Command(command => { command.Edit().Text(" "); command.Destroy().Text(" "); }).Width(100);
+            })
+                .Editable(editable =>
+                {
+                    editable.Mode(GridEditMode.PopUp).Window(x =>
+x.Height(int.Parse(windowH)).Width(int.Parse(windowW))
+.Events(y => y.Activate("wActivate"))); editable.DisplayDeleteConfirmation(false);
+                })
+                .Filterable()
+                .Scrollable()
+                .HtmlAttributes(new { @class = "xn-main-child-table" })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+
+                .PageSize(10)
+                .Read(read => read.Action("Editing_Read_MenuChilds", "Menu", new { parentId = "#=Id#" }))
+                .Model(model =>
+                {
+                    model.Id(p => p.Id); model.Field(p => p.Id).DefaultValue(16000000).Editable(false);
+                    model.Field(p => p.MenuSection).DefaultValue(Model.ctype);
+                })
+                .Sort(x => x.Add("SortOrder").Ascending())
+                .Create(update => update.Action("Editing_Create", "Menu"))
+                .Update(update => update.Action("Editing_Update", "Menu"))
+                .Destroy(destroy => destroy.Action("Editing_Destroy", "Menu"))
+            )
+
+            .Events(x => x.DataBound("dataBoundChild"))
+            .Pageable()
+            .Sortable()
+            .ToClientTemplate())
+
+
+    @(Html.Kendo().Sortable()
+                    .For("#grid_#=Id#")
+                    .Filter("table > tbody > tr")
+                    .HintHandler("hint")
+                    .PlaceholderHandler("placeholder")
+                    .ContainerSelector("#grid_#=Id# tbody")
+                    .Events(events => events.End("onEnd").Start("onStart").Move("onMove")).ToClientTemplate()
+    )
+
+</script>
+
+
+<script>
+    function customBtn() {
+        $("#grid").data("kendoGrid").dataSource.read();
+    }
+    function sync_handler(e) {
+        //console.log('change');
+        //this.read();
+    }
+     
+    function reqStart(e) {
+        if (e.type == "create") {
+            //document.location.reload();
+            var grid = $("#grid").data("kendoGrid");
+            kendo.ui.progress(grid, true);
+
+        }
+    }
+    function reqEnd(e) {
+        if (e.type == "create") {
+            //document.location.reload();
+            var grid = $("#grid").data("kendoGrid");
+            
+            grid.dataSource.read();
+            kendo.ui.progress(grid, true);
+            //kendo.ui.progress(grid, false);
+        }
+    }
+    function change() {
+        var data1 = $('#grid').data('kendoGrid');
+        //data1.dataSource.read();
+
+        console.log('change');
+    }
+    function edit() {
+        var data1 = $('#grid').data('kendoGrid');
+        //data1.dataSource.read();
+
+        console.log('edit');
+    }
+    function savech() {
+        var data1 = $('#grid').data('kendoGrid');
+        //data1.dataSource.read();
+
+        console.log('savech');
+    }
+    //this.dataSource.read(); }
+    function save(e) {
+        var data1 = $('#grid').data('kendoGrid');
+        //data1.dataSource.read();
+
+
+        //console.log('save');
+        //    setTimeout(function () { $('#grid').data('kendoGrid').dataSource.read() }, 500
+        //);
+    }
+    //function savechanges() { alert('savechanges'); }
+    //function change() { alert('change'); }
+    //function remove() { alert('remove'); }
+    //function edit() { alert('edit'); }
+    //function cancel() { alert('cancel');}
+    function dataBound() {
+
+
+        var dataSource = this.dataSource;
+        this.element.find('tr.k-master-row').each(function () {
+            var row = $(this);
+
+            var data = dataSource.getByUid(row.data('uid'));
+            row.closest('tbody').addClass('xn-sort');
+            row.addClass('xn-sortitem');
+            row.attr('data-sort', data.get('SortOrder'));
+            row.attr('data-id', data.get('Id'));
+
+            if (!data.get('HasChildMenu')) {
+                row.find('.k-hierarchy-cell a').css({ display: "none", cursor: 'default' }).click(function (e) { e.stopImmediatePropagation(); return false; });
+            }
+        });
+    }
+    function dataBoundChild() {
+        var dataSource = this.dataSource;
+
+        this.element.find('tr[data-uid]').each(function () {
+            var row = $(this);
+            var data = dataSource.getByUid(row.data('uid'));
+
+            row.closest('tbody').addClass('xn-sort1');
+            row.addClass('xn-sortitem');
+            row.attr('data-sort', data.get('SortOrder'));
+            row.attr('data-id', data.get('Id'));
+
+        });
+    }
+</script>
+
+
+
+@(Html.Kendo().Sortable()
+                    .For("#grid")
+                    .Filter("table > tbody > tr.k-master-row")
+                    .HintHandler("hint")
+                    .PlaceholderHandler("placeholder")
+                    .ContainerSelector("#grid tbody")
+                    .Events(events => events.End("onEnd").Start("onStart").Move("onMove"))
+)
+<style scoped>
+    .k-edit-form-container {
+        width: auto;
+    }
+
+    .menu-seo {
+        width: initial;
+    }
+
+    #grid {
+        margin-top: 50px;
+    }
+
+    .k-button {
+        min-width: 30px !important;
+    }
+
+    .k-grid tbody tr {
+        height: 50px;
+    }
+
+    .k-grid td {
+        white-space: nowrap;
+    }
+</style>
+
+@(Html.Kendo().Notification()
+                                            .Name("notification")
+                                            .Position(x => x.Left(0))
+                                            .AutoHideAfter(10000)
+)
+@if (TempData["message"] != null)
+{
+    <script>
+
+        $(function () {
+
+            var notification = $("#notification").data("kendoNotification");
+            var type ="";
+            switch(@TempData["type"]){case 1:type="success";break;case 2:type="info";break;case 3:type="warning";break;default:type="error";};
+            notification.show(
+               '@TempData["message"]'
+            ,type);
+        });
+    </script>
+}

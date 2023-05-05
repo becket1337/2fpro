@@ -1,0 +1,10 @@
+﻿
+@{ 
+    string[] list = ViewBag.fileList;
+    
+}
+
+@foreach(var item in list)
+{
+    <img src="~/Content/Files/Pages/примеры/@System.IO.Path.GetFileName(item)" />
+}

@@ -1,0 +1,11 @@
+﻿@model IEnumerable<string>
+
+
+@if (Model.Count() > 1)
+{
+    foreach (string str in Model)
+    {
+       @(new Microsoft.AspNetCore.Html.HtmlString(str))
+       @:&nbsp;
+    }
+}

@@ -1,0 +1,23 @@
+﻿@model _2fpro.Models.Post
+
+@{
+    string[] files = null;
+    if (System.IO.Directory.Exists(System.IO.Path.Combine("~/Content/Files/Post/",Model.ID.ToString())))
+    {
+        files = System.IO.Directory.GetFiles(System.IO.Path.Combine("~/Content/Files/Post/", Model.ID.ToString()));
+    }   
+    
+}
+
+<h3>Список файлов: (@(files != null ? files.Count().ToString() : "0"))</h3>
+<div class="post-img-list">
+    @if (files != null)
+    {
+        foreach (var file in files)
+        {
+
+            <div class="file-d" data-id="@Model.ID" id="@System.IO.Path.GetFileName(file)"><span>удалить</span><img title="/Content/Files/Post/@Model.ID/200x150/@System.IO.Path.GetFileName(file)" src="/Content/Files/Post/@Model.ID/@System.IO.Path.GetFileName(file)" data-large="/Content/Files/Post/@Model.ID/@System.IO.Path.GetFileName(file)" width="100" height="100" class="preview files-img" /> </div>
+        }
+    }
+</div>
+

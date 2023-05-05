@@ -1,0 +1,267 @@
+﻿#listview {
+    min-height: 500px;
+    font-size: 16px;
+}
+
+#lv-leftbar, #lv-rightbar {
+    padding: 0;
+    margin: 0;
+}
+
+#lv-leftbar {
+}
+
+#lv-rightbar {
+}
+
+.title-bar {
+    display: flex;
+    padding: 10px;
+    background: #101624;
+    font-family: 'Proxima-cont';
+    color: white;
+    text-transform: uppercase;
+    padding-left: 30px;
+    height: 47px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.tb-icon {
+    margin-left: auto;
+    display: flex;
+}
+
+.breadcrumb {
+    font-size: 18px;
+    padding: 10px;
+    color: #626262;
+    font-family: 'Proxima-reg';
+    padding-left: 30px;
+}
+
+    .breadcrumb a {
+        color: black;
+        font-family: 'Proxima-reg';
+        font-size: 18px;
+    }
+        .breadcrumb a:hover {
+            color: #E7C733;
+        }
+
+    .breadcrumb i {
+        font-size: 16px;
+        align-items: center;
+        display: flex;
+        padding: 0 10px;
+        color: #E7C733;
+    }
+.tb-total {
+    text-transform: none;
+    font-size: 18px;
+}
+.filter-remove {
+    border: 1px solid #b9b9b9;
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+    .filter-remove i {
+        font-size: 18px;
+        padding: 0 5px;
+        align-items: center;
+        color: #005cfe;
+    }
+.filter-bar {
+    display: flex;
+    padding: 10px 30px;
+}
+.lv-aside-list {
+    background: #2d313a;
+    padding: 10px;
+    padding-left: 30px;
+    color: white;
+    max-height: 260px;
+}
+
+.form-check {
+    cursor: pointer;
+    padding-bottom: 5px;
+    font-family: 'Proxima-l';
+}
+
+    .form-check:hover label {
+        color: #3b83ff;
+        cursor: pointer;
+    }
+
+.lv-aside-list a {
+    color: white;
+}
+
+    .lv-aside-list a:hover {
+        color: #005cfe;
+    }
+
+/* cat-item ----->  listview*/
+#listview .tl-text-wrap {
+    font-family: 'Proxima-reg';
+}
+
+#listview .tl-imgcont {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+    padding: 80px;
+}
+
+#listview .tl-item a.tl-main-link {
+    flex: 0 0 auto;
+    min-height: 250px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+#listview .tl-imgcont img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#listview .tl-title-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
+    font-family: 'Proxima-reg';
+    font-size: 18px;
+    text-transform: uppercase;
+    background: #005cfe;
+    padding: 5px 10px;
+    border-radius: 10px 0 0 0;
+}
+
+#listview .form-check-input:not(:checked) {
+    border: 1px solid rgba(242,244,245,.25);
+    background: transparent;
+}
+
+#burger > div {
+    background-color: #E7C733;
+}
+
+#menyAvPaa:checked ~ #burger > div {
+    background-color: black;
+}
+
+#listview .tl-det-btn {
+    position: inherit;
+    font-family: 'Proxima-ext-cont-b';
+    bottom: inherit;
+    left: inherit;
+    background: inherit;
+    color: black;
+    padding: 5px;
+    border-radius: inherit;
+    font-size: 21px;
+    text-align: center;
+}
+
+.tl-det-btn a {
+    border: 2px solid black;
+    border-radius: 30px;
+    background: transparent;
+    padding: 6px 25px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    display: inline-block;
+    font-family: 'Proxima-bold';
+}
+
+    .tl-det-btn a:hover {
+        background: black;
+        color: white
+    }
+
+.tl-currency {
+    font-family: Arial;
+}
+
+#listview-target {
+    min-height: 700px;
+    margin-bottom: 30px;
+}
+
+.tb-icon {
+    cursor: pointer;
+}
+
+#section-pager {
+    padding: 30px 40px;
+    display: flex;
+}
+
+    #section-pager a {
+        padding: 10px;
+        border: 2px solid black;
+        margin-right: 20px;
+        width: 50px;
+        text-align: center;
+        border-radius: 50px;
+    }
+
+        #section-pager a:hover, #section-pager a.current-page {
+            background: #005cfe;
+            color: white;
+            border: 0;
+        }
+
+    #section-pager span {
+        padding: 10px;
+        margin-right: 20px;
+        text-align: center;
+    }
+
+#order-prod-row td {
+    text-align: center;
+}
+/*.lv-block .collapsed{
+    display:none;
+}*/
+.simplebar-scrollbar::before {
+    background-color: gray;
+}
+
+.simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
+    background-color: whitesmoke;
+}
+
+@media (min-width: 480px), (min-width:300px) {
+    #listview .tl-imgcont {
+        padding: 60px;
+    }
+}
+
+@media (min-width: 768px) {
+    #listview .tl-imgcont {
+        padding: 80px;
+    }
+}
+
+@media (min-width: 1024px) {
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+}
+
+@media (min-width: 1200px) {
+}
+
+@media (min-width: 1400px) {
+}

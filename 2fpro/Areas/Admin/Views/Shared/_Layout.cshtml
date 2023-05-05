@@ -1,0 +1,268 @@
+﻿@{/*بسم الله الرحمن الرحيم*/}
+@{
+    @*if (!User.IsInRole("Admin"))
+        {
+            <script>location.replace("/");</script>
+        }*@
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+    @*@Styles.Render("~/Content/kcss")
+        @Styles.Render("~/Content/admcss")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/admjs")
+        @Scripts.Render("~/bundles/kjs")*@
+    <link href="https://kendo.cdn.telerik.com/2018.2.516/styles/kendo.common-material.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://kendo.cdn.telerik.com/2018.2.516/styles/kendo.mobile.all.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://kendo.cdn.telerik.com/2018.2.516/styles/kendo.material.min.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.1.1/css/bootstrap.min.css"
+          asp-fallback-href="~/lib/bootstrap/css/bootstrap.min.css"
+          asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+    @*<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">*@
+    <link rel="stylesheet" href="~/css/Admin.css" />
+    <link rel="stylesheet" href="~/css/tiptip.css" />
+    <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/xn-realtime.css" />
+    <link rel="stylesheet" href="~/css/admbootstrap.css" />
+    <link rel="stylesheet" href="~/css/menupush/default.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/menupush/component.css" asp-append-version="true" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/ui/jquery-ui.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/js/adm.js" asp-append-version="true"></script>
+
+    <script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="https://kendo.cdn.telerik.com/2018.2.516/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.2.516/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.2.516/js/kendo.aspnetmvc.min.js"></script>
+
+
+</head>
+<body class="cbp-spmenu-push">
+    @*@await Component.InvokeAsync("DiagnosticInfo")*@
+
+
+    <div id="main">
+        @* ------------------- ШАПКА ---------------------------*@
+        <div id="mainheader">
+
+            <partial name="_Header" />
+
+
+        </div>
+        @* ------------------- КОНТЕНТ ---------------------------*@
+        <div id="page" class="container">
+            <div class="row">
+                @if (!Context.Request.IsMobileBrowser())
+                {
+                    <div class="col-md-2">
+                        <div id="categories">
+                            <ul id="panelBar" style=""></ul>
+
+                        </div>
+                    </div>
+                }
+
+
+
+                <div id="admincontent" class="col-md-10 col-sm-12">
+                    <div class="container">
+
+                        @RenderBody()
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        @* ------------------- ФУТЕР ---------------------------*@
+        <div id="footer"><a target="_blank" href="http://x-nova.ru">x-nova.ru</a></div>
+
+
+    </div>
+
+
+
+</body>
+</html>
+<script>
+    $(function () {
+
+        $(".stripedMe tr:even").addClass("alt");
+        imagePreview({
+            isLoader: true,
+            width: 600,
+            height: 800,
+            preloadTime: 1000,
+            xOffset: 100,
+            yOffset: 50
+
+        });
+
+
+        $("#panelBar").kendoPanelBar({
+            expandMode: "single",
+            dataSource: [
+        {
+            text: "На сайт",
+            url: "/"                  // link URL if navigation is needed (optional)
+        },
+
+         {
+             text: "Пользователи",
+             url: "/Admin/AuthSecurity/ListOfProfiles"                                 // Allows use of HTML for item text
+             // content within an item
+                },
+                {
+                    text: "Новости",
+                    url: "/Admin/Post/Index"                         // Allows use of HTML for item text
+                    // content within an item
+                },
+        {
+            text: "Информация",
+            url: "/Admin/StaticSection/Index"
+            // Allows use of HTML for item text
+            // content within an item
+        },
+        {
+            text: "Менеджер файлов",
+            url: "/Admin/UploadFiles/Index"               // content URL to load within an item
+        },
+        {
+            text: "Медиа менеджер",
+            items: [{                                       // Sub item collection.
+                text: "Фотогаллерея",
+                url: "/Admin/PhotoGallery/Index"
+
+            },
+           {                                       // Sub item collection.
+               text: "Слайдер",
+               url: "/Admin/Slider/Index"
+           }
+            ]               // content URL to load within an item
+        },
+        {
+            text: "Настройки",
+            url: "/Admin/Config/Change/1"               // content URL to load within an item
+        },
+        {
+            text: "Редактор Меню",
+            // item image URL, optional
+            // item is rendered expanded
+            items: [{                                       // Sub item collection.
+                text: "Меню 1-го уровня",
+                url: "@Url.Action("MenuList","Menu",new {area="Admin",type=0})"///Admin/Menu/MenuList?type=0"
+
+            }@*,
+            {                                       // Sub item collection.
+                text: "Меню 2-го уровня",
+                url: "@Url.Action("MenuList","Menu",new {area="Admin",type=1})"
+            }*@
+            ]
+        },
+        {
+            text: "Склад",
+            // item image URL, optional
+            // item is rendered expanded
+            items: [{                                       // Sub item collection.
+                text: "Продукция",
+                url: "/Admin/Product/Index"
+            },
+            {                                       // Sub item collection.
+                text: "Категории",
+                url: "/Admin/Category/CatList"
+            }
+          ,
+            {                                       // Sub item collection.
+                text: "Заказы",
+                url: "/Admin/Order/Index"
+            }]
+                }
+                ,
+                {
+                    text: "ЯндексМаркет",
+                    url: "/Admin/YaMarket/Index"               // content URL to load within an item
+                }
+
+            ]
+        });
+    });
+    $(document).on("click", "#undoo", function () {
+
+        $("#window1").data("kendoWindow").center().open();
+        $("#undo").hide();
+
+    });
+
+    function onClose() {
+        $("#undo").show();
+    }
+    function onOpen() { $('.k-list-optionlabel').eq(0).remove(); }
+    function onSelect(e) { var dataItem = this.dataItem(e.item.index()); switch (e.item.index()) { case 0: location.replace('/Admin/AuthSecurity/ChangePassword'); break; case 1: location.replace('/Admin/AuthSecurity/AdminLogout?returnUrl=' + location.pathname); break; default: location.replace('/Admin'); } }
+    $(window).on("load", function () {
+
+        var controls = [];
+        $('li[role="menuitem"] a').each(function () {
+
+            controls.push($(this).attr('href').split("/")[2]);
+
+        });
+
+
+        $('li[role="menuitem"]').filter(function () {
+            if ($(this).closest('ul[role="group"]').length) {
+                if ($(this).find('a').attr('href').split("/")[2] == '@ViewContext.RouteData.Values["controller"]') {
+                    $(this).closest('ul').closest('li').addClass('ACTIVATED');
+                }
+
+            }
+            @*else {
+                if ($(this).find('a').attr('href').split("/")[2] == '@ViewContext.RouteData.Values["controller"]') {
+                    $(this).addClass('ACTIVATED');
+                }
+            }*@
+        });
+    });
+
+</script>
+<style>
+    .ACTIVATED {
+        border-left: 2px solid #B5391D !important;
+    }
+</style>
+<script>
+    $(function () {
+        var menuLeft = $('#cbp-spmenu-s1'),
+            showLeft = $('#showLeft'),
+            body = $('body');
+        body.on('click', function (e) {
+
+            if (menuLeft.hasClass('cbp-spmenu-open') && !$(e.target).closest('.cbp-spmenu').length) { menuLeft.toggleClass('cbp-spmenu-open'); showLeft.toggleClass('active'); }
+        });
+        showLeft.on('click', function () {
+
+            $(this).toggleClass('active');
+            setTimeout(function () { menuLeft.toggleClass('cbp-spmenu-open'); }, '100');
+            //disableOther('showLeft');
+        });
+
+        function disableOther(button) {
+            if (button !== 'showLeft') {
+                classie.toggle(showLeft, 'disabled');
+            }
+
+        }
+
+    });
+</script>

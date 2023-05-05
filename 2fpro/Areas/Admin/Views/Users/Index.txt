@@ -1,0 +1,78 @@
+﻿@model IEnumerable<_2fpro.Models.UserProfile>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Пользователи</h2>
+
+<table class="admTable stripedMe">
+    <tr class="tdTitle">
+        
+        <th style="width:200px;">Имя</th>
+        <th>
+           Email
+        </th>
+        <th>Статус</th>
+        <th>Онлайн</th>
+        <th>Права</th>
+        <th></th>
+    </tr>
+@if(Model.Count()!=0){
+foreach (var item in Model) {
+    if (item.UserName == "admin")
+    {
+         <tr >
+        <td>
+          @item.UserName
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @(WebSecurity.IsConfirmed(item.UserName) ? "подтвержден" : "не подтвержден")
+        </td>
+         <td>
+            +
+        </td>
+       <td>
+           
+            @_2fpro.Areas.Admin.Controllers.AccountController.FindRole(item.UserName)
+        </td>
+        <td>
+           
+            
+        </td>
+    </tr>
+    }
+    else{
+    <tr >
+        <td>
+          @item.UserName
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @(WebSecurity.IsConfirmed(item.UserName) ? "подтвержден" : "не подтвержден")
+        </td>
+         <td>
+            +
+        </td>
+       <td>
+           
+            @_2fpro.Areas.Admin.Controllers.AccountController.FindRole(item.UserName)
+        </td>
+        <td>
+           
+            <a href="/Admin/Users/Details/@item.UserId" title="Детали" class="button"><span class="icon icon92">Details</span></a> 
+            
+            <a href="/Admin/Users/Delete/@item.UserId" title="Удалить" class="button" onclick="if(!confirm('Удалить пользователя ?')){return false;}"><span class="icon icon186">Delete</span></a>
+        </td>
+    </tr>
+}
+}
+
+
+}</table>
