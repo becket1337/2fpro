@@ -27,6 +27,9 @@ namespace _2fpro.Controllers
             var culture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
 
             var str = _rep.Menues.FirstOrDefault(x => x.Url == url);
+            bool isDep = false;
+            isDep=str.ParentId > 0 ? true : false;
+            ViewBag.IsDep = isDep;
             if (str == null) return NotFound();
             return View(str);
         }

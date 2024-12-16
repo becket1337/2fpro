@@ -239,7 +239,9 @@
 
 
 
-   
+   .swiper-slide{
+       background:black;
+   }
 
 @media (min-width: 480px), (min-width:300px) {
     .ms-banner img {

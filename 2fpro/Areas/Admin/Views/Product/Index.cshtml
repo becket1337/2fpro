@@ -228,7 +228,7 @@
     .PageSize(40)
     .Model(model => { model.Id(p => p.ID); model.Field(p => p.ID).DefaultValue(16000000).Editable(false); model.Field(p => p.Fill); model.Field(p => p.Material); })
 
-    .Sort(x => x.Add("Sortindex").Ascending())
+    .Sort(x => x.Add("Sortindex").Descending())
     .Create(update => update.Action("Editing_Create", "Product"))
     .Read(read => read.Action("Editing_Read", "Product"))
     .Update(update => update.Action("Editing_Update", "Product"))

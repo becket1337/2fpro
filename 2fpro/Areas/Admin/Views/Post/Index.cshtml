@@ -31,10 +31,10 @@
 
 
 
-        <th></th>
+        <th style="width: 200px;"></th>
     </tr>
 
-    @foreach (var item in Model.Posts)
+    @foreach (var item in Model.Posts.OrderByDescending(x=>x.CreatedAt))
     {
 
         //var previewName = System.IO.Directory.Exists(System.IO.Path.Combine("/Content/Files/Post/" , item.ID.ToString() , "/200x150")) ? System.IO.Path.GetFileName(System.IO.Directory.GetFiles(System.IO.Path.Combine("/Content/Files/Post/",  item.ID.ToString() , "/200x150")).FirstOrDefault()) : "";

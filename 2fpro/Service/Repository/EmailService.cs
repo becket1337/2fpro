@@ -54,7 +54,7 @@ namespace _2fpro.Service.Repository
             }
             using (MailMessage message2 = new MailMessage(
                 email,
-                email,
+                "info@2fpro.com",
                 title,
                 builder))
             {

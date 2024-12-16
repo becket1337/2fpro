@@ -1,7 +1,7 @@
 ﻿
 
 .nl-item-img {
-    
+    min-width: 350px;
     max-width: 350px;
 }
 .nl-item{

@@ -15,6 +15,10 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.Primitives;
 using SixLabors.Fonts;
+using System.Drawing.Imaging;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
 
 namespace _2fpro.Service.Repository
 {
@@ -99,14 +103,14 @@ namespace _2fpro.Service.Repository
             {
                 using (Image<Rgba32> image = Image.Load(file.OpenReadStream()))
                 {
-                    if ((image.Height > 1900 || image.Width > 1900))
+                    if ((image.Height > 2000 || image.Width > 2000))
                     {
                         image.Mutate(x => x
                             .Resize(new ResizeOptions
                             {
                                 Mode = ResizeMode.Max,
                                 //Position = AnchorPositionMode.Center,
-                                Size = new Size(image.Width / 2, image.Height / 2)
+                                Size = new Size(1920,0)
                             }));
                         image.Save(filePath); // Automatic encoder selected based on extension.
 
@@ -146,10 +150,12 @@ namespace _2fpro.Service.Repository
                 if (width == 0 && height == 0 &&  image.Width > 2000)
                 {
 
-
+                    
                     image.Mutate(x => x
                         .Resize(new ResizeOptions
                         {
+                            
+                            
                             Mode = ResizeMode.Max,
                             //Position = AnchorPositionMode.Center,
                             Size = new Size(1920, 0)
@@ -157,13 +163,15 @@ namespace _2fpro.Service.Repository
 
                     if (isWM) SetTextTest(image);
 
-                    image.Save(path); // Automatic encoder selected based on extension.
+                    image.Save(path, new JpegEncoder { Quality = 80 }); // Automatic encoder selected based on extension.
 
                 }
                 else if (width == 0 && height == 0)
                 {
+
+                
                     if (isWM) { SetTextTest(image); }
-                    image.Save(path);
+                    image.Save(path, new JpegEncoder { Quality=80});
                 }
                 else
                 {
@@ -179,7 +187,7 @@ namespace _2fpro.Service.Repository
 
                       );
                     if (isWM) SetTextTest(image);
-                    image.Save(path);
+                    image.Save(path, new JpegEncoder { Quality = 80 });
                 }
 
             }

@@ -13,7 +13,10 @@
                         {
 
                             <div class="review col-lg-6">
-                                <div class="review-date">@item.CreatedAt.ToString("dd'/'MM")</div>
+                                <div class="review-date">
+                                    <div class="rd-date">@item.CreatedAt.ToString("dd")</div>
+                                                                               <span style="font-size:16px;">@item.CreatedAt.ToString("dd MMMM").Remove(0, 3)</span>
+                                </div>
                                 <div class="review-title"><a href="/Post/Details/@item.ID">@item.Title</a></div>
                                 <div class="review-text">
                                     @Html.Raw(item.Preview)
@@ -28,7 +31,7 @@
 
 
                 </div>
-                <div class="reviews-openall"><a class="lay-btn main-btn-l" asp-controller="Post" asp-action="Reviews">Подробнее</a></div>
+                <div class="reviews-openall xn-flex"><a class="lay-btn main-btn-l" asp-controller="Post" asp-action="Reviews">Подробнее</a></div>
             </div>
 
         </div>

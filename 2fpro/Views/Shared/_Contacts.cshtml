@@ -7,10 +7,10 @@
     <div class="container" >
         <div class="cont-wrap-inner">
         <div class="row">
-            <h2>Профессиональная команда</h2>
-            <div class="cw-item col-12">email</div>
-            <div class="cw-item col-12">номер тел</div>
-            <div class="cw-item col-12"><a class="lay-btn main-btn-l" href="/Contacts">Конакты</a></div>
+            <h2>Информация</h2>
+            <div class="cw-item col-12">     @await Component.InvokeAsync("StaticSections", new { type = 3})</div>
+            <div class="cw-item col-12">     @await Component.InvokeAsync("StaticSections", new { type= 2})</div>
+            <div class="cw-item col-12"><a class="lay-btn main-btn-l" href="/pages/contacts">Конакты</a></div>
 
         </div>
     </div>

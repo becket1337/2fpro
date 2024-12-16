@@ -20,9 +20,9 @@ namespace _2fpro.ViewComponents
         {
             List<Post> items = null;
             if (isPartial)
-                items = await _postR.Posts.OrderBy(x => x.CreatedAt).ToListAsync();
+                items = await _postR.Posts.OrderByDescending(x => x.CreatedAt).ToListAsync();
             else
-                items = await _postR.Posts.OrderBy(x => x.CreatedAt).Take(3).ToListAsync();
+                items = await _postR.Posts.OrderByDescending(x => x.CreatedAt).Take(2).ToListAsync();
             return View(items);
         }
     }

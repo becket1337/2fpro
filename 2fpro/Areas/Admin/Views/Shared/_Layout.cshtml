@@ -1,4 +1,4 @@
-﻿@{/*بسم الله الرحمن الرحيم*/}
+﻿
 @{
     @*if (!User.IsInRole("Admin"))
         {
@@ -33,8 +33,7 @@
     <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/xn-realtime.css" />
     <link rel="stylesheet" href="~/css/admbootstrap.css" />
-    <link rel="stylesheet" href="~/css/menupush/default.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/menupush/component.css" asp-append-version="true" />
+  
 
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/ui/jquery-ui.min.js" asp-append-version="true"></script>
@@ -141,11 +140,7 @@
         },
         {
             text: "Медиа менеджер",
-            items: [{                                       // Sub item collection.
-                text: "Фотогаллерея",
-                url: "/Admin/PhotoGallery/Index"
-
-            },
+            items: [
            {                                       // Sub item collection.
                text: "Слайдер",
                url: "/Admin/Slider/Index"

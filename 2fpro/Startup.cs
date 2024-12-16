@@ -31,6 +31,8 @@ using System.IO;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.SqlServer;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Rewrite;
+using _2fpro.Models.Middleware;
 
 namespace _2fpro
 {
@@ -282,8 +284,15 @@ namespace _2fpro
             var config = GetConfigValues();
             app.UseStatusCodePagesWithReExecute("/error", "?statusCode={0}");
 
+
+            //var options = new RewriteOptions();
+            //options.Rules.Add(new RedirectToWwwRule());
+            //options.AddRedirectToHttps();
+            //app.UseRewriter(options);
+
             app.UseHsts();
             app.UseHttpsRedirection();
+
             app.UseResponseCaching();
             var cachePeriod = env.IsDevelopment() ? "600" : "104800";
 

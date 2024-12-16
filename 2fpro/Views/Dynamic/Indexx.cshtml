@@ -2,8 +2,9 @@
 @inject _2fpro.Service.Interface.IMenuRepository mrep
 
 @{
-
-    ViewBag.Title = Model.Text + " — " + " ООО «2Ф»";
+    
+    if (Model.Url == "about") { ViewBag.Title = "Официальный сайт ООО «2Ф»"; }
+    else { ViewBag.Title =Model.Text + " — " + " ООО «2Ф»"; }
     Layout = "~/Views/Shared/_PageMenuLayout.cshtml";
     var culture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
 
@@ -68,21 +69,24 @@
             lightGallery(document.getElementById('str'), {
                 mode: 'lg-fade'
             });
-            
-            
+
+
         });
-      
+
     </script>
 
 }
-    <script>
-        $(function () {
+<script>
+    $(function () {
 
-            $('.snippet-list-checkbox__box').html('<span class="d-block position-absolute snippet-list-checkbox__check"></span>');
-        })
-    </script>
+        $('.snippet-list-checkbox__box').html('<span class="d-block position-absolute snippet-list-checkbox__check"></span>');
+    })
+</script>
 <style>
-    #aboutpage .page-h2{display:none;}
+    #aboutpage .page-h2 {
+        display: none;
+    }
+
     .snippet-list-checkbox__check {
         width: 19px;
         height: 10px;
@@ -95,12 +99,13 @@
         border-top: none;
         border-right: none;
     }
+
     .snippet-list-checkbox__check {
         border-bottom-color: #E2B900;
         border-left-color: #E2B900;
     }
 </style>
-<div class="page-wrapper" id="@(Model.Url=="mygallery"?"galview":"")@(Model.Url=="about"?"aboutpage":"")" >
+<div class="page-wrapper" id="@(Model.Url=="mygallery"?"galview":"")@(Model.Url=="about"?"aboutpage":"")">
 
     <div class="container">
 
@@ -119,17 +124,21 @@
                 else
                 {
 
-                @if (culture == "ru")
-                {
-                    @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Body))
-                }
-                else
-                {
-                    @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Body))
-                }
+                    @if (culture == "ru")
+                    {
+                        @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Body))
+                    }
+                    else
+                    {
+                        @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Body))
+                    }
                 }
             </div>
-            </div>
+        </div>
 
     </div>
 </div>
+@if (ViewBag.IsDep)
+{
+    <partial name="_AboutSection" />
+}

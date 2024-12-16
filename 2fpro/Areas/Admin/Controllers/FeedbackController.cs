@@ -50,7 +50,7 @@ namespace _2fpro.Areas.Admin.Controllers
             System.Threading.Thread.Sleep(500);
             if (ModelState.IsValid)
             {
-                await _emailSender.SendEmailAsync(feedback.Name + " - " + feedback.PhoneNumber, feedback.Text, "Вопрос с сайта 2fpro.ru!", "", false);
+                await _emailSender.SendEmailAsync(feedback.Name + " - " + feedback.PhoneNumber, feedback.Text, "Вопрос с сайта 2fpro.com!", "", false);
 
                 if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 {

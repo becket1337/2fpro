@@ -1112,4 +1112,7 @@ input[type="date"] {
 }
 
 @media (min-width: 1200px) {
+    #admincontent {
+        width: 83%;
+    }
 }
